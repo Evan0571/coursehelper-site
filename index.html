@@ -3,206 +3,76 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CourseHelper Legal</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #eef4ff;
-      --card: rgba(255,255,255,.92);
-      --text: #14213d;
-      --muted: #5c6b89;
-      --line: #d8e2f3;
-      --brand: #3767ea;
-      --shadow: 0 18px 50px rgba(42,72,149,.08);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #eef4ff 0%, #f9fbff 100%);
-      color: var(--text);
-    }
-    .wrap {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 56px 20px 72px;
-    }
-    .hero {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 32px;
-      box-shadow: var(--shadow);
-    }
-    .top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .eyebrow {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f3f6ff;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-    .toggle {
-      display: flex;
-      gap: 8px;
-    }
-    .toggle button {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      border-radius: 999px;
-      min-width: 58px;
-      padding: 8px 14px;
-      font: 600 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      cursor: pointer;
-    }
-    .toggle button.active {
-      background: var(--brand);
-      color: #fff;
-      border-color: var(--brand);
-    }
-    h1 {
-      margin: 16px 0 10px;
-      font-size: 44px;
-      line-height: 1;
-      letter-spacing: -.04em;
-    }
-    p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-    .card {
-      display: block;
-      text-decoration: none;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 22px;
-      color: inherit;
-      box-shadow: 0 12px 32px rgba(42,72,149,.06);
-    }
-    .card h2 {
-      margin: 0 0 8px;
-      font-size: 24px;
-    }
-    .card small {
-      display: block;
-      margin-top: 14px;
-      color: var(--brand);
-      font-weight: 700;
-    }
-    .meta {
-      margin-top: 24px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .meta a {
-      color: var(--brand);
-    }
-  </style>
+  <meta name="description" content="CourseHelper turns class recordings and course materials into transcripts, summaries, flashcards, quizzes, and organized study review." />
+  <title>CourseHelper - AI study notes for class</title>
+  <link rel="icon" href="assets/coursehelper-mark.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="wrap">
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html" data-preserve-lang>
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#fff" d="M12 39c8.8.8 15.3 4.3 19.6 10.9 4.9-6.2 11.3-9.6 19.5-10.4V16.3c-8.3.8-14.7 4.7-19.5 11.7-4.8-5.8-11.3-8.9-19.6-9.5V39Z"/></svg></span>
+        <span>CourseHelper</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+        <a href="support.html" data-preserve-lang>Support</a>
+        <a href="privacy.html" data-preserve-lang>Privacy</a>
+      </div>
+      <div class="language-toggle" aria-label="Language">
+        <button type="button" data-lang-button="en">EN</button>
+        <button type="button" data-lang-button="zh">中文</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page">
     <section class="hero">
-      <div class="top">
-        <span class="eyebrow" data-i18n="eyebrow">CourseHelper legal</span>
-        <div class="toggle" aria-label="Language">
-          <button id="lang-en" type="button">EN</button>
-          <button id="lang-zh" type="button">&#20013;&#25991;</button>
-        </div>
+      <div>
+        <article data-lang="en">
+          <div class="eyebrow">Built for class, not generic notes</div>
+          <h1 class="hero-title">Turn lectures into organized study work.</h1>
+          <p class="hero-copy">CourseHelper helps students organize courses, record or import class audio, generate transcripts and summaries, and review with flashcards, quizzes, key terms, and course-aware AI answers.</p>
+          <div class="hero-actions"><a class="button primary" href="support.html?lang=en">Get support</a><a class="button" href="privacy.html?lang=en">Read privacy policy</a></div>
+          <div class="trust-list"><div class="trust-item">Course and session structure for real semester work.</div><div class="trust-item">Recording, transcription, summaries, and review in one flow.</div><div class="trust-item">Clear consent and privacy expectations for class audio.</div></div>
+        </article>
+        <article data-lang="zh">
+          <div class="eyebrow">为真实课堂设计</div>
+          <h1 class="hero-title">把课堂内容整理成可复习的学习资料。</h1>
+          <p class="hero-copy">CourseHelper 帮助学生整理课程，录制或导入课堂音频，生成转录和摘要，并用闪卡、小测、术语整理和课程上下文 AI 问答进行复习。</p>
+          <div class="hero-actions"><a class="button primary" href="support.html?lang=zh">获取支持</a><a class="button" href="privacy.html?lang=zh">查看隐私政策</a></div>
+          <div class="trust-list"><div class="trust-item">按课程和课次组织真实学期内容。</div><div class="trust-item">录音、转录、摘要和复习串成一条流程。</div><div class="trust-item">对课堂录音的许可和隐私边界保持清晰。</div></div>
+        </article>
       </div>
 
-      <h1 data-i18n="title">Legal documents</h1>
-      <p data-i18n="subtitle">Public copies of the CourseHelper Privacy Policy and Terms of Use.</p>
-
-      <div class="grid">
-        <a class="card" id="privacy-link" href="privacy.html">
-          <h2 data-i18n="privacyTitle">Privacy Policy</h2>
-          <p data-i18n="privacyBody">How CourseHelper handles recordings, files, AI processing, subscriptions, and account data.</p>
-          <small data-i18n="privacyCta">Open privacy policy</small>
-        </a>
-        <a class="card" id="terms-link" href="terms.html">
-          <h2 data-i18n="termsTitle">Terms of Use</h2>
-          <p data-i18n="termsBody">Rules for recordings, AI features, subscriptions, and credits.</p>
-          <small data-i18n="termsCta">Open terms</small>
-        </a>
+      <div class="app-preview" aria-label="CourseHelper product preview">
+        <div class="phone-frame"><div class="phone-top"><strong>CourseHelper</strong><span class="status-dot" aria-hidden="true"></span></div><div class="screen"><div class="course-strip"><span class="course-chip">CS 210</span><span class="course-chip">ECON 301</span><span class="course-chip">BIO 140</span></div><div class="recording-card"><div class="record-button">REC</div><div><p class="preview-title">Lecture recording</p><div class="wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div></div></div><div class="summary-card"><p class="preview-title">Study summary</p><div class="preview-line"></div><div class="preview-line"></div><div class="preview-line short"></div></div><div class="review-card"><p class="preview-title">Review set</p><div class="review-row"><div class="mini-tile">Flashcards</div><div class="mini-tile">Quiz</div><div class="mini-tile">Key terms</div></div></div></div></div>
       </div>
-
-      <p class="meta">
-        <span data-i18n="contactLabel">Contact:</span>
-        <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>
-      </p>
     </section>
+
+    <section class="section" id="features">
+      <div class="section-heading"><h2>A focused workspace for the class loop.</h2><p>CourseHelper is shaped around what happens before class, during class, and after class, instead of treating every note as a blank page.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><strong>Course organization</strong><p>Keep courses, sessions, assignments, exams, materials, and calendar sync in one place.</p></article>
+        <article class="feature-card"><strong>Recording to summary</strong><p>Record or import class audio, then generate transcripts and summaries for review.</p></article>
+        <article class="feature-card"><strong>Review artifacts</strong><p>Create flashcards, quizzes, and key terms from class context when it is time to study.</p></article>
+        <article class="feature-card"><strong>Course-aware AI Q&A</strong><p>Ask questions inside a course or session so answers can stay close to your materials.</p></article>
+        <article class="feature-card"><strong>Study reminders</strong><p>Use notifications and calendar entries for classes, assignments, exams, and processing updates.</p></article>
+        <article class="feature-card"><strong>Plans and credits</strong><p>Manage heavier AI processing with subscriptions and credit packs through Apple in-app purchases.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-heading"><h2>From syllabus to review.</h2><p>The product is designed for repeated weekly use: set up the class, capture what happened, turn it into study material, and come back when exams are close.</p></div>
+      <div class="workflow"><article class="step"><div class="step-number">01</div><strong>Set up courses</strong><p>Create course spaces and add the schedule, assignments, exams, and materials you need.</p></article><article class="step"><div class="step-number">02</div><strong>Capture class</strong><p>Record or import audio when you have permission to process classroom content.</p></article><article class="step"><div class="step-number">03</div><strong>Generate study notes</strong><p>Create transcripts, summaries, and structured review material from each session.</p></article><article class="step"><div class="step-number">04</div><strong>Review with context</strong><p>Use flashcards, quizzes, key terms, and AI answers when you return to the course.</p></article></div>
+    </section>
+
+    <section class="section"><div class="legal-band"><div><h2>Built with clear recording and privacy boundaries.</h2><p>CourseHelper is a study assistant. Students are responsible for getting any required permission before recording or uploading class content, and AI output should be checked against course materials.</p></div><div class="legal-links"><a class="button" href="privacy.html" data-preserve-lang>Privacy</a><a class="button" href="terms.html" data-preserve-lang>Terms</a></div></div></section>
   </main>
 
-  <script>
-    const COPY = {
-      en: {
-        eyebrow: "CourseHelper legal",
-        title: "Legal documents",
-        subtitle: "Public copies of the CourseHelper Privacy Policy and Terms of Use.",
-        privacyTitle: "Privacy Policy",
-        privacyBody: "How CourseHelper handles recordings, files, AI processing, subscriptions, and account data.",
-        privacyCta: "Open privacy policy",
-        termsTitle: "Terms of Use",
-        termsBody: "Rules for recordings, AI features, subscriptions, and credits.",
-        termsCta: "Open terms",
-        contactLabel: "Contact:"
-      },
-      zh: {
-        eyebrow: "CourseHelper 法律文档",
-        title: "法律文档",
-        subtitle: "CourseHelper 隐私政策与使用条款的公开版本。",
-        privacyTitle: "隐私政策",
-        privacyBody: "说明 CourseHelper 如何处理录音、文件、AI 处理、订阅和账号数据。",
-        privacyCta: "打开隐私政策",
-        termsTitle: "使用条款",
-        termsBody: "说明录音、AI 功能、订阅和 credits 的使用规则。",
-        termsCta: "打开使用条款",
-        contactLabel: "联系邮箱："
-      }
-    };
-
-    const KEY = "coursehelperLegalLang";
-    const params = new URLSearchParams(location.search);
-    let lang = params.get("lang");
-    if (lang !== "zh" && lang !== "en") {
-      lang = localStorage.getItem(KEY) || "en";
-    }
-
-    function apply(lang) {
-      localStorage.setItem(KEY, lang);
-      document.documentElement.lang = lang;
-      Object.entries(COPY[lang]).forEach(([key, value]) => {
-        const node = document.querySelector(`[data-i18n="${key}"]`);
-        if (node) node.textContent = value;
-      });
-      document.getElementById("lang-en").classList.toggle("active", lang === "en");
-      document.getElementById("lang-zh").classList.toggle("active", lang === "zh");
-      document.getElementById("privacy-link").href = `privacy.html?lang=${lang}`;
-      document.getElementById("terms-link").href = `terms.html?lang=${lang}`;
-    }
-
-    document.getElementById("lang-en").addEventListener("click", () => apply("en"));
-    document.getElementById("lang-zh").addEventListener("click", () => apply("zh"));
-    apply(lang);
-  </script>
+  <footer class="site-footer"><div class="footer-inner"><span>© 2026 Yifan Song. CourseHelper.</span><div class="footer-links"><a href="support.html" data-preserve-lang>Support</a><a href="privacy.html" data-preserve-lang>Privacy</a><a href="terms.html" data-preserve-lang>Terms</a></div></div></footer>
+  <script src="site.js"></script>
 </body>
 </html>
