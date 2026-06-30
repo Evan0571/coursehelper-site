@@ -3,128 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CourseHelper Privacy Policy." />
   <title>CourseHelper Privacy Policy</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #eef4ff;
-      --card: rgba(255,255,255,.92);
-      --text: #14213d;
-      --muted: #5c6b89;
-      --line: #d8e2f3;
-      --brand: #3767ea;
-      --shadow: 0 18px 50px rgba(42,72,149,.08);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #eef4ff 0%, #f9fbff 100%);
-      color: var(--text);
-    }
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
-    }
-    .top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .back {
-      color: var(--brand);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    .toggle {
-      display: flex;
-      gap: 8px;
-    }
-    .toggle button {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      border-radius: 999px;
-      min-width: 58px;
-      padding: 8px 14px;
-      font: 600 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      cursor: pointer;
-    }
-    .toggle button.active {
-      background: var(--brand);
-      color: #fff;
-      border-color: var(--brand);
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 30px;
-      box-shadow: var(--shadow);
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 40px;
-      letter-spacing: -.04em;
-    }
-    h2 {
-      margin: 28px 0 10px;
-      font-size: 22px;
-    }
-    p, li {
-      color: var(--muted);
-      line-height: 1.72;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    .updated {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    a {
-      color: var(--brand);
-    }
-    [data-lang] {
-      display: none;
-    }
-    [data-lang].active {
-      display: block;
-    }
-  </style>
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/app-icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="wrap">
-    <div class="top">
-      <a class="back" id="back-link" href="index.html">&#8592; Back</a>
-      <div class="toggle" aria-label="Language">
-        <button id="lang-en" type="button">EN</button>
-        <button id="lang-zh" type="button">&#20013;&#25991;</button>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html" data-preserve-lang>
+        <span class="brand-mark" aria-hidden="true"><img src="assets/app-icon.svg" alt="" /></span>
+        <span>CourseHelper</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-preserve-lang data-i18n="navHome">Home</a>
+        <a href="support.html" data-preserve-lang data-i18n="navSupport">Support</a>
+        <a href="terms.html" data-preserve-lang data-i18n="navTerms">Terms</a>
       </div>
-    </div>
+      <div class="language-toggle" aria-label="Language">
+        <button type="button" data-lang-button="en">EN</button>
+        <button type="button" data-lang-button="zh">中文</button>
+      </div>
+    </nav>
+  </header>
 
-    <section class="card">
+  <main class="page">
+    <section class="doc">
       <article data-lang="en">
         <h1>Privacy Policy</h1>
-        <div class="updated">Last updated: April 16, 2026</div>
-
+        <p class="doc-meta">Last updated: April 16, 2026</p>
         <h2>Overview</h2>
         <p>CourseHelper helps users organize courses, record class audio, create transcripts and summaries, ask AI study questions, and manage study materials in one place. This Privacy Policy explains what data CourseHelper collects, how it is used, and the choices available to users.</p>
-
         <h2>Information we collect</h2>
         <ul>
           <li>Account and sign-in information, including user ID, sign-in method, and account email.</li>
           <li>Course and schedule data, including course names, instructors, dates, meeting times, class types, and schedule changes.</li>
           <li>Recordings and transcription data, including audio users choose to keep, transcript text, transcript metadata, and processing status.</li>
           <li>Notes, uploaded materials, summaries, flashcards, quizzes, and AI chat prompts and responses.</li>
-          <li>Billing and entitlement data, including subscription status, credits, plan details, and purchase status.</li>
+          <li>Billing and entitlement data, including subscription status, credits, plan details, and purchase status. Payment card details are handled by Apple and are not stored by CourseHelper.</li>
           <li>Diagnostics and product signals used for reliability, troubleshooting, cost visibility, and abuse prevention.</li>
         </ul>
-
         <h2>How we use data</h2>
         <ul>
           <li>To create and manage courses, sessions, reminders, and study workspaces.</li>
@@ -132,21 +51,17 @@
           <li>To manage subscriptions, credits, purchases, and restore entitlements.</li>
           <li>To troubleshoot failures, prevent abuse, and improve service quality.</li>
         </ul>
-
         <h2>Service providers</h2>
         <p>Depending on the feature in use, data may be processed by Apple, Supabase, RevenueCat, DeepSeek, Groq, Deepgram, AssemblyAI, and similar providers used to operate the service.</p>
         <p>CourseHelper does not sell personal information and does not use private course content for advertising to other users.</p>
-
         <h2>Recordings and uploaded content</h2>
         <p>Users are responsible for making sure they have the legal right and any required permission to record, upload, store, or process class audio and materials. CourseHelper provides tools for organization and processing, but does not determine whether a recording or upload is lawful in a particular school, state, or country.</p>
-
         <h2>Retention and deletion</h2>
         <ul>
           <li>Synced course data stays in CourseHelper until it is deleted by the user, the account is deleted, or removal is required for legal, security, or operational reasons.</li>
           <li>When a user deletes an account in the app, synced data tied to that account is deleted from active systems, subject to limited backup, logging, fraud-prevention, or legal retention needs.</li>
           <li>Temporary local files may remain on a device until they are uploaded, removed, cache-cleared, or the app is deleted.</li>
         </ul>
-
         <h2>Choices</h2>
         <ul>
           <li>Notifications can be controlled in device settings.</li>
@@ -154,28 +69,25 @@
           <li>Accounts can be deleted in app settings.</li>
           <li>Privacy or deletion requests can be sent to <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>.</li>
         </ul>
-
+        <h2>Children</h2>
+        <p>CourseHelper is not directed to children under 13, and users should not use the service if they are not legally permitted to do so in their region.</p>
         <h2>Contact</h2>
         <p>For privacy, data, or account questions, contact <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>.</p>
       </article>
-
       <article data-lang="zh">
         <h1>隐私政策</h1>
-        <div class="updated">更新日期：2026年4月16日</div>
-
+        <p class="doc-meta">更新日期：2026年4月16日</p>
         <h2>概览</h2>
         <p>CourseHelper 用来整理课程、录制课堂音频、生成转录和摘要、进行 AI 问答，并管理学习资料。本隐私政策说明 CourseHelper 会收集哪些数据、如何使用这些数据，以及用户可以做出的选择。</p>
-
         <h2>我们会收集哪些信息</h2>
         <ul>
           <li>账号与登录信息，包括用户 ID、登录方式，以及与账号关联的邮箱地址。</li>
           <li>课程与排课信息，包括课程名称、教师、日期、上课时间、课型以及课次调整。</li>
           <li>录音与转录内容，包括保留的音频、转录文本、转录元数据和处理状态。</li>
           <li>笔记、上传资料、摘要、闪卡、小测和 AI 问答内容。</li>
-          <li>计费与权益信息，包括订阅状态、credits、套餐信息和购买状态。</li>
+          <li>计费与权益信息，包括订阅状态、credits 余额、套餐信息和购买状态。支付卡信息由 Apple 处理，CourseHelper 不会保存支付卡详情。</li>
           <li>用于可靠性、排障、成本分析和防滥用的诊断与产品信号。</li>
         </ul>
-
         <h2>我们如何使用这些数据</h2>
         <ul>
           <li>创建和管理课程、课次、提醒和学习工作区。</li>
@@ -183,21 +95,17 @@
           <li>管理订阅、credits、购买和权益恢复。</li>
           <li>排查故障、防止滥用并改进服务质量。</li>
         </ul>
-
         <h2>第三方服务商</h2>
         <p>根据具体功能，数据可能由 Apple、Supabase、RevenueCat、DeepSeek、Groq、Deepgram、AssemblyAI 等服务商处理。</p>
         <p>CourseHelper 不会出售个人信息，也不会把私人课程内容拿去向其他用户投放广告。</p>
-
         <h2>录音与上传内容</h2>
         <p>用户需要自行确认自己有权录音、上传、保存和处理相关课堂音频与资料，并在需要时获得必要许可。CourseHelper 提供的是组织和处理工具，不会替用户判断录音或上传行为在具体学校、州或国家是否合规。</p>
-
         <h2>保存期限与删除</h2>
         <ul>
           <li>同步课程数据会一直保存在 CourseHelper，直到被用户删除、账号被删除，或因法律、安全或运营原因需要移除。</li>
           <li>当用户在 app 内删除账号时，与该账号相关的同步数据会从活跃系统中删除，但出于备份、日志、反欺诈或法律要求，部分数据可能在有限时间内保留。</li>
           <li>临时本地文件可能会保留在设备上，直到它们被上传、删除、清理缓存，或 app 被卸载。</li>
         </ul>
-
         <h2>用户可做的选择</h2>
         <ul>
           <li>通知可在设备设置中控制。</li>
@@ -205,36 +113,31 @@
           <li>账号可在 app 设置中删除。</li>
           <li>隐私或删除请求可发送到 <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>。</li>
         </ul>
-
+        <h2>儿童</h2>
+        <p>CourseHelper 不面向 13 岁以下儿童。如果你所在地区不允许你使用本服务，请不要使用。</p>
         <h2>联系邮箱</h2>
         <p>如需咨询隐私、数据或账号问题，请联系 <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>。</p>
       </article>
     </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© 2026 Yifan Song. CourseHelper.</span>
+      <div class="footer-links">
+        <a href="index.html" data-preserve-lang data-i18n="footerHome">Home</a>
+        <a href="support.html" data-preserve-lang data-i18n="footerSupport">Support</a>
+        <a href="terms.html" data-preserve-lang data-i18n="footerTerms">Terms</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    const KEY = "coursehelperLegalLang";
-    const params = new URLSearchParams(location.search);
-    let lang = params.get("lang");
-    if (lang !== "zh" && lang !== "en") {
-      lang = localStorage.getItem(KEY) || "en";
-    }
-
-    function apply(lang) {
-      localStorage.setItem(KEY, lang);
-      document.documentElement.lang = lang;
-      document.querySelectorAll("[data-lang]").forEach((node) => {
-        node.classList.toggle("active", node.getAttribute("data-lang") === lang);
-      });
-      document.getElementById("lang-en").classList.toggle("active", lang === "en");
-      document.getElementById("lang-zh").classList.toggle("active", lang === "zh");
-      document.getElementById("back-link").href = `index.html?lang=${lang}`;
-      document.getElementById("back-link").textContent = lang === "zh" ? "← 返回" : "← Back";
-    }
-
-    document.getElementById("lang-en").addEventListener("click", () => apply("en"));
-    document.getElementById("lang-zh").addEventListener("click", () => apply("zh"));
-    apply(lang);
+    window.COURSEHELPER_COPY = {
+      en: { navHome: "Home", navSupport: "Support", navTerms: "Terms", footerHome: "Home", footerSupport: "Support", footerTerms: "Terms" },
+      zh: { navHome: "首页", navSupport: "支持", navTerms: "条款", footerHome: "首页", footerSupport: "支持", footerTerms: "条款" }
+    };
   </script>
+  <script src="site.js"></script>
 </body>
 </html>
