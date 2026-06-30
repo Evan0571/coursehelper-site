@@ -5,21 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="CourseHelper turns class recordings and course materials into transcripts, summaries, flashcards, quizzes, and organized study review." />
   <title>CourseHelper - AI study notes for class</title>
-  <link rel="icon" href="assets/coursehelper-mark.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/app-icon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
       <a class="brand" href="index.html" data-preserve-lang>
-        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#fff" d="M12 39c8.8.8 15.3 4.3 19.6 10.9 4.9-6.2 11.3-9.6 19.5-10.4V16.3c-8.3.8-14.7 4.7-19.5 11.7-4.8-5.8-11.3-8.9-19.6-9.5V39Z"/></svg></span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="assets/app-icon.svg" alt="" />
+        </span>
         <span>CourseHelper</span>
       </a>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#workflow">Workflow</a>
-        <a href="support.html" data-preserve-lang>Support</a>
-        <a href="privacy.html" data-preserve-lang>Privacy</a>
+      <div class="nav-links" aria-label="Sections">
+        <a href="#features" data-i18n="navFeatures">Features</a>
+        <a href="#workflow" data-i18n="navWorkflow">Workflow</a>
+        <a href="support.html" data-preserve-lang data-i18n="navSupport">Support</a>
+        <a href="privacy.html" data-preserve-lang data-i18n="navPrivacy">Privacy</a>
       </div>
       <div class="language-toggle" aria-label="Language">
         <button type="button" data-lang-button="en">EN</button>
@@ -30,49 +33,269 @@
 
   <main class="page">
     <section class="hero">
-      <div>
-        <article data-lang="en">
-          <div class="eyebrow">Built for class, not generic notes</div>
-          <h1 class="hero-title">Turn lectures into organized study work.</h1>
-          <p class="hero-copy">CourseHelper helps students organize courses, record or import class audio, generate transcripts and summaries, and review with flashcards, quizzes, key terms, and course-aware AI answers.</p>
-          <div class="hero-actions"><a class="button primary" href="support.html?lang=en">Get support</a><a class="button" href="privacy.html?lang=en">Read privacy policy</a></div>
-          <div class="trust-list"><div class="trust-item">Course and session structure for real semester work.</div><div class="trust-item">Recording, transcription, summaries, and review in one flow.</div><div class="trust-item">Clear consent and privacy expectations for class audio.</div></div>
-        </article>
-        <article data-lang="zh">
-          <div class="eyebrow">为真实课堂设计</div>
-          <h1 class="hero-title">把课堂内容整理成可复习的学习资料。</h1>
-          <p class="hero-copy">CourseHelper 帮助学生整理课程，录制或导入课堂音频，生成转录和摘要，并用闪卡、小测、术语整理和课程上下文 AI 问答进行复习。</p>
-          <div class="hero-actions"><a class="button primary" href="support.html?lang=zh">获取支持</a><a class="button" href="privacy.html?lang=zh">查看隐私政策</a></div>
-          <div class="trust-list"><div class="trust-item">按课程和课次组织真实学期内容。</div><div class="trust-item">录音、转录、摘要和复习串成一条流程。</div><div class="trust-item">对课堂录音的许可和隐私边界保持清晰。</div></div>
-        </article>
+      <div class="hero-copy motion-reveal">
+        <div class="eyebrow" data-i18n="heroEyebrow">Course workspace for real lectures</div>
+        <h1 class="hero-title" data-i18n="heroTitle">Study from the lecture you actually heard.</h1>
+        <p class="hero-text" data-i18n="heroCopy">Record with permission, turn class audio into transcripts and summaries, then review from course-aware flashcards, quizzes, and key terms.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="support.html" data-preserve-lang data-i18n="heroPrimary">Contact support</a>
+          <a class="button ghost" href="privacy.html" data-preserve-lang data-i18n="heroSecondary">Read privacy policy</a>
+        </div>
       </div>
 
-      <div class="app-preview" aria-label="CourseHelper product preview">
-        <div class="phone-frame"><div class="phone-top"><strong>CourseHelper</strong><span class="status-dot" aria-hidden="true"></span></div><div class="screen"><div class="course-strip"><span class="course-chip">CS 210</span><span class="course-chip">ECON 301</span><span class="course-chip">BIO 140</span></div><div class="recording-card"><div class="record-button">REC</div><div><p class="preview-title">Lecture recording</p><div class="wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div></div></div><div class="summary-card"><p class="preview-title">Study summary</p><div class="preview-line"></div><div class="preview-line"></div><div class="preview-line short"></div></div><div class="review-card"><p class="preview-title">Review set</p><div class="review-row"><div class="mini-tile">Flashcards</div><div class="mini-tile">Quiz</div><div class="mini-tile">Key terms</div></div></div></div></div>
+      <div class="hero-stage motion-reveal" aria-label="CourseHelper product preview">
+        <div class="icon-plate">
+          <img src="assets/app-icon.svg" alt="CourseHelper app icon" />
+        </div>
+        <div class="study-board">
+          <div class="board-top">
+            <span data-i18n="boardTitle">Today in BIO 140</span>
+            <span class="live-pill" data-i18n="boardLive">processing</span>
+          </div>
+          <div class="capture-card">
+            <div class="record-dot" aria-hidden="true"></div>
+            <div>
+              <strong data-i18n="captureTitle">Lecture audio</strong>
+              <p data-i18n="captureMeta">47 min recording, transcript ready</p>
+            </div>
+            <div class="wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="board-grid">
+            <article class="note-card transcript-card">
+              <span class="label" data-i18n="transcriptLabel">Transcript</span>
+              <p data-i18n="transcriptLine">Professor connects enzyme rate to temperature, pH, and substrate concentration.</p>
+              <div class="text-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+            </article>
+            <article class="note-card review-card">
+              <span class="label" data-i18n="reviewLabel">Review</span>
+              <div class="review-stack">
+                <span data-i18n="reviewOne">12 flashcards</span>
+                <span data-i18n="reviewTwo">8 quiz questions</span>
+                <span data-i18n="reviewThree">18 key terms</span>
+              </div>
+            </article>
+          </div>
+          <div class="course-rail" aria-label="Courses">
+            <span>CS 210</span>
+            <span>ECON 301</span>
+            <span>BIO 140</span>
+            <span>HIST 212</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="features">
-      <div class="section-heading"><h2>A focused workspace for the class loop.</h2><p>CourseHelper is shaped around what happens before class, during class, and after class, instead of treating every note as a blank page.</p></div>
-      <div class="feature-grid">
-        <article class="feature-card"><strong>Course organization</strong><p>Keep courses, sessions, assignments, exams, materials, and calendar sync in one place.</p></article>
-        <article class="feature-card"><strong>Recording to summary</strong><p>Record or import class audio, then generate transcripts and summaries for review.</p></article>
-        <article class="feature-card"><strong>Review artifacts</strong><p>Create flashcards, quizzes, and key terms from class context when it is time to study.</p></article>
-        <article class="feature-card"><strong>Course-aware AI Q&A</strong><p>Ask questions inside a course or session so answers can stay close to your materials.</p></article>
-        <article class="feature-card"><strong>Study reminders</strong><p>Use notifications and calendar entries for classes, assignments, exams, and processing updates.</p></article>
-        <article class="feature-card"><strong>Plans and credits</strong><p>Manage heavier AI processing with subscriptions and credit packs through Apple in-app purchases.</p></article>
+    <section class="process-strip motion-reveal" aria-label="CourseHelper flow">
+      <span data-i18n="stripOne">Capture</span>
+      <span data-i18n="stripTwo">Transcribe</span>
+      <span data-i18n="stripThree">Summarize</span>
+      <span data-i18n="stripFour">Review</span>
+    </section>
+
+    <section class="section feature-system" id="features">
+      <div class="section-heading motion-reveal">
+        <p class="section-kicker" data-i18n="featuresKicker">Why it feels different</p>
+        <h2 data-i18n="featuresTitle">CourseHelper is organized around the rhythm of a semester.</h2>
+      </div>
+      <div class="feature-layout">
+        <article class="feature-lead motion-reveal">
+          <div class="feature-number">01</div>
+          <h3 data-i18n="featureLeadTitle">A class is not a folder of random notes.</h3>
+          <p data-i18n="featureLeadBody">Courses, sessions, materials, assignments, exams, recordings, transcripts, summaries, and review sets stay tied together so the context survives after class ends.</p>
+        </article>
+        <div class="feature-list">
+          <article class="feature-row motion-reveal">
+            <span class="row-mark"></span>
+            <div>
+              <strong data-i18n="featureOneTitle">Record or import audio</strong>
+              <p data-i18n="featureOneBody">Use class audio only when you have permission, then process it into transcript and study material.</p>
+            </div>
+          </article>
+          <article class="feature-row motion-reveal">
+            <span class="row-mark"></span>
+            <div>
+              <strong data-i18n="featureTwoTitle">Generate review material</strong>
+              <p data-i18n="featureTwoBody">Create summaries, flashcards, quizzes, and key terms from the course context.</p>
+            </div>
+          </article>
+          <article class="feature-row motion-reveal">
+            <span class="row-mark"></span>
+            <div>
+              <strong data-i18n="featureThreeTitle">Ask with context</strong>
+              <p data-i18n="featureThreeBody">Use course-aware AI answers that stay close to your own sessions and materials.</p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="section" id="workflow">
-      <div class="section-heading"><h2>From syllabus to review.</h2><p>The product is designed for repeated weekly use: set up the class, capture what happened, turn it into study material, and come back when exams are close.</p></div>
-      <div class="workflow"><article class="step"><div class="step-number">01</div><strong>Set up courses</strong><p>Create course spaces and add the schedule, assignments, exams, and materials you need.</p></article><article class="step"><div class="step-number">02</div><strong>Capture class</strong><p>Record or import audio when you have permission to process classroom content.</p></article><article class="step"><div class="step-number">03</div><strong>Generate study notes</strong><p>Create transcripts, summaries, and structured review material from each session.</p></article><article class="step"><div class="step-number">04</div><strong>Review with context</strong><p>Use flashcards, quizzes, key terms, and AI answers when you return to the course.</p></article></div>
+      <div class="section-heading compact motion-reveal">
+        <p class="section-kicker" data-i18n="workflowKicker">Weekly loop</p>
+        <h2 data-i18n="workflowTitle">From class setup to exam review.</h2>
+      </div>
+      <div class="workflow">
+        <article class="step motion-reveal">
+          <div class="step-number">01</div>
+          <strong data-i18n="stepOneTitle">Set up the course</strong>
+          <p data-i18n="stepOneBody">Add schedule, assignments, exams, and materials before the semester gets messy.</p>
+        </article>
+        <article class="step motion-reveal">
+          <div class="step-number">02</div>
+          <strong data-i18n="stepTwoTitle">Capture the session</strong>
+          <p data-i18n="stepTwoBody">Record or import lecture audio when classroom rules allow it.</p>
+        </article>
+        <article class="step motion-reveal">
+          <div class="step-number">03</div>
+          <strong data-i18n="stepThreeTitle">Turn it into notes</strong>
+          <p data-i18n="stepThreeBody">Generate transcript, summary, key points, and structured review prompts.</p>
+        </article>
+        <article class="step motion-reveal">
+          <div class="step-number">04</div>
+          <strong data-i18n="stepFourTitle">Return with context</strong>
+          <p data-i18n="stepFourBody">Study with flashcards, quizzes, key terms, and course-aware AI answers.</p>
+        </article>
+      </div>
     </section>
 
-    <section class="section"><div class="legal-band"><div><h2>Built with clear recording and privacy boundaries.</h2><p>CourseHelper is a study assistant. Students are responsible for getting any required permission before recording or uploading class content, and AI output should be checked against course materials.</p></div><div class="legal-links"><a class="button" href="privacy.html" data-preserve-lang>Privacy</a><a class="button" href="terms.html" data-preserve-lang>Terms</a></div></div></section>
+    <section class="section closing-section">
+      <div class="legal-band motion-reveal">
+        <div>
+          <p class="section-kicker" data-i18n="legalKicker">Trust boundaries</p>
+          <h2 data-i18n="legalTitle">Clear expectations for recording, privacy, and AI output.</h2>
+          <p data-i18n="legalCopy">CourseHelper is a study assistant. Students are responsible for getting any required permission before recording or uploading class content, and AI output should be checked against course materials.</p>
+        </div>
+        <div class="legal-links">
+          <a class="button light" href="support.html" data-preserve-lang data-i18n="legalSupport">Support</a>
+          <a class="button light" href="terms.html" data-preserve-lang data-i18n="legalTerms">Terms</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer"><div class="footer-inner"><span>© 2026 Yifan Song. CourseHelper.</span><div class="footer-links"><a href="support.html" data-preserve-lang>Support</a><a href="privacy.html" data-preserve-lang>Privacy</a><a href="terms.html" data-preserve-lang>Terms</a></div></div></footer>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Yifan Song. CourseHelper.</span>
+      <div class="footer-links">
+        <a href="support.html" data-preserve-lang data-i18n="footerSupport">Support</a>
+        <a href="privacy.html" data-preserve-lang data-i18n="footerPrivacy">Privacy</a>
+        <a href="terms.html" data-preserve-lang data-i18n="footerTerms">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.COURSEHELPER_COPY = {
+      en: {
+        navFeatures: "Features",
+        navWorkflow: "Workflow",
+        navSupport: "Support",
+        navPrivacy: "Privacy",
+        heroEyebrow: "Course workspace for real lectures",
+        heroTitle: "Study from the lecture you actually heard.",
+        heroCopy: "Record with permission, turn class audio into transcripts and summaries, then review from course-aware flashcards, quizzes, and key terms.",
+        heroPrimary: "Contact support",
+        heroSecondary: "Read privacy policy",
+        boardTitle: "Today in BIO 140",
+        boardLive: "processing",
+        captureTitle: "Lecture audio",
+        captureMeta: "47 min recording, transcript ready",
+        transcriptLabel: "Transcript",
+        transcriptLine: "Professor connects enzyme rate to temperature, pH, and substrate concentration.",
+        reviewLabel: "Review",
+        reviewOne: "12 flashcards",
+        reviewTwo: "8 quiz questions",
+        reviewThree: "18 key terms",
+        stripOne: "Capture",
+        stripTwo: "Transcribe",
+        stripThree: "Summarize",
+        stripFour: "Review",
+        featuresKicker: "Why it feels different",
+        featuresTitle: "CourseHelper is organized around the rhythm of a semester.",
+        featureLeadTitle: "A class is not a folder of random notes.",
+        featureLeadBody: "Courses, sessions, materials, assignments, exams, recordings, transcripts, summaries, and review sets stay tied together so the context survives after class ends.",
+        featureOneTitle: "Record or import audio",
+        featureOneBody: "Use class audio only when you have permission, then process it into transcript and study material.",
+        featureTwoTitle: "Generate review material",
+        featureTwoBody: "Create summaries, flashcards, quizzes, and key terms from the course context.",
+        featureThreeTitle: "Ask with context",
+        featureThreeBody: "Use course-aware AI answers that stay close to your own sessions and materials.",
+        workflowKicker: "Weekly loop",
+        workflowTitle: "From class setup to exam review.",
+        stepOneTitle: "Set up the course",
+        stepOneBody: "Add schedule, assignments, exams, and materials before the semester gets messy.",
+        stepTwoTitle: "Capture the session",
+        stepTwoBody: "Record or import lecture audio when classroom rules allow it.",
+        stepThreeTitle: "Turn it into notes",
+        stepThreeBody: "Generate transcript, summary, key points, and structured review prompts.",
+        stepFourTitle: "Return with context",
+        stepFourBody: "Study with flashcards, quizzes, key terms, and course-aware AI answers.",
+        legalKicker: "Trust boundaries",
+        legalTitle: "Clear expectations for recording, privacy, and AI output.",
+        legalCopy: "CourseHelper is a study assistant. Students are responsible for getting any required permission before recording or uploading class content, and AI output should be checked against course materials.",
+        legalSupport: "Support",
+        legalTerms: "Terms",
+        footerSupport: "Support",
+        footerPrivacy: "Privacy",
+        footerTerms: "Terms"
+      },
+      zh: {
+        navFeatures: "功能",
+        navWorkflow: "流程",
+        navSupport: "支持",
+        navPrivacy: "隐私",
+        heroEyebrow: "为真实课堂设计的课程工作区",
+        heroTitle: "从你真正听过的课堂开始复习。",
+        heroCopy: "在获得许可后录音，把课堂音频整理成转录和摘要，再用带课程上下文的闪卡、小测和术语进行复习。",
+        heroPrimary: "联系支持",
+        heroSecondary: "查看隐私政策",
+        boardTitle: "今天的 BIO 140",
+        boardLive: "处理中",
+        captureTitle: "课堂音频",
+        captureMeta: "47 分钟录音，转录已完成",
+        transcriptLabel: "转录",
+        transcriptLine: "老师把酶反应速率与温度、pH 和底物浓度联系起来。",
+        reviewLabel: "复习",
+        reviewOne: "12 张闪卡",
+        reviewTwo: "8 道小测题",
+        reviewThree: "18 个关键术语",
+        stripOne: "记录",
+        stripTwo: "转录",
+        stripThree: "摘要",
+        stripFour: "复习",
+        featuresKicker: "为什么不一样",
+        featuresTitle: "CourseHelper 按一个学期的真实节奏组织内容。",
+        featureLeadTitle: "一门课不是一堆随机笔记。",
+        featureLeadBody: "课程、课次、资料、作业、考试、录音、转录、摘要和复习内容会保持关联，让上下文在下课后仍然存在。",
+        featureOneTitle: "录制或导入音频",
+        featureOneBody: "只有在获得许可时才处理课堂音频，然后把它转成可复习的转录和学习材料。",
+        featureTwoTitle: "生成复习材料",
+        featureTwoBody: "从课程上下文生成摘要、闪卡、小测和关键术语。",
+        featureThreeTitle: "带着上下文提问",
+        featureThreeBody: "使用更贴近你自己的课次和资料的课程上下文 AI 回答。",
+        workflowKicker: "每周学习循环",
+        workflowTitle: "从课程设置到考前复习。",
+        stepOneTitle: "设置课程",
+        stepOneBody: "在学期变乱之前，先加入课表、作业、考试和资料。",
+        stepTwoTitle: "记录课堂",
+        stepTwoBody: "在课堂规则允许时录制或导入讲课音频。",
+        stepThreeTitle: "整理成笔记",
+        stepThreeBody: "生成转录、摘要、重点和结构化复习提示。",
+        stepFourTitle: "带着上下文复习",
+        stepFourBody: "用闪卡、小测、关键术语和课程上下文 AI 回答进行复习。",
+        legalKicker: "信任边界",
+        legalTitle: "清楚说明录音、隐私和 AI 输出的边界。",
+        legalCopy: "CourseHelper 是学习辅助工具。录制或上传课堂内容前，学生需要自行确认已获得必要许可；AI 生成内容也应与课程资料核对。",
+        legalSupport: "支持",
+        legalTerms: "条款",
+        footerSupport: "支持",
+        footerPrivacy: "隐私",
+        footerTerms: "条款"
+      }
+    };
+  </script>
   <script src="site.js"></script>
 </body>
 </html>
