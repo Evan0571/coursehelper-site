@@ -3,140 +3,56 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CourseHelper Terms of Use." />
   <title>CourseHelper Terms of Use</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #eef4ff;
-      --card: rgba(255,255,255,.92);
-      --text: #14213d;
-      --muted: #5c6b89;
-      --line: #d8e2f3;
-      --brand: #3767ea;
-      --shadow: 0 18px 50px rgba(42,72,149,.08);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #eef4ff 0%, #f9fbff 100%);
-      color: var(--text);
-    }
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
-    }
-    .top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .back {
-      color: var(--brand);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    .toggle {
-      display: flex;
-      gap: 8px;
-    }
-    .toggle button {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      border-radius: 999px;
-      min-width: 58px;
-      padding: 8px 14px;
-      font: 600 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      cursor: pointer;
-    }
-    .toggle button.active {
-      background: var(--brand);
-      color: #fff;
-      border-color: var(--brand);
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 30px;
-      box-shadow: var(--shadow);
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 40px;
-      letter-spacing: -.04em;
-    }
-    h2 {
-      margin: 28px 0 10px;
-      font-size: 22px;
-    }
-    p, li {
-      color: var(--muted);
-      line-height: 1.72;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    .updated {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    a {
-      color: var(--brand);
-    }
-    [data-lang] {
-      display: none;
-    }
-    [data-lang].active {
-      display: block;
-    }
-  </style>
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/app-icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="wrap">
-    <div class="top">
-      <a class="back" id="back-link" href="index.html">&#8592; Back</a>
-      <div class="toggle" aria-label="Language">
-        <button id="lang-en" type="button">EN</button>
-        <button id="lang-zh" type="button">&#20013;&#25991;</button>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html" data-preserve-lang>
+        <span class="brand-mark" aria-hidden="true"><img src="assets/app-icon.svg" alt="" /></span>
+        <span>CourseHelper</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-preserve-lang data-i18n="navHome">Home</a>
+        <a href="support.html" data-preserve-lang data-i18n="navSupport">Support</a>
+        <a href="privacy.html" data-preserve-lang data-i18n="navPrivacy">Privacy</a>
       </div>
-    </div>
+      <div class="language-toggle" aria-label="Language">
+        <button type="button" data-lang-button="en">EN</button>
+        <button type="button" data-lang-button="zh">中文</button>
+      </div>
+    </nav>
+  </header>
 
-    <section class="card">
+  <main class="page">
+    <section class="doc">
       <article data-lang="en">
         <h1>Terms of Use</h1>
-        <div class="updated">Last updated: April 16, 2026</div>
-
+        <p class="doc-meta">Last updated: April 16, 2026</p>
         <h2>Acceptance</h2>
         <p>By creating an account, using CourseHelper, or accessing any CourseHelper feature, you agree to these Terms of Use.</p>
-
         <h2>Eligibility and account responsibility</h2>
         <ul>
           <li>You are responsible for the accuracy of your account information and for keeping access to your device and account secure.</li>
           <li>You must not use CourseHelper in a way that violates applicable law, school policy, or the rights of other people.</li>
         </ul>
-
         <h2>What CourseHelper provides</h2>
         <p>CourseHelper helps users organize courses, schedule sessions, record or upload class audio, generate transcripts and summaries, create study artifacts such as flashcards and quizzes, and ask AI questions about course content.</p>
-
         <h2>Recordings, files, and lawful use</h2>
         <ul>
           <li>You are solely responsible for making sure you have the right to record, upload, store, process, and share any audio, notes, or materials used with CourseHelper.</li>
           <li>You must obtain any required consent before recording or uploading class content.</li>
           <li>You must not use CourseHelper to violate privacy rights, confidentiality obligations, school rules, copyright, or other legal restrictions.</li>
         </ul>
-
         <h2>AI features and output</h2>
         <ul>
           <li>AI-generated transcripts, summaries, flashcards, quizzes, and answers may be incomplete, inaccurate, or misleading.</li>
           <li>You should review important academic, factual, or legal information yourself instead of relying on AI output alone.</li>
         </ul>
-
         <h2>Subscriptions, packs, and credits</h2>
         <ul>
           <li>Paid plans and credit packs are offered through Apple in-app purchases unless clearly stated otherwise.</li>
@@ -144,53 +60,42 @@
           <li>Credits have no cash value and are not transferable between users.</li>
           <li>Subscription billing, cancellations, and many refund requests are handled through Apple according to Apple rules.</li>
         </ul>
-
         <h2>Acceptable use</h2>
         <ul>
           <li>No reverse engineering, disruption, abuse, or attempts to access another user's data.</li>
           <li>No unlawful or infringing content processing.</li>
           <li>No attempts to bypass usage limits, billing rules, or safeguards.</li>
         </ul>
-
         <h2>Availability and limitation</h2>
         <p>CourseHelper may change, improve, pause, or remove features over time. To the maximum extent permitted by law, CourseHelper is provided on an "as is" and "as available" basis, and CourseHelper and its operators are not liable for indirect or consequential damages, or for loss of data, revenue, profits, or academic outcomes arising from use of the service.</p>
-
         <h2>Apple App Store terms</h2>
         <p>If you download CourseHelper from Apple's App Store, Apple's Standard EULA or another valid custom EULA may apply in addition to these Terms. Apple's Standard EULA is available here: <a href="https://www.apple.com/legal/macapps/stdeula/">https://www.apple.com/legal/macapps/stdeula/</a>.</p>
-
         <h2>Contact</h2>
         <p>For support, legal questions, or account issues, contact <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>.</p>
       </article>
-
       <article data-lang="zh">
         <h1>使用条款</h1>
-        <div class="updated">更新日期：2026年4月16日</div>
-
+        <p class="doc-meta">更新日期：2026年4月16日</p>
         <h2>接受条款</h2>
         <p>当用户创建账号、使用 CourseHelper，或访问任何 CourseHelper 功能时，即表示同意这些使用条款。</p>
-
         <h2>资格与账号责任</h2>
         <ul>
           <li>用户需要保证账号信息准确，并对设备和账号访问权限的安全负责。</li>
           <li>用户不得以违反适用法律、学校规定或他人权利的方式使用 CourseHelper。</li>
         </ul>
-
         <h2>CourseHelper 提供什么</h2>
         <p>CourseHelper 用于整理课程、安排课次、录音或上传课堂音频、生成转录与摘要、创建闪卡和小测，并就课程内容进行 AI 问答。</p>
-
         <h2>录音、文件与合法使用</h2>
         <ul>
           <li>用户需要自行确认自己有权录音、上传、保存、处理和分享任何音频、笔记或资料。</li>
           <li>在需要时，用户必须先取得必要同意再进行录音或上传。</li>
           <li>用户不得使用 CourseHelper 去侵犯隐私、违反保密义务、违反学校规定、侵犯版权或违反其他法律限制。</li>
         </ul>
-
         <h2>AI 功能与输出</h2>
         <ul>
           <li>AI 生成的转录、摘要、闪卡、小测和问答结果可能不完整、不准确或具有误导性。</li>
           <li>重要信息需要用户自行核对，不应完全依赖 AI 结果。</li>
         </ul>
-
         <h2>订阅、额度包与 credits</h2>
         <ul>
           <li>付费套餐和额度包默认通过 Apple 应用内购买提供。</li>
@@ -198,49 +103,39 @@
           <li>credits 不等同于现金，不可提现，也不可在用户之间转让。</li>
           <li>订阅计费、取消以及很多退款请求都按照 Apple 的规则通过 Apple 处理。</li>
         </ul>
-
         <h2>可接受使用</h2>
         <ul>
           <li>不得逆向工程、破坏、滥用或试图访问其他用户数据。</li>
           <li>不得处理违法或侵权内容。</li>
           <li>不得绕过使用限制、计费规则或产品保护机制。</li>
         </ul>
-
         <h2>可用性与责任限制</h2>
         <p>CourseHelper 可能会不断调整、改进、暂停或移除功能。在法律允许的最大范围内，CourseHelper 以“按现状”和“按可用状态”提供，CourseHelper 及其运营方不对间接、附带、后果性损害，或数据、收入、利润、学习结果损失承担责任。</p>
-
         <h2>Apple App Store 相关条款</h2>
         <p>如果用户通过 Apple App Store 下载 CourseHelper，Apple 的标准 EULA 或其他有效的自定义 EULA 可能会与这些条款一并适用。Apple 标准 EULA 链接：<a href="https://www.apple.com/legal/macapps/stdeula/">https://www.apple.com/legal/macapps/stdeula/</a>。</p>
-
         <h2>联系邮箱</h2>
         <p>如需支持、法律咨询或账号相关帮助，请联系 <a href="mailto:syf1248226176@gmail.com">syf1248226176@gmail.com</a>。</p>
       </article>
     </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© 2026 Yifan Song. CourseHelper.</span>
+      <div class="footer-links">
+        <a href="index.html" data-preserve-lang data-i18n="footerHome">Home</a>
+        <a href="support.html" data-preserve-lang data-i18n="footerSupport">Support</a>
+        <a href="privacy.html" data-preserve-lang data-i18n="footerPrivacy">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    const KEY = "coursehelperLegalLang";
-    const params = new URLSearchParams(location.search);
-    let lang = params.get("lang");
-    if (lang !== "zh" && lang !== "en") {
-      lang = localStorage.getItem(KEY) || "en";
-    }
-
-    function apply(lang) {
-      localStorage.setItem(KEY, lang);
-      document.documentElement.lang = lang;
-      document.querySelectorAll("[data-lang]").forEach((node) => {
-        node.classList.toggle("active", node.getAttribute("data-lang") === lang);
-      });
-      document.getElementById("lang-en").classList.toggle("active", lang === "en");
-      document.getElementById("lang-zh").classList.toggle("active", lang === "zh");
-      document.getElementById("back-link").href = `index.html?lang=${lang}`;
-      document.getElementById("back-link").textContent = lang === "zh" ? "← 返回" : "← Back";
-    }
-
-    document.getElementById("lang-en").addEventListener("click", () => apply("en"));
-    document.getElementById("lang-zh").addEventListener("click", () => apply("zh"));
-    apply(lang);
+    window.COURSEHELPER_COPY = {
+      en: { navHome: "Home", navSupport: "Support", navPrivacy: "Privacy", footerHome: "Home", footerSupport: "Support", footerPrivacy: "Privacy" },
+      zh: { navHome: "首页", navSupport: "支持", navPrivacy: "隐私", footerHome: "首页", footerSupport: "支持", footerPrivacy: "隐私" }
+    };
   </script>
+  <script src="site.js"></script>
 </body>
 </html>
