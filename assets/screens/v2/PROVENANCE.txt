@@ -1,0 +1,72 @@
+CourseHelper website screenshot provenance
+Prepared: 2026-10-22
+Source atlas: outputs/01a160e1-27fc-7150-8755-6a86cc07f923/visual-atlas
+Source build: Release 1.0.0 (96), iPhone 15 Pro simulator, iOS 27.0 (atlas README.txt).
+All selected images were visually inspected. The selection contains built-in Example/demo content and one normal-release empty AI homepage. No personal account identifiers, emails, real coursework, or private recordings are included.
+Processing: full uncropped screenshot resized proportionally to 720 px width, WebP quality 88; no content edits.
+Limitations: mixed Chinese/English interface language. The ai-answer, review-library and materials-library assets retain Interface preview labels; ai-home is the real normal-release AI start screen without a preview label. Materials is an empty state. No safe current Today or recording/transcript capture was available in the atlas selection.
+The two Example screenshots were captured from a normal account route but contain only the built-in Example course/lesson. The ai-home screenshot is a normal signed-in account route showing a generic empty AI homepage with no personal content. The remaining selections are from an independent signed-out built-in demo device.
+
+course-overview.webp
+Built-in Example course overview, including one Example biology class.
+Source: current-capture/detail-live-export/917BDA4B-2DEC-463E-A2EB-393326E8E835.png
+Source SHA256: b72a539c9a868902499daaa33756cd3b88a6580d8d42e8224c754854e6006d17
+Original: 1178x2556; output: 720x1562; bytes: 29330
+Origin: normal-release
+Capture: 正常 Release App · 本人账号 · 只读界面导航
+
+lecture-summary.webp
+Built-in Example biology lecture summary and key concepts.
+Source: current-capture/detail-live-export/B2FBAD44-9F50-46CD-8BF2-285774E72987.png
+Source SHA256: 0fa6e2606a1f9a8390efe6d572ce3057f3781c6a534c6a8cd58910321f3bae68
+Original: 1178x2556; output: 720x1562; bytes: 67126
+Origin: normal-release
+Capture: 正常 Release App · 本人账号 · 只读界面导航
+
+ai-answer.webp
+Built-in demo AI example conversation about enzymes; Interface preview label preserved.
+Source: current-capture/appendix-live-export/3EA77E3C-D3DA-4AAE-AC3E-4441710DFCB3.png
+Source SHA256: 6ba69ea2ea04b4dbd4cd3d9b149cda227ac173d9fb4dc11157e6e4f862b4de9e
+Original: 1178x2556; output: 720x1562; bytes: 50588
+Origin: normal-release-demo
+Capture: 正常 Release App · 内置演示数据（独立未登录设备）
+
+review-library.webp
+Built-in demo review menu for Example enzymes set; Interface preview label preserved.
+Source: current-capture/appendix-live-export/07C7BB06-3861-4AE3-90B2-83C02A849454.png
+Source SHA256: fa2c6f5f489d889ff7ab80e69ae842c572d28121468e6ad95e4be7565108dbdb
+Original: 1178x2556; output: 720x1562; bytes: 39986
+Origin: normal-release-demo
+Capture: 正常 Release App · 内置演示数据（独立未登录设备）
+
+flashcard-question.webp
+Built-in demo enzyme flashcard question before revealing answer.
+Source: current-capture/appendix-live-export/F37213E0-6D4B-4F36-8DB5-1C395480D97B.png
+Source SHA256: 3c3d86701337647fff16f768a0f36754b2eb5e979b3a7eb8028b28ddc8c4af03
+Original: 1178x2556; output: 720x1562; bytes: 22558
+Origin: normal-release-demo
+Capture: 正常 Release App · 内置演示数据（独立未登录设备）
+
+flashcard-answer.webp
+Built-in demo enzyme flashcard with revealed answer.
+Source: current-capture/appendix-live-export/78AE274B-D47E-40AC-996C-BCF6C38077E6.png
+Source SHA256: d2cfd67842c6810e22497a5d1463a54ee20bf5ccb7ad8475ac571ced6ee00994
+Original: 1178x2556; output: 720x1562; bytes: 34216
+Origin: normal-release-demo
+Capture: 正常 Release App · 内置演示数据（独立未登录设备）
+
+materials-library.webp
+Built-in demo materials empty state; Interface preview label preserved.
+Source: current-capture/appendix-live-export/E0592066-79E9-423F-BCB6-035093F5FA78.png
+Source SHA256: 163844dd7fce4b90c0f99bc1ddaa3c03c8fe7b5c754ffafeeac56cfa1c6232b1
+Original: 1178x2556; output: 720x1562; bytes: 28078
+Origin: normal-release-demo
+Capture: 正常 Release App · 内置演示数据（独立未登录设备）
+
+ai-home.webp
+Normal-release empty AI homepage, Chinese interface; no messages, selected course, personal identifiers or private content are visible.
+Source: current-capture/roots-live-export/F720ADD5-3E1A-4979-937D-E19AF78A2E41.png
+Source SHA256: 33953d82c475e59b8ea9361d071b9e954da9be281fb1229f786d1f294b0229c1
+Original: 1178x2556; output: 720x1562; bytes: 28380
+Origin: normal-release
+Capture: 正常 Release App · 本人账号 · 只读界面导航

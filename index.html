@@ -1,745 +1,633 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="CourseHelper helps international students keep class schedules, lecture recordings, transcripts, notes, and review inside one course workspace." />
-  <title>CourseHelper - Class notes for international students</title>
-  <link rel="icon" href="assets/app-icon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="assets/app-icon.png" />
-  <link rel="preload" as="image" href="assets/app-icon.png" />
-  <link rel="preload" as="image" href="assets/screens/home.webp" />
-  <link rel="preload" as="image" href="assets/screens/course_sessions_demo.webp" />
-  <link rel="stylesheet" href="styles.css?v=journey-20260703" />
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script defer src="site.js?v=journey-20260703"></script>
-</head>
-<body>
-  <header class="site-header">
-    <nav class="nav" aria-label="Primary">
-      <a class="brand" href="index.html" data-preserve-lang>
-        <span class="brand-mark" aria-hidden="true">
-          <img src="assets/app-icon.png" alt="" />
-        </span>
-        <span>CourseHelper</span>
-      </a>
-      <div class="nav-links" aria-label="Sections">
-        <a href="#screens" data-i18n="navScreens">Schedule</a>
-        <a href="#workflow" data-i18n="navWorkflow">Record</a>
-        <a href="#review" data-i18n="navReview">Ask &amp; Practice</a>
-        <a href="support.html" data-preserve-lang data-i18n="navSupport">Help</a>
-      </div>
-      <div class="language-toggle" aria-label="Language">
-        <button type="button" data-lang-button="en">EN</button>
-        <button type="button" data-lang-button="zh">中文</button>
-      </div>
-    </nav>
-  </header>
-
-  <main class="page">
-    <section class="hero">
-      <div class="hero-copy reveal hero-reveal">
-        <h1 class="hero-title" data-i18n="heroTitle">A course assistant for English-taught classes.</h1>
-        <p class="hero-text" data-i18n="heroCopy">CourseHelper brings schedules, course details, lecture transcription, notes, targeted review, and AI Q&A into one focused study workspace.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="description"
+      content="Your courses, lectures, notes, and review. Finally together. CourseHelper brings the context of your classes into one calm study workspace for iPhone."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="CourseHelper — Make room for understanding."
+    />
+    <meta
+      property="og:description"
+      content="Your courses, lectures, notes, and review. Finally together."
+    />
+    <meta property="og:url" content="https://coursehelper.app/" />
+    <meta
+      property="og:image"
+      content="https://coursehelper.app/assets/app-icon.png"
+    />
+    <title>CourseHelper — Make room for understanding.</title>
+    <link rel="canonical" href="https://coursehelper.app/" />
+    <link rel="icon" href="assets/app-icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/app-icon.png" />
+    <link
+      rel="preload"
+      as="image"
+      href="assets/screens/v2/lecture-summary.webp"
+    />
+    <link rel="stylesheet" href="styles.css?v=20261022" />
+    <script defer src="site.js?v=20261022"></script>
+  </head>
+  <body class="marketing">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary">
+        <a
+          class="brand"
+          href="index.html"
+          data-preserve-lang
+          aria-label="CourseHelper home"
+          ><img src="assets/app-icon.png" width="32" height="32" alt="" /><span
+            >CourseHelper</span
+          ></a
+        >
+        <div class="nav-links">
+          <a href="#explore" data-i18n="navExplore">Explore</a
+          ><a href="#practice" data-i18n="navPractice">A little practice</a
+          ><a href="#faq" data-i18n="navFaq">FAQs</a>
+        </div>
+        <div class="nav-actions">
+          <div class="language-toggle" aria-label="Language">
+            <button type="button" data-lang-button="en" lang="en">EN</button
+            ><button type="button" data-lang-button="zh" lang="zh-Hans">
+              中文
+            </button>
+          </div>
+          <a class="button button-small" href="support.html" data-preserve-lang
+            ><span data-i18n="navContact">Get in touch</span
+            ><span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow hero-eyebrow">
+          <span class="status-dot" aria-hidden="true"></span
+          ><span data-i18n="heroEyebrow">YOUR CLASSES. A CLEARER HEAD.</span>
+        </p>
+        <h1 id="hero-title">
+          <span data-i18n="heroLine1">Less scattered.</span
+          ><span class="soft-ink" data-i18n="heroLine2">More understood.</span>
+        </h1>
+        <p class="hero-description" data-i18n="heroDescription">
+          Your courses, lectures, notes, and review. Finally together, in a
+          workspace that makes room for learning.
+        </p>
         <div class="hero-actions">
-          <a class="button primary" href="support.html" data-preserve-lang data-i18n="heroPrimary">Support</a>
-          <a class="button ghost" href="privacy.html" data-preserve-lang data-i18n="heroSecondary">Read privacy notes</a>
+          <a class="button" href="#explore"
+            ><span data-i18n="heroPrimary">Meet CourseHelper</span
+            ><span aria-hidden="true">↓</span></a
+          ><span class="platform-note"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <rect x="6.5" y="2" width="11" height="20" rx="3" />
+              <path d="M10 5h4M10 19h4" /></svg
+            ><span data-i18n="heroPlatform"
+              >Made for iPhone. Built around you.</span
+            ></span
+          >
         </div>
-      </div>
+      </section>
 
-      <div class="hero-stage reveal hero-reveal" aria-label="CourseHelper product illustration">
-        <div class="hero-device">
-          <div class="device-top">
-            <img src="assets/app-icon.png" alt="" />
-            <div>
-              <strong data-i18n="deviceTitle">BIO 140</strong>
-              <span data-i18n="deviceMeta">Lecture 08, ready to review</span>
+      <section class="gallery-section" aria-label="CourseHelper app gallery">
+        <div class="gallery-track">
+          <a
+            class="gallery-card gallery-course"
+            href="#explore"
+            data-select-feature="organize"
+            ><div class="gallery-label">
+              <span data-i18n="galleryCourse">A home for every course.</span
+              ><span aria-hidden="true">↗</span>
             </div>
-          </div>
-
-          <div class="audio-panel">
-            <span class="record-dot" aria-hidden="true"></span>
-            <div>
-              <strong data-i18n="audioTitle">Lecture recording</strong>
-              <p data-i18n="audioMeta">47 min transcript</p>
+            <div class="screen-frame">
+              <img
+                src="assets/screens/v2/course-overview.webp"
+                width="720"
+                height="1562"
+                alt="Example course overview in CourseHelper"
+                fetchpriority="high"
+              /></div
+          ></a>
+          <a
+            class="gallery-card gallery-ai"
+            href="#explore"
+            data-select-feature="ask"
+            ><div class="gallery-label">
+              <span data-i18n="galleryAi">Questions with context.</span
+              ><span aria-hidden="true">↗</span>
             </div>
-            <div class="wave" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><span></span><span></span>
+            <div class="screen-frame">
+              <img
+                src="assets/screens/v2/ai-home.webp"
+                width="720"
+                height="1562"
+                alt="CourseHelper AI start screen with course selection and quick actions"
+                fetchpriority="high"
+              /></div
+          ></a>
+          <a
+            class="gallery-card gallery-summary"
+            href="#explore"
+            data-select-feature="capture"
+            ><div class="gallery-label">
+              <span data-i18n="gallerySummary">Keep the bigger picture.</span
+              ><span aria-hidden="true">↗</span>
             </div>
-          </div>
-
-          <div class="summary-panel">
-            <span class="label" data-i18n="summaryLabel">Class note</span>
-            <p data-i18n="summaryLine">Temperature affects enzyme activity because molecular motion and structural stability both change.</p>
-            <div class="text-lines" aria-hidden="true"><span></span><span></span><span></span></div>
-          </div>
+            <div class="screen-frame">
+              <img
+                src="assets/screens/v2/lecture-summary.webp"
+                width="720"
+                height="1562"
+                alt="Example lecture summary with key concepts"
+                fetchpriority="high"
+              /></div
+          ></a>
+          <a class="gallery-card gallery-flashcards" href="#practice"
+            ><div class="gallery-label">
+              <span data-i18n="galleryFlashcards">Make it stick.</span
+              ><span aria-hidden="true">↗</span>
+            </div>
+            <div class="screen-frame">
+              <img
+                src="assets/screens/v2/flashcard-question.webp"
+                width="720"
+                height="1562"
+                alt="Example biology flashcard in CourseHelper"
+              /></div
+          ></a>
+          <a
+            class="gallery-card gallery-review"
+            href="#explore"
+            data-select-feature="review"
+            ><div class="gallery-label">
+              <span data-i18n="galleryReview">Find your way to review.</span
+              ><span aria-hidden="true">↗</span>
+            </div>
+            <div class="screen-frame">
+              <img
+                src="assets/screens/v2/review-library.webp"
+                width="720"
+                height="1562"
+                alt="CourseHelper study guide, quiz, flashcard, and term options"
+              /></div
+          ></a>
         </div>
-
-        <div class="floating-review" aria-hidden="true">
-          <span data-i18n="floatingOne">Flashcards</span>
-          <span data-i18n="floatingTwo">Quiz questions</span>
-          <span data-i18n="floatingThree">Key terms</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section product-section journey-section" id="screens">
-      <div class="section-intro reveal">
-        <div class="chapter-copy">
-          <p class="eyebrow" data-i18n="screensEyebrow">Before class</p>
-          <h2 data-i18n="screensTitle">Start with today, not another dashboard.</h2>
-          <p data-i18n="screensCopy">Open the app to see the next class, the room, and the course you may need next. The deeper work stays inside each course.</p>
-        </div>
-        <div class="chapter-art" aria-hidden="true">
-          <div class="chapter-shell">
-            <div class="chapter-header">
-              <img src="assets/app-icon.png" alt="" />
-              <div>
-                <span data-i18n="chapterToday">Today</span>
-                <strong data-i18n="chapterClassCount">3 classes</strong>
-              </div>
-            </div>
-
-            <div class="chapter-schedule">
-              <span class="chapter-time">09:30</span>
-              <div class="chapter-ticket is-current">
-                <span data-i18n="chapterNext">Next class</span>
-                <strong>BIO 140</strong>
-                <em data-i18n="chapterRoom">Life Sciences 204</em>
-              </div>
-
-              <span class="chapter-time">11:00</span>
-              <div class="chapter-ticket">
-                <span data-i18n="chapterLater">Later today</span>
-                <strong>CS 210</strong>
-                <em data-i18n="chapterLaterRoom">Engineering Hall 220</em>
-              </div>
-            </div>
-
-            <div class="chapter-detail-card">
-              <span data-i18n="chapterCourse">Course details</span>
-              <strong>BIO 140</strong>
-              <div>
-                <em data-i18n="chapterCalendar">Schedule</em>
-                <b>Tue 09:30</b>
-              </div>
-              <div>
-                <em data-i18n="chapterLocation">Location</em>
-                <b data-i18n="chapterRoom">Life Sciences 204</b>
-              </div>
-              <div>
-                <em data-i18n="chapterSession">Instructor</em>
-                <b data-i18n="chapterMaterial">Dr. Chen</b>
-              </div>
-              <div>
-                <em data-i18n="chapterType">Class type</em>
-                <b data-i18n="chapterLecture">Lecture</b>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="journey-stack before-stack">
-        <div class="product-proof">
-          <div class="proof-media reveal">
-            <div class="proof-home-shell">
-              <figure class="phone-frame proof-phone proof-home-phone">
-                <img src="assets/screens/home.webp" alt="CourseHelper home screen showing today's classes" />
-              </figure>
-              <button class="proof-calendar-target" type="button" aria-label="Toggle calendar preview" aria-expanded="false" aria-controls="proof-calendar-preview"></button>
-            </div>
-            <figure class="phone-frame proof-phone proof-calendar" id="proof-calendar-preview" aria-hidden="true">
-              <img src="assets/screens/calendar_sync.jpg" alt="iOS Calendar showing synced CS 210 and BIO 140 class times" />
-            </figure>
-          </div>
-
-          <div class="proof-copy reveal">
-            <span class="scenario-index">01</span>
-            <h3 data-i18n="proofTitle">The home screen shows each day's class schedule.</h3>
-            <p data-i18n="proofBody">Tap the import button in the lower-right corner to create courses from a syllabus. Course times sync to the calendar.</p>
-            <div class="proof-list" aria-label="Product details">
-              <span data-i18n="proofOne">Daily schedule</span>
-              <span data-i18n="proofTwo">Import syllabus</span>
-              <span data-i18n="proofThree">Calendar sync</span>
-            </div>
-          </div>
-        </div>
-
-        <article class="scenario reveal" data-screen-demo data-auto-cycle="true" data-auto-cycle-interval="1800">
-          <div class="scenario-copy">
-            <span class="scenario-index">02</span>
-            <h3 data-i18n="courseTitle">The course page shows the basics.</h3>
-            <div class="course-tab-guide" aria-label="Course tab details">
-              <button type="button" class="course-guide-item is-active" data-demo-target="course-info">
-                <strong data-i18n="courseGuideInfoTitle">Info tab</strong>
-                <span data-i18n="courseGuideInfoBody">View and add the course name, room, instructor, and other basics.</span>
-              </button>
-              <button type="button" class="course-guide-item" data-demo-target="course-sessions">
-                <strong data-i18n="courseGuideSessionsTitle">Sessions tab</strong>
-                <span data-i18n="courseGuideSessionsBody">See each class meeting, date, and week number.</span>
-              </button>
-              <button type="button" class="course-guide-item" data-demo-target="course-materials">
-                <strong data-i18n="courseGuideMaterialsTitle">Materials tab</strong>
-                <span data-i18n="courseGuideMaterialsBody">Store the syllabus, slides, readings, and related files.</span>
-              </button>
-              <button type="button" class="course-guide-item" data-demo-target="course-adjust">
-                <strong data-i18n="courseGuideAdjustTitle">Adjust tab</strong>
-                <span data-i18n="courseGuideAdjustBody">Update changed, cancelled, or one-off class times.</span>
-              </button>
-            </div>
-          </div>
-          <div class="scenario-media">
-            <figure class="phone-frame interactive-phone">
-              <div class="screen-stage" aria-live="polite">
-                <img class="demo-screen is-active" data-demo-screen="course-info" data-scrollable-screen="true" data-scroll-frame-height="1552" src="assets/screens/course_info_demo_long.webp" alt="Course information tab showing course fields" />
-                <img class="demo-screen" data-demo-screen="course-sessions" src="assets/screens/course_sessions_demo.webp" alt="Course sessions tab showing weekly class sessions" />
-                <img class="demo-screen" data-demo-screen="course-materials" src="assets/screens/course_materials_demo.webp" alt="Course materials tab showing a course outline file" />
-                <img class="demo-screen" data-demo-screen="course-adjust" src="assets/screens/course_adjust_demo.webp" alt="Course adjustment tab showing options to edit future sessions" />
-                <button type="button" class="screen-hotspot course-info-hotspot" data-demo-target="course-info" aria-label="Show information tab"></button>
-                <button type="button" class="screen-hotspot course-sessions-hotspot" data-demo-target="course-sessions" aria-label="Show sessions tab"></button>
-                <button type="button" class="screen-hotspot course-materials-hotspot" data-demo-target="course-materials" aria-label="Show materials tab"></button>
-                <button type="button" class="screen-hotspot course-adjust-hotspot" data-demo-target="course-adjust" aria-label="Show adjustment tab"></button>
-              </div>
-            </figure>
-            <p class="demo-caption" data-i18n="courseDemoCaption">Tap a tab to view another part of the same course.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section workflow-section journey-section" id="workflow">
-      <div class="section-intro workflow-intro reveal">
-        <div class="chapter-copy workflow-copy">
-          <p class="eyebrow" data-i18n="workflowEyebrow">During class</p>
-          <h2 data-i18n="workflowTitle">The class record stays with the lecture.</h2>
-          <p data-i18n="workflowCopy">Record or import audio when your class allows it. The transcript, summary, notes, and files return to the same lecture.</p>
-        </div>
-        <div class="during-art" aria-hidden="true">
-          <div class="during-shell">
-            <div class="during-board-head">
-              <span data-i18n="duringArtCourse">BIO 140</span>
-              <strong data-i18n="duringArtSessionTitle">Lecture 08</strong>
-              <em data-i18n="duringArtTime">09:30 - 10:45 · Life Sciences 204</em>
-            </div>
-
-            <div class="during-live-card">
-              <div class="during-live-top">
-                <span class="during-live-dot"></span>
-                <div>
-                  <span data-i18n="duringArtLiveLabel">Class audio</span>
-                  <strong data-i18n="duringArtLiveTitle">Recording in this lecture</strong>
-                </div>
-                <b data-i18n="duringArtElapsed">47:12</b>
-              </div>
-              <div class="during-live-track">
-                <i></i>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-
-            <div class="during-timeline-list">
-              <div>
-                <time data-i18n="duringArtPointStartTime">09:30</time>
-                <span data-i18n="duringArtPointStart">Class begins</span>
-              </div>
-              <div>
-                <time data-i18n="duringArtPointMarkTime">During class</time>
-                <span data-i18n="duringArtPointMark">Recording...</span>
-              </div>
-              <div>
-                <time data-i18n="duringArtPointAfterTime">10:45</time>
-                <span data-i18n="duringArtPointAfter">Stop recording, start transcription</span>
-              </div>
-            </div>
-
-            <div class="during-output-row">
-              <span data-i18n="duringArtAudio">Audio</span>
-              <span data-i18n="duringArtTranscript">Transcript</span>
-              <span data-i18n="duringArtSummary">Summary</span>
-              <span data-i18n="duringArtFiles">Files</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <article class="scenario reveal during-scenario" data-screen-demo data-auto-cycle="true" data-auto-cycle-interval="1800">
-        <div class="scenario-copy">
-          <span class="scenario-index">01</span>
-          <h3 data-i18n="lectureTitle">The record tab handles class audio.</h3>
-          <p data-i18n="lectureBody">Record or import audio here. After class, the transcript, summary, notes, and files stay under this lecture.</p>
-          <div class="lecture-tab-guide" aria-label="Lecture tab details">
-            <button type="button" class="lecture-guide-item is-active" data-demo-target="lecture-record">
-              <strong data-i18n="lectureGuideRecordTitle">Record tab</strong>
-              <span data-i18n="lectureGuideRecordBody">Record or import audio for this lecture.</span>
-            </button>
-            <button type="button" class="lecture-guide-item" data-demo-target="lecture-transcript">
-              <strong data-i18n="lectureGuideTranscriptTitle">Transcript</strong>
-              <span data-i18n="lectureGuideTranscriptBody">Review the class text after transcription.</span>
-            </button>
-            <button type="button" class="lecture-guide-item" data-demo-target="lecture-summary">
-              <strong data-i18n="lectureGuideSummaryTitle">Summary</strong>
-              <span data-i18n="lectureGuideSummaryBody">Read the organized summary for this lecture.</span>
-            </button>
-            <button type="button" class="lecture-guide-item" data-demo-target="lecture-notes">
-              <strong data-i18n="lectureGuideNotesTitle">Notes</strong>
-              <span data-i18n="lectureGuideNotesBody">View the structured class notes.</span>
-            </button>
-            <button type="button" class="lecture-guide-item" data-demo-target="lecture-materials">
-              <strong data-i18n="lectureGuideMaterialsTitle">Materials</strong>
-              <span data-i18n="lectureGuideMaterialsBody">Keep files for this lecture together.</span>
+        <div class="gallery-meta">
+          <p data-i18n="galleryCaption">
+            A look inside CourseHelper · Example course & demo content
+          </p>
+          <div class="gallery-controls">
+            <button
+              type="button"
+              data-gallery-direction="-1"
+              aria-label="Previous app screens"
+            >
+              ←</button
+            ><button
+              type="button"
+              data-gallery-direction="1"
+              aria-label="Next app screens"
+            >
+              →
             </button>
           </div>
         </div>
-        <div class="scenario-media">
-          <figure class="phone-frame interactive-phone">
-            <div class="screen-stage" aria-live="polite">
-              <img class="demo-screen is-active" data-demo-screen="lecture-record" src="assets/screens/lecture_record_cropped.webp" alt="Lecture record tab ready to record or import audio" />
-              <img class="demo-screen" data-demo-screen="lecture-transcript" data-scrollable-screen="true" data-scroll-frame-height="1848" src="assets/screens/lecture_transcript_cropped.webp" alt="Lecture transcript screen" />
-              <img class="demo-screen" data-demo-screen="lecture-summary" data-scrollable-screen="true" data-scroll-frame-height="1552" src="assets/screens/summary_strip_clean.webp" alt="Lecture summary screen" />
-              <img class="demo-screen" data-demo-screen="lecture-notes" data-scrollable-screen="true" data-scroll-frame-height="2405" src="assets/screens/lecture_notes_cropped.webp" alt="Lecture notes screen" />
-              <img class="demo-screen" data-demo-screen="lecture-materials" src="assets/screens/lecture_materials_demo.webp" alt="Lecture materials tab with a PDF file" />
-              <button type="button" class="screen-hotspot lecture-record-hotspot" data-demo-target="lecture-record" aria-label="Show record tab"></button>
-              <button type="button" class="screen-hotspot lecture-mode-hotspot" data-demo-menu-toggle="lecture-mode-menu" aria-label="Choose record view" aria-expanded="false" aria-controls="lecture-mode-menu"></button>
-              <button type="button" class="screen-hotspot lecture-materials-hotspot" data-demo-target="lecture-materials" aria-label="Show materials tab"></button>
-              <div class="lecture-mode-menu" id="lecture-mode-menu" data-demo-menu="lecture-mode-menu" aria-hidden="true">
-                <button type="button" class="lecture-mode-option" data-demo-target="lecture-summary" data-demo-menu-option>
-                  <span>摘要</span>
-                  <span class="lecture-mode-check" aria-hidden="true">✓</span>
-                </button>
-                <button type="button" class="lecture-mode-option" data-demo-target="lecture-notes" data-demo-menu-option>
-                  <span>笔记</span>
-                  <span class="lecture-mode-check" aria-hidden="true">✓</span>
-                </button>
-                <button type="button" class="lecture-mode-option" data-demo-target="lecture-transcript" data-demo-menu-option>
-                  <span>转录</span>
-                  <span class="lecture-mode-check" aria-hidden="true">✓</span>
-                </button>
-              </div>
-            </div>
-          </figure>
-          <p class="demo-caption" data-i18n="lectureDemoCaption">Everything stays under the same lecture.</p>
-        </div>
-      </article>
-    </section>
+      </section>
 
-    <section class="section journey-section after-section" id="review">
-      <div class="section-intro after-intro reveal">
-        <div class="chapter-copy after-copy">
-          <p class="eyebrow" data-i18n="reviewEyebrow">After class</p>
-          <h2 data-i18n="reviewTitle">Ask and review from the class you just had.</h2>
-          <p data-i18n="reviewCopy">After class, questions and review both start from the lecture record, not from another loose list.</p>
-        </div>
-        <div class="after-art" aria-hidden="true">
-          <div class="after-shell">
-            <div class="after-board-head">
-              <span data-i18n="afterArtCourse">BIO 140</span>
-              <strong data-i18n="afterArtSessionTitle">Lecture 08</strong>
-              <em data-i18n="afterArtStatus">Transcript, notes, and review are ready</em>
-            </div>
-            <div class="after-source-card">
-              <span data-i18n="afterArtSourceLabel">Class record</span>
-              <strong data-i18n="afterArtSourceTitle">Ask or review from here</strong>
-              <i></i><i></i><i></i>
-            </div>
-            <div class="after-branch-list">
-              <div>
-                <span data-i18n="afterArtQnaLabel">AI Q&A</span>
-                <strong data-i18n="afterArtQnaTitle">Ask with context</strong>
-              </div>
-              <div>
-                <span data-i18n="afterArtReviewLabel">Review</span>
-                <strong data-i18n="afterArtReviewTitle">Flashcards, quizzes, terms</strong>
-              </div>
+      <section class="intro-section section-wrap">
+        <p class="eyebrow" data-i18n="introEyebrow">
+          LESS SWITCHING. MORE CONNECTION.
+        </p>
+        <div class="intro-grid">
+          <h2 data-i18n="introTitle">A course is more than a folder.</h2>
+          <div>
+            <p class="intro-text" data-i18n="introBody">
+              It’s the lecture you want to revisit. The question in the margin.
+              The concept that finally clicks. CourseHelper keeps them
+              connected, from the first class to your next review.
+            </p>
+            <div class="context-chain" aria-label="Connected course content">
+              <span data-i18n="chainCourse">Course</span
+              ><span aria-hidden="true">↗</span
+              ><span data-i18n="chainLecture">Lecture</span
+              ><span aria-hidden="true">↗</span
+              ><span data-i18n="chainUnderstanding">Understanding</span>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="journey-stack after-stack">
-        <article class="scenario reveal after-scenario after-qna-scenario" data-screen-demo>
-          <div class="scenario-copy">
-            <span class="scenario-index">01</span>
-            <h3 data-i18n="afterQnaTitle">The AI Q&A page answers from this lecture.</h3>
-            <p data-i18n="afterQnaBody">Open Q&A from the lecture to ask about the transcript, notes, files, and review material already connected to it.</p>
-            <div class="proof-list" aria-label="AI Q&A details">
-              <span data-i18n="afterQnaOne">Lecture context</span>
-              <span data-i18n="afterQnaTwo">Course files</span>
-              <span data-i18n="afterQnaThree">Review material</span>
+      <section
+        class="explore-section section-wrap"
+        id="explore"
+        aria-labelledby="explore-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="exploreEyebrow">
+              THE WHOLE STUDY DAY
+            </p>
+            <h2 id="explore-title" data-i18n="exploreTitle">
+              Everything has its place.
+            </h2>
+          </div>
+          <p class="section-aside" data-i18n="exploreAside">
+            Take a closer look.<br />One workspace, at your pace.
+          </p>
+        </div>
+        <div
+          class="feature-tabs"
+          role="tablist"
+          aria-label="Explore CourseHelper features"
+        >
+          <button
+            type="button"
+            role="tab"
+            id="tab-organize"
+            aria-controls="feature-panel"
+            aria-selected="true"
+            tabindex="0"
+            data-feature="organize"
+          >
+            <span class="tab-number">01</span
+            ><span data-i18n="tabOrganize">Get organized</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-capture"
+            aria-controls="feature-panel"
+            aria-selected="false"
+            tabindex="-1"
+            data-feature="capture"
+          >
+            <span class="tab-number">02</span
+            ><span data-i18n="tabCapture">Keep the lecture</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-ask"
+            aria-controls="feature-panel"
+            aria-selected="false"
+            tabindex="-1"
+            data-feature="ask"
+          >
+            <span class="tab-number">03</span
+            ><span data-i18n="tabAsk">Work it out</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-review"
+            aria-controls="feature-panel"
+            aria-selected="false"
+            tabindex="-1"
+            data-feature="review"
+          >
+            <span class="tab-number">04</span
+            ><span data-i18n="tabReview">Make it stick</span>
+          </button>
+        </div>
+        <div
+          class="feature-panel"
+          id="feature-panel"
+          role="tabpanel"
+          aria-labelledby="tab-organize"
+          tabindex="0"
+          data-current="organize"
+        >
+          <div class="feature-copy">
+            <span class="feature-index" aria-hidden="true">01 / 04</span>
+            <h3 id="feature-title">
+              Your semester.<br />A little more settled.
+            </h3>
+            <p id="feature-description">
+              Start with your schedule and to-dos. Open a course to find its
+              class sessions, materials, and details right where you left them.
+            </p>
+            <ul class="feature-details" id="feature-details">
+              <li>Daily schedule and cross-course tasks</li>
+              <li>Course details and weekly class sessions</li>
+              <li>Files and links, kept with the right course</li>
+            </ul>
+            <a class="text-link" href="support.html" data-preserve-lang
+              ><span data-i18n="featureLink">Ask us about CourseHelper</span
+              ><span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <div class="feature-visual">
+            <span class="visual-caption" id="feature-caption"
+              >A little structure. A lot less searching.</span
+            >
+            <div class="feature-phone screen-frame">
+              <img
+                id="feature-image"
+                src="assets/screens/v2/course-overview.webp"
+                width="720"
+                height="1562"
+                alt="Example course overview"
+                loading="lazy"
+              />
+            </div>
+            <span class="visual-note" data-i18n="exampleNote"
+              >EXAMPLE CONTENT</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="ai-section section-wrap" aria-labelledby="ai-title">
+        <div class="ai-copy">
+          <p class="eyebrow" data-i18n="aiEyebrow">
+            A CONVERSATION THAT BELONGS TO YOUR COURSE
+          </p>
+          <h2 id="ai-title">
+            <span data-i18n="aiLine1">Bring your questions.</span
+            ><span class="soft-ink" data-i18n="aiLine2">Keep the context.</span>
+          </h2>
+          <p data-i18n="aiBody">
+            Ask from a course or a single lecture. Use the materials already
+            there, follow source references, and keep the conversation close to
+            what you’re learning.
+          </p>
+          <div class="ai-details">
+            <span data-i18n="aiDetail1">Course & lecture context</span
+            ><span data-i18n="aiDetail2">Source references</span
+            ><span data-i18n="aiDetail3">Ask in English or Chinese</span>
+          </div>
+        </div>
+        <div
+          class="context-visual"
+          aria-label="Diagram of a course connecting lectures, notes, materials, and AI questions"
+        >
+          <div class="context-center">
+            <img
+              src="assets/app-icon.png"
+              alt=""
+              width="52"
+              height="52"
+            /><strong>CourseHelper</strong
+            ><span data-i18n="contextCenter">Your course, in context.</span>
+          </div>
+          <div class="context-orbit orbit-one">
+            <span class="orbit-icon" aria-hidden="true">≋</span
+            ><span data-i18n="contextTranscript">Transcripts</span>
+          </div>
+          <div class="context-orbit orbit-two">
+            <span class="orbit-icon" aria-hidden="true">↗</span
+            ><span data-i18n="contextQuestions">Your questions</span>
+          </div>
+          <div class="context-orbit orbit-three">
+            <span class="orbit-icon" aria-hidden="true">▤</span
+            ><span data-i18n="contextNotes">Class notes</span>
+          </div>
+          <div class="context-orbit orbit-four">
+            <span class="orbit-icon" aria-hidden="true">＋</span
+            ><span data-i18n="contextMaterials">Course materials</span>
+          </div>
+          <svg
+            class="context-lines"
+            viewBox="0 0 500 420"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M115 85Q115 210 250 210M390 100Q390 210 250 210M100 325Q100 210 250 210M395 320Q395 210 250 210"
+            />
+          </svg>
+        </div>
+      </section>
+
+      <section
+        class="practice-section"
+        id="practice"
+        aria-labelledby="practice-title"
+      >
+        <div class="practice-inner section-wrap">
+          <div class="practice-copy">
+            <p class="eyebrow" data-i18n="practiceEyebrow">
+              A SMALL MOMENT OF RECALL
+            </p>
+            <h2 id="practice-title" data-i18n="practiceTitle">
+              Read it.<br />Recall it.<br />Really get it.
+            </h2>
+            <p data-i18n="practiceBody">
+              Turn class content into flashcards, quizzes, key terms, and study
+              guides. Give yourself another way into the material.
+            </p>
+            <div class="practice-tags">
+              <span data-i18n="practiceTag1">Flashcards</span
+              ><span data-i18n="practiceTag2">Quizzes</span
+              ><span data-i18n="practiceTag3">Study guides</span>
             </div>
           </div>
-          <div class="scenario-media">
-            <figure class="phone-frame interactive-phone">
-              <div class="screen-stage" aria-live="polite">
-                <img class="demo-screen is-active" data-demo-screen="after-qna" data-scrollable-screen="true" data-scroll-frame-height="1648" src="assets/screens/qna.webp" alt="CourseHelper question and answer screen" />
-              </div>
-            </figure>
-            <p class="demo-caption" data-i18n="afterQnaCaption">Ask from the same lecture record.</p>
-          </div>
-        </article>
-
-        <article class="scenario reverse reveal after-scenario after-review-scenario" data-screen-demo data-auto-cycle="true" data-auto-cycle-interval="2200">
-          <div class="scenario-copy">
-            <span class="scenario-index">02</span>
-            <h3 data-i18n="afterReviewTitle">The review page turns the lecture into practice.</h3>
-            <p data-i18n="afterReviewBody">Review from flashcards, quizzes, and key terms generated from the same class record.</p>
-            <div class="after-tab-guide" aria-label="After class review details">
-              <button type="button" class="after-guide-item is-active" data-demo-target="after-flashcards">
-                <strong data-i18n="afterGuideFlashcardTitle">Flashcards</strong>
-                <span data-i18n="afterGuideFlashcardBody">Turn lecture content into cards for quick recall.</span>
+          <div class="practice-demo">
+            <div class="demo-heading">
+              <span data-i18n="demoHeading">TRY A FLASHCARD</span
+              ><span id="card-counter">01 / 03</span>
+            </div>
+            <button
+              class="flashcard"
+              type="button"
+              id="flashcard"
+              aria-pressed="false"
+              aria-describedby="flashcard-hint"
+            >
+              <span class="flashcard-subject">BIOLOGY · ENZYMES</span
+              ><span class="flashcard-side" id="card-side">QUESTION</span
+              ><span class="flashcard-content" id="card-content"
+                >What does an enzyme change about a chemical reaction?</span
+              ><span class="flashcard-hint" id="flashcard-hint"
+                ><span aria-hidden="true">↻</span
+                ><span data-i18n="flipHint"
+                  >Tap to reveal the answer</span
+                ></span
+              >
+            </button>
+            <p
+              id="card-announcement"
+              class="sr-only"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            ></p>
+            <div class="demo-footer">
+              <span data-i18n="demoNote"
+                >An interactive example. Your review starts with your
+                class.</span
+              ><button type="button" id="next-card">
+                <span data-i18n="nextCard">Next card</span
+                ><span aria-hidden="true">→</span>
               </button>
-              <button type="button" class="after-guide-item" data-demo-target="after-quiz">
-                <strong data-i18n="afterGuideQuizTitle">Quizzes</strong>
-                <span data-i18n="afterGuideQuizBody">Practice with questions generated from the same class record.</span>
-              </button>
-              <button type="button" class="after-guide-item" data-demo-target="after-terms">
-                <strong data-i18n="afterGuideTermsTitle">Key terms</strong>
-                <span data-i18n="afterGuideTermsBody">Keep important terms connected to the lecture that introduced them.</span>
-              </button>
             </div>
           </div>
-          <div class="scenario-media">
-            <figure class="phone-frame interactive-phone">
-              <div class="screen-stage" aria-live="polite">
-                <img class="demo-screen is-active" data-demo-screen="after-flashcards" data-scrollable-screen="true" data-scroll-frame-height="1648" src="assets/screens/flashcard_question.webp" alt="Flashcard question screen" />
-                <img class="demo-screen" data-demo-screen="after-quiz" data-scrollable-screen="true" data-scroll-frame-height="1648" src="assets/screens/quiz.webp" alt="Quiz screen with explanation" />
-                <img class="demo-screen" data-demo-screen="after-terms" data-scrollable-screen="true" data-scroll-frame-height="1648" src="assets/screens/terms.webp" alt="Course terms screen" />
-              </div>
-            </figure>
-            <p class="demo-caption" data-i18n="afterDemoCaption">Choose a review surface from the same lecture.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="closing-section reveal" aria-labelledby="closing-title">
-      <div class="closing-copy">
-        <p class="eyebrow" data-i18n="closingEyebrow">For the full semester</p>
-        <h2 id="closing-title" data-i18n="closingTitle">Plan, record, ask, and practice from the same class.</h2>
-        <p data-i18n="closingCopy">CourseHelper keeps each course's schedule, recordings, AI Q&A, and review practice together, so students can return to the right context later.</p>
-        <div class="closing-actions">
-          <a class="button primary" href="support.html" data-preserve-lang data-i18n="closingPrimary">Support</a>
-          <a class="button ghost" href="privacy.html" data-preserve-lang data-i18n="closingSecondary">Read privacy notes</a>
         </div>
-      </div>
+      </section>
 
-      <div class="closing-loop" aria-hidden="true">
-        <span class="loop-step"><b>01</b><span data-i18n="loopSchedule">Schedule</span></span>
-        <span class="loop-step"><b>02</b><span data-i18n="loopRecord">Class records</span></span>
-        <span class="loop-step"><b>03</b><span data-i18n="loopReview">Ask &amp; Practice</span></span>
-      </div>
-    </section>
-  </main>
+      <section class="details-section section-wrap">
+        <div class="section-heading">
+          <h2 data-i18n="detailsTitle">
+            Made for the way<br />you actually study.
+          </h2>
+          <p class="section-aside" data-i18n="detailsAside">
+            The little things that<br />keep you moving.
+          </p>
+        </div>
+        <div class="details-grid">
+          <article>
+            <span class="detail-icon" aria-hidden="true">Aa</span>
+            <h3 data-i18n="detailTitle1">Two languages. Your pace.</h3>
+            <p data-i18n="detailBody1">
+              Switch the interface between English and Chinese. Choose available
+              transcript and summary languages, and ask questions in the
+              language that helps you think.
+            </p>
+          </article>
+          <article>
+            <span class="detail-icon" aria-hidden="true">↗</span>
+            <h3 data-i18n="detailTitle2">Pick up the thread.</h3>
+            <p data-i18n="detailBody2">
+              Return to a course, revisit a conversation, or find the note you
+              made last class. Your study history has a place to live.
+            </p>
+          </article>
+          <article>
+            <span class="detail-icon" aria-hidden="true">◎</span>
+            <h3 data-i18n="detailTitle3">Start with an example.</h3>
+            <p data-i18n="detailBody3">
+              Explore an Example course with sample class content and a guided
+              introduction. Get a feel for the workspace before making it your
+              own.
+            </p>
+          </article>
+        </div>
+      </section>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <span>&copy; 2026 Yifan Song. CourseHelper.</span>
-      <div class="footer-links">
-        <a href="support.html" data-preserve-lang data-i18n="footerSupport">Support</a>
-        <a href="privacy.html" data-preserve-lang data-i18n="footerPrivacy">Privacy</a>
-        <a href="terms.html" data-preserve-lang data-i18n="footerTerms">Terms</a>
-      </div>
-    </div>
-  </footer>
+      <section
+        class="faq-section section-wrap"
+        id="faq"
+        aria-labelledby="faq-title"
+      >
+        <div>
+          <p class="eyebrow" data-i18n="faqEyebrow">GOOD QUESTIONS</p>
+          <h2 id="faq-title" data-i18n="faqTitle">
+            A few things<br />to know.
+          </h2>
+          <a class="text-link" href="support.html" data-preserve-lang
+            ><span data-i18n="faqContact">Something else on your mind?</span
+            ><span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary data-i18n="faqQ1">Who is CourseHelper for?</summary>
+            <p data-i18n="faqA1">
+              Students who want their courses, class content, and review in one
+              place. English and Chinese support is especially useful when
+              you’re studying in English and thinking across both languages.
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="faqQ2">What can I keep in a course?</summary>
+            <p data-i18n="faqA2">
+              Class sessions, course details, files, links, and study
+              conversations. Inside a lecture, you can work with its transcript,
+              summary, notes, and materials, then create review content from
+              that context.
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="faqQ3">
+              How do recordings and AI features work?
+            </summary>
+            <p data-i18n="faqA3">
+              You can record or import class audio when you have permission.
+              Transcription and AI features depend on the selected service,
+              connection, and available usage. You can check your plan and
+              available usage in the app.
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="faqQ4">How can I try CourseHelper?</summary>
+            <p>
+              <span data-i18n="faqA4"
+                >Get in touch for current availability and access
+                information.</span
+              >
+              <a href="support.html" data-preserve-lang data-i18n="faqA4Link"
+                >Contact CourseHelper →</a
+              >
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="faqQ5">
+              Where can I find privacy and account information?
+            </summary>
+            <p>
+              <span data-i18n="faqA5"
+                >Read about data, service providers, and account controls in our
+                privacy policy. For account or deletion questions, contact
+                support.</span
+              >
+              <a href="privacy.html" data-preserve-lang data-i18n="privacyLink"
+                >Read the privacy policy →</a
+              >
+            </p>
+          </details>
+        </div>
+      </section>
 
-  <script>
-    window.COURSEHELPER_COPY = {
-      "en": {
-            "navScreens": "Schedule",
-            "navWorkflow": "Record",
-            "navReview": "Ask & Practice",
-            "navSupport": "Help",
-            "heroEyebrow": "For English-taught classes",
-            "heroTitle": "A course assistant for English-taught classes.",
-            "heroCopy": "CourseHelper brings schedules, course details, lecture transcription, notes, targeted review, and AI Q&A into one focused study workspace.",
-            "heroPrimary": "Support",
-            "heroSecondary": "Read privacy notes",
-            "deviceTitle": "BIO 140",
-            "deviceMeta": "Lecture 08, ready to review",
-            "audioTitle": "Lecture recording",
-            "audioMeta": "47 min transcript",
-            "summaryLabel": "Class note",
-            "summaryLine": "Temperature affects enzyme activity because molecular motion and structural stability both change.",
-            "floatingOne": "Flashcards",
-            "floatingTwo": "Quiz questions",
-            "floatingThree": "Key terms",
-            "screensEyebrow": "Before class",
-            "screensTitle": "Course schedules and details, clearly presented.",
-            "screensCopy": "Open the app to see each day's schedule and the course details you need.",
-            "chapterToday": "Today",
-            "chapterClassCount": "3 classes",
-            "chapterNext": "Next class",
-            "chapterRoom": "Life Sciences 204",
-            "chapterLater": "Later today",
-            "chapterLaterRoom": "Engineering Hall 220",
-            "chapterAfter": "After class",
-            "chapterRecord": "Recording + notes",
-            "chapterReview": "Ready for review",
-            "chapterCourse": "Course details",
-            "chapterCalendar": "Schedule",
-            "chapterLocation": "Location",
-            "chapterSession": "Instructor",
-            "chapterMaterial": "Dr. Chen",
-            "chapterType": "Class type",
-            "chapterLecture": "Lecture",
-            "proofTitle": "The home screen shows each day's class schedule.",
-            "proofBody": "Tap the import button in the lower-right corner to create courses from a syllabus. Course times sync to the calendar.",
-            "proofOne": "Daily schedule",
-            "proofTwo": "Import syllabus",
-            "proofThree": "Calendar sync",
-            "workflowEyebrow": "During class",
-            "workflowTitle": "The class record stays with the lecture.",
-            "workflowCopy": "Record or import audio when your class allows it. The transcript, summary, notes, and files return to the same lecture.",
-            "duringArtCourse": "BIO 140",
-            "duringArtSessionTitle": "Lecture 08",
-            "duringArtTime": "09:30 - 10:45 · Life Sciences 204",
-            "duringArtLiveLabel": "Class audio",
-            "duringArtLiveTitle": "Recording in this lecture",
-            "duringArtElapsed": "47:12",
-            "duringArtPointStartTime": "09:30",
-            "duringArtPointStart": "Class begins",
-            "duringArtPointMarkTime": "During class",
-            "duringArtPointMark": "Recording...",
-            "duringArtPointAfterTime": "10:45",
-            "duringArtPointAfter": "Stop recording, start transcription",
-            "duringArtAudio": "Audio",
-            "duringArtTranscript": "Transcript",
-            "duringArtSummary": "Summary",
-            "duringArtFiles": "Files",
-            "workflowStepCourse": "Plan",
-            "workflowStepCourseText": "Time, room, files, and schedule changes live with the course.",
-            "workflowStepLecture": "Capture",
-            "workflowStepLectureText": "Audio, transcripts, summaries, and files stay under the exact lecture.",
-            "workflowStepReview": "Review",
-            "workflowStepReviewText": "Flashcards, quizzes, terms, and questions trace back to the class that made them.",
-            "courseTitle": "The course page shows the basics.",
-            "courseDemoInfo": "Info",
-            "courseDemoSessions": "Sessions",
-            "courseDemoMaterials": "Materials",
-            "courseDemoAdjust": "Adjust",
-            "courseDemoCaption": "Tap a tab to view another part of the same course.",
-            "courseGuideInfoTitle": "Info tab",
-            "courseGuideInfoBody": "View and add the course name, room, instructor, and other basics.",
-            "courseGuideSessionsTitle": "Sessions tab",
-            "courseGuideSessionsBody": "See each class meeting, date, and week number.",
-            "courseGuideMaterialsTitle": "Materials tab",
-            "courseGuideMaterialsBody": "Store the syllabus, slides, readings, and related files.",
-            "courseGuideAdjustTitle": "Adjust tab",
-            "courseGuideAdjustBody": "Update changed, cancelled, or one-off class times.",
-            "lectureTitle": "The record tab handles class audio.",
-            "lectureBody": "Record or import audio here. After class, the transcript, summary, notes, and files stay under this lecture.",
-            "lectureDemoRecord": "Record",
-            "lectureDemoTranscript": "Transcript",
-            "lectureDemoSummary": "Summary",
-            "lectureDemoNotes": "Notes",
-            "lectureDemoMaterials": "Materials",
-            "lectureGuideRecordTitle": "Record tab",
-            "lectureGuideRecordBody": "Record or import audio for this lecture.",
-            "lectureGuideTranscriptTitle": "Transcript",
-            "lectureGuideTranscriptBody": "Review the class text after transcription.",
-            "lectureGuideSummaryTitle": "Summary",
-            "lectureGuideSummaryBody": "Read the organized summary for this lecture.",
-            "lectureGuideNotesTitle": "Notes",
-            "lectureGuideNotesBody": "View the structured class notes.",
-            "lectureGuideMaterialsTitle": "Materials",
-            "lectureGuideMaterialsBody": "Keep files for this lecture together.",
-            "lectureDemoCaption": "Everything stays under the same lecture.",
-            "questionTitle": "Ask from the class record.",
-            "questionBody": "Questions start beside the lecture, files, and review material, so you can ask about the point instead of rebuilding the background first.",
-            "reviewEyebrow": "After class",
-            "reviewTitle": "Ask and review from the class you just had.",
-            "reviewCopy": "After class, questions and review both start from the lecture record, not from another loose list.",
-            "afterArtCourse": "BIO 140",
-            "afterArtSessionTitle": "Lecture 08",
-            "afterArtStatus": "Transcript, notes, and review are ready",
-            "afterArtSourceLabel": "Class record",
-            "afterArtSourceTitle": "Ask or review from here",
-            "afterArtQnaLabel": "AI Q&A",
-            "afterArtQnaTitle": "Ask with context",
-            "afterArtReviewLabel": "Review",
-            "afterArtReviewTitle": "Flashcards, quizzes, terms",
-            "afterQnaTitle": "The AI Q&A page answers from this lecture.",
-            "afterQnaBody": "Open Q&A from the lecture to ask about the transcript, notes, files, and review material already connected to it.",
-            "afterQnaOne": "Lecture context",
-            "afterQnaTwo": "Course files",
-            "afterQnaThree": "Review material",
-            "afterQnaCaption": "Ask from the same lecture record.",
-            "afterReviewTitle": "The review page turns the lecture into practice.",
-            "afterReviewBody": "Review from flashcards, quizzes, and key terms generated from the same class record.",
-            "afterGuideFlashcardTitle": "Flashcards",
-            "afterGuideFlashcardBody": "Turn lecture content into cards for quick recall.",
-            "afterGuideQuizTitle": "Quizzes",
-            "afterGuideQuizBody": "Practice with questions generated from the same class record.",
-            "afterGuideTermsTitle": "Key terms",
-            "afterGuideTermsBody": "Keep important terms connected to the lecture that introduced them.",
-            "afterDemoCaption": "Choose a review surface from the same lecture.",
-            "reviewPageTitle": "Review from the same lecture.",
-            "reviewPageBody": "Flashcards, quizzes, and terms are generated from the class record, so practice keeps the source nearby.",
-            "reviewFlashcard": "Flashcards",
-            "reviewQuiz": "Quizzes",
-            "reviewTerms": "Terms",
-            "closingEyebrow": "For the full semester",
-            "closingTitle": "Plan, record, ask, and practice from the same class.",
-            "closingCopy": "CourseHelper keeps each course's schedule, recordings, AI Q&A, and review practice together, so students can return to the right context later.",
-            "closingPrimary": "Support",
-            "closingSecondary": "Read privacy notes",
-            "loopSchedule": "Schedule",
-            "loopRecord": "Class records",
-            "loopReview": "Ask & Practice",
-            "footerSupport": "Support",
-            "footerPrivacy": "Privacy",
-            "footerTerms": "Terms"
-      },
-      "zh": {
-            "navScreens": "课程安排",
-            "navWorkflow": "课堂记录",
-            "navReview": "提问与练习",
-            "navSupport": "帮助中心",
-            "heroEyebrow": "",
-            "heroTitle": "专为留学生和英文授课场景设计的一体化课程助手",
-            "heroCopy": "CourseHelper 集课程安排、课程信息、上课录音转写、笔记总结、课后针对性复习以及 AI 问答为一体，助力学生针对性地学习与复习。",
-            "heroPrimary": "支持",
-            "heroSecondary": "查看隐私说明",
-            "deviceTitle": "BIO 140",
-            "deviceMeta": "第 8 讲，可以开始复习",
-            "audioTitle": "课堂录音",
-            "audioMeta": "47 分钟转写",
-            "summaryLabel": "课堂笔记",
-            "summaryLine": "温度会影响酶活性，因为分子运动和结构稳定性都会变化。",
-            "floatingOne": "闪卡",
-            "floatingTwo": "测验题",
-            "floatingThree": "关键术语",
-            "screensEyebrow": "上课前",
-            "screensTitle": "清晰呈现课程安排与课程信息。",
-            "screensCopy": "打开应用即可看到每日安排与课程细节。",
-            "chapterToday": "今天",
-            "chapterClassCount": "3 节课",
-            "chapterNext": "下一节课",
-            "chapterRoom": "生命科学楼 204",
-            "chapterLater": "稍后课程",
-            "chapterLaterRoom": "工程楼 220",
-            "chapterAfter": "下课后",
-            "chapterRecord": "录音 + 笔记",
-            "chapterReview": "可用于复习",
-            "chapterCourse": "课程信息",
-            "chapterCalendar": "课程安排",
-            "chapterLocation": "地点",
-            "chapterSession": "授课老师",
-            "chapterMaterial": "Dr. Chen",
-            "chapterType": "授课类型",
-            "chapterLecture": "Lecture",
-            "proofTitle": "首页呈现每日具体课程安排。",
-            "proofBody": "可点击右下角导入 syllabus 创建课程，课程时间将同步到日历。",
-            "proofOne": "每日安排",
-            "proofTwo": "导入 syllabus",
-            "proofThree": "同步日历",
-            "workflowEyebrow": "上课中",
-            "workflowTitle": "课堂记录留在具体课次里。",
-            "workflowCopy": "在课堂允许的情况下录音或导入音频；转写、摘要、笔记和资料都会回到这一节课。",
-            "duringArtCourse": "BIO 140",
-            "duringArtSessionTitle": "第 8 讲",
-            "duringArtTime": "09:30 - 10:45 · 生命科学楼 204",
-            "duringArtLiveLabel": "课堂音频",
-            "duringArtLiveTitle": "正在记录到这一节课",
-            "duringArtElapsed": "47:12",
-            "duringArtPointStartTime": "09:30",
-            "duringArtPointStart": "开始上课",
-            "duringArtPointMarkTime": "课堂中",
-            "duringArtPointMark": "录音中...",
-            "duringArtPointAfterTime": "10:45",
-            "duringArtPointAfter": "结束录音，开始转录",
-            "duringArtAudio": "音频",
-            "duringArtTranscript": "转写",
-            "duringArtSummary": "摘要",
-            "duringArtFiles": "资料",
-            "workflowStepCourse": "安排",
-            "workflowStepCourseText": "时间、教室、资料和临时调整都跟着课程走。",
-            "workflowStepLecture": "记录",
-            "workflowStepLectureText": "录音、转写、摘要和文件留在对应的那一节课。",
-            "workflowStepReview": "复习",
-            "workflowStepReviewText": "闪卡、测验、术语和提问都能回到产生它们的课堂。",
-            "courseTitle": "课程页展示课程基本信息。",
-            "courseDemoInfo": "信息",
-            "courseDemoSessions": "课次",
-            "courseDemoMaterials": "资料",
-            "courseDemoAdjust": "调整",
-            "courseDemoCaption": "点一个标签，看看同一门课的另一部分。",
-            "courseGuideInfoTitle": "信息页",
-            "courseGuideInfoBody": "查看并补充课程名称、教室等基本信息。",
-            "courseGuideSessionsTitle": "课次页",
-            "courseGuideSessionsBody": "查看具体课次、日期和周次。",
-            "courseGuideMaterialsTitle": "资料页",
-            "courseGuideMaterialsBody": "存放这门课的 syllabus、讲义和相关文件。",
-            "courseGuideAdjustTitle": "调整页",
-            "courseGuideAdjustBody": "处理调课、停课或单次课时间变化。",
-            "lectureTitle": "记录页集中处理课堂音频。",
-            "lectureBody": "在记录页录音或导入音频，完成后可查看转写、摘要、笔记和资料。",
-            "lectureDemoRecord": "记录",
-            "lectureDemoTranscript": "转写",
-            "lectureDemoSummary": "摘要",
-            "lectureDemoNotes": "笔记",
-            "lectureDemoMaterials": "资料",
-            "lectureGuideRecordTitle": "记录页",
-            "lectureGuideRecordBody": "录音或导入这节课的音频。",
-            "lectureGuideTranscriptTitle": "转写页",
-            "lectureGuideTranscriptBody": "查看课堂录音转成的文本。",
-            "lectureGuideSummaryTitle": "摘要页",
-            "lectureGuideSummaryBody": "查看这一节课整理后的总结。",
-            "lectureGuideNotesTitle": "笔记页",
-            "lectureGuideNotesBody": "查看按结构整理出的课堂笔记。",
-            "lectureGuideMaterialsTitle": "资料页",
-            "lectureGuideMaterialsBody": "存放这节课相关文件。",
-            "lectureDemoCaption": "内容都留在同一节课里。",
-            "questionTitle": "从课堂记录里提问。",
-            "questionBody": "问题旁边就是这节课、文件和复习材料。你可以直接问重点，不用先重新交代背景。",
-            "reviewEyebrow": "上课后",
-            "reviewTitle": "课后直接回到这节课继续提问与练习。",
-            "reviewCopy": "上课后可以从对应课次进入 AI 问答，也可以进入复习页面练闪卡、测验和术语。",
-            "afterArtCourse": "BIO 140",
-            "afterArtSessionTitle": "第 8 讲",
-            "afterArtStatus": "转写、笔记和复习已整理",
-            "afterArtSourceLabel": "课堂记录",
-            "afterArtSourceTitle": "从这里提问或复习",
-            "afterArtQnaLabel": "AI 问答",
-            "afterArtQnaTitle": "带着上下文提问",
-            "afterArtReviewLabel": "课后复习",
-            "afterArtReviewTitle": "闪卡、测验、术语",
-            "afterQnaTitle": "AI 问答页支持围绕具体课次提问。",
-            "afterQnaBody": "进入问答页即可基于这节课的转写、笔记、资料和复习内容提问。",
-            "afterQnaOne": "课次上下文",
-            "afterQnaTwo": "课程资料",
-            "afterQnaThree": "复习内容",
-            "afterQnaCaption": "从同一节课进入 AI 问答。",
-            "afterReviewTitle": "复习页把课堂内容转成练习。",
-            "afterReviewBody": "进入复习页即可查看由这节课生成的闪卡、测验题和关键术语。",
-            "afterGuideFlashcardTitle": "闪卡页",
-            "afterGuideFlashcardBody": "把课堂内容变成方便回忆的卡片。",
-            "afterGuideQuizTitle": "测验页",
-            "afterGuideQuizBody": "用同一节课的记录生成练习题。",
-            "afterGuideTermsTitle": "术语页",
-            "afterGuideTermsBody": "把关键术语留在介绍它的那节课里。",
-            "afterDemoCaption": "从同一节课进入不同复习页面。",
-            "reviewPageTitle": "复习也回到同一节课。",
-            "reviewPageBody": "闪卡、测验和术语从课堂记录里生成，练习时还能看见来源。",
-            "reviewFlashcard": "闪卡",
-            "reviewQuiz": "测验",
-            "reviewTerms": "术语",
-            "closingEyebrow": "贯穿整个学期",
-            "closingTitle": "安排、记录、提问和练习，都回到同一节课。",
-            "closingCopy": "CourseHelper 把课程安排、课堂记录、AI 问答和复习练习放在一起，之后查找和回看都更直接。",
-            "closingPrimary": "支持",
-            "closingSecondary": "查看隐私说明",
-            "loopSchedule": "课程安排",
-            "loopRecord": "课堂记录",
-            "loopReview": "提问与练习",
-            "footerSupport": "支持",
-            "footerPrivacy": "隐私",
-            "footerTerms": "条款"
-      }
-};
-  </script>
-</body>
+      <section class="closing-section">
+        <div class="section-wrap closing-inner">
+          <img
+            class="closing-icon"
+            src="assets/app-icon.png"
+            alt=""
+            width="64"
+            height="64"
+          />
+          <p class="eyebrow">COURSEHELPER</p>
+          <h2 data-i18n="closingTitle">Make room for<br />understanding.</h2>
+          <p data-i18n="closingBody">
+            A little less scattered. A little more ready for what’s next.
+          </p>
+          <a class="button button-white" href="support.html" data-preserve-lang
+            ><span data-i18n="closingCta">Let’s talk CourseHelper</span
+            ><span aria-hidden="true">↗</span></a
+          >
+          <footer class="footer-inner">
+            <span>© 2026 CourseHelper</span>
+            <div class="footer-links">
+              <a
+                href="support.html"
+                data-preserve-lang
+                data-i18n="footerSupport"
+                >Support</a
+              ><a
+                href="privacy.html"
+                data-preserve-lang
+                data-i18n="footerPrivacy"
+                >Privacy</a
+              ><a href="terms.html" data-preserve-lang data-i18n="footerTerms"
+                >Terms</a
+              ><a href="#main" data-i18n="backToTop">Back to top ↑</a>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>
