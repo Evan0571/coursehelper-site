@@ -1,0 +1,404 @@
+/* Motion stays in the product; the surrounding page keeps its quiet rhythm. */
+[hidden] {
+  display: none !important;
+}
+.play-mark {
+  font-size: 11px;
+}
+.gallery-motion {
+  position: relative;
+}
+.gallery-label a {
+  color: inherit;
+  text-decoration: none;
+}
+.hero-movie-frame {
+  position: relative;
+}
+.hero-movie-frame video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-movie-bar {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 18px #2424240a;
+}
+.hero-movie-bar > span {
+  font-size: 8px;
+  letter-spacing: 0.65px;
+}
+.hero-movie-bar button {
+  width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 12px;
+}
+.has-media-error video {
+  visibility: hidden;
+}
+.has-movie .feature-visual {
+  padding: 26px 24px 20px;
+  height: auto;
+  min-height: 640px;
+}
+.has-movie #feature-still,
+.has-movie .visual-note,
+.has-movie #feature-caption {
+  display: none;
+}
+.motion-demo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.motion-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #686b6d;
+  font-size: 9px;
+  letter-spacing: 1.1px;
+  margin-bottom: 24px;
+}
+.motion-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #969b98;
+  transition: background 0.3s;
+}
+.is-playing .motion-dot {
+  background: #629076;
+  box-shadow: 0 0 0 3px #62907616;
+}
+.motion-phone {
+  position: relative;
+  isolation: isolate;
+  width: 224px;
+  max-width: 80%;
+  aspect-ratio: 576 / 1120;
+  box-sizing: content-box;
+  background: #f4f4f4;
+  border: 6px solid #292b2c;
+  border-radius: 30px;
+  overflow: hidden;
+  outline: 1px solid #ffffff99;
+  box-shadow:
+    0 2px 2px #00000012,
+    0 20px 36px -20px #171e275c,
+    0 36px 60px -32px #171e2736;
+  transform: rotate(-1deg);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.motion-phone:hover {
+  transform: rotate(0);
+}
+.motion-phone video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 23px;
+}
+.motion-reflection {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px #ffffff48;
+}
+.motion-console {
+  width: 100%;
+  max-width: 380px;
+  margin-top: 24px;
+  padding: 5px 10px 8px;
+  border: 1px solid #ffffffb0;
+  border-radius: 20px;
+  background: #ffffffb8;
+  box-shadow: 0 8px 24px -12px #24242420;
+}
+.motion-transport {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.motion-button {
+  flex: 0 0 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 14px;
+}
+.motion-button:hover,
+.hero-movie-bar button:hover {
+  background: #00000008;
+}
+#movie-replay {
+  font-size: 23px;
+}
+#movie-time {
+  font-size: 10px;
+  color: #737373;
+  font-variant-numeric: tabular-nums;
+}
+#movie-progress {
+  min-width: 0;
+  flex: 1;
+  height: 44px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+#movie-progress::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 10px;
+  background: linear-gradient(
+    to right,
+    #353b38 var(--progress, 0%),
+    #d7d9d7 var(--progress, 0%)
+  );
+}
+#movie-progress::-moz-range-track {
+  height: 3px;
+  border-radius: 10px;
+  background: #d7d9d7;
+}
+#movie-progress::-moz-range-progress {
+  background: #353b38;
+}
+#movie-progress::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 9px;
+  height: 9px;
+  margin-top: -3px;
+  background: #353b38;
+  border-radius: 50%;
+}
+#movie-progress::-moz-range-thumb {
+  width: 9px;
+  height: 9px;
+  background: #353b38;
+  border: 0;
+  border-radius: 50%;
+}
+.movie-chapters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+}
+.movie-chapters button {
+  min-height: 48px;
+  padding: 7px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-radius: 11px;
+  background: transparent;
+  color: #626763;
+  font-size: 10px;
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+.movie-chapters button > span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+.movie-chapters button[aria-pressed="true"] {
+  background: #242b27;
+  color: white;
+}
+.motion-description {
+  margin: 14px 0 0;
+  max-width: 320px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #727775;
+  text-wrap: balance;
+}
+.motion-error {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+.has-media-error .motion-phone {
+  background: var(--poster) center / cover;
+}
+
+.flashcard,
+.flashcard:hover,
+.flashcard[aria-pressed="true"] {
+  position: relative;
+  display: block;
+  padding: 0;
+  min-height: 370px;
+  background: transparent;
+  border: 0;
+  border-radius: 24px;
+  perspective: 1200px;
+  transform: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.flashcard-rotor {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: inherit;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22, 0.75, 0.2, 1);
+}
+.flashcard[aria-pressed="true"] .flashcard-rotor {
+  transform: rotateY(180deg);
+}
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 36px 24px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fff, #fafaf8);
+  border: 1px solid #fff;
+  box-shadow:
+    0 1px 2px #24242406,
+    0 18px 34px -22px #24242444;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flashcard-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, #eff3ec, #e2e9df);
+  border-color: #f5f7f2;
+}
+.flashcard-back .flashcard-content {
+  font-size: 23px;
+}
+.flashcard[aria-pressed="true"] .flashcard-front .flashcard-content {
+  font-size: 27px;
+}
+.flashcard-face::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  border: 1px solid #24242404;
+  border-radius: 20px;
+}
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.motion-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.details-grid article:nth-child(2) {
+  transition-delay: 0.08s;
+}
+.details-grid article:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+@media (max-width: 850px) {
+  .has-movie .feature-visual {
+    padding-inline: 16px;
+  }
+  .motion-phone {
+    width: 210px;
+  }
+  .movie-chapters button {
+    font-size: 9px;
+  }
+  .flashcard-face {
+    padding-inline: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .has-movie .feature-visual {
+    min-height: 0;
+    padding: 24px 16px;
+  }
+  .motion-phone {
+    width: 220px;
+  }
+  .motion-eyebrow {
+    margin-bottom: 22px;
+    font-size: 8px;
+  }
+  .motion-console {
+    margin-top: 24px;
+  }
+  .movie-chapters button {
+    font-size: 10px;
+  }
+  .flashcard,
+  .flashcard:hover,
+  .flashcard[aria-pressed="true"] {
+    min-height: 350px;
+  }
+  .flashcard-face {
+    padding: 28px 24px 20px;
+  }
+  .flashcard .flashcard-content,
+  .flashcard[aria-pressed="true"] .flashcard-front .flashcard-content {
+    font-size: 24px;
+  }
+  .flashcard .flashcard-back .flashcard-content {
+    font-size: 21px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .motion-phone,
+  .motion-phone:hover {
+    transform: none;
+    transition: none;
+  }
+  .flashcard-rotor {
+    transition: none;
+  }
+  .movie-chapters button {
+    transition: none;
+  }
+}
+@media print {
+  .motion-reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-movie-bar,
+  .motion-console {
+    display: none;
+  }
+}

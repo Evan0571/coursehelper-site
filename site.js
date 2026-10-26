@@ -18,7 +18,7 @@
     heroLine2: "多一点理解。",
     heroDescription:
       "课表、课堂、笔记与复习，终于放在一起。给学习一个专注的空间，也给思考留一点余地。",
-    heroPrimary: "认识 CourseHelper",
+    heroPrimary: "看看它如何运作",
     heroPlatform: "为 iPhone 打造，围绕你的课堂。",
     galleryCourse: "每门课，都有自己的空间。",
     galleryAi: "带着课堂内容，继续问。",
@@ -294,36 +294,47 @@
     image.src = `assets/screens/v2/${feature.image}`;
     image.alt = copy.alt;
     document.getElementById("feature-caption").textContent = copy.caption;
+    document.dispatchEvent(
+      new CustomEvent("coursehelper:feature", { detail: { key, language } }),
+    );
   }
   function renderCard() {
     if (!isMarketing) return;
     document
       .getElementById("flashcard")
       .setAttribute("aria-pressed", String(answerShown));
+    document
+      .getElementById("flashcard")
+      .setAttribute(
+        "aria-describedby",
+        answerShown ? "card-answer-hint" : "flashcard-hint",
+      );
     document.getElementById("card-content").textContent =
-      cards[language][cardIndex][answerShown ? 1 : 0];
+      cards[language][cardIndex][0];
+    const answer = document.getElementById("card-answer");
+    if (answer) answer.textContent = cards[language][cardIndex][1];
     document.getElementById("card-counter").textContent =
       `0${cardIndex + 1} / 03`;
     document.getElementById("card-side").textContent =
-      language === "zh"
-        ? answerShown
-          ? "答案"
-          : "问题"
-        : answerShown
-          ? "ANSWER"
-          : "QUESTION";
-    document.querySelector(".flashcard-subject").textContent =
-      language === "zh" ? "生物学 · 酶" : "BIOLOGY · ENZYMES";
+      language === "zh" ? "问题" : "QUESTION";
+    document.getElementById("card-answer-side").textContent =
+      language === "zh" ? "答案" : "ANSWER";
+    document.getElementById("card-answer-hint").textContent =
+      language === "zh" ? "点一下，回到问题" : "Tap to return to the question";
+    document.querySelectorAll(".flashcard-subject").forEach((node) => {
+      node.textContent =
+        language === "zh" ? "生物学 · 酶" : "BIOLOGY · ENZYMES";
+    });
+    document
+      .querySelector(".flashcard-front")
+      .setAttribute("aria-hidden", String(answerShown));
+    document
+      .querySelector(".flashcard-back")
+      .setAttribute("aria-hidden", String(!answerShown));
     document.querySelector('[data-i18n="flipHint"]').textContent =
-      language === "zh"
-        ? answerShown
-          ? "点一下，回到问题"
-          : "点一下，查看答案"
-        : answerShown
-          ? "Tap to return to the question"
-          : "Tap to reveal the answer";
+      language === "zh" ? "点一下，查看答案" : "Tap to reveal the answer";
     document.getElementById("card-announcement").textContent =
-      `${language === "zh" ? `第 ${cardIndex + 1} 张，共 3 张` : `Card ${cardIndex + 1} of 3`}. ${document.getElementById("card-side").textContent}. ${document.getElementById("card-content").textContent}`;
+      `${language === "zh" ? `第 ${cardIndex + 1} 张，共 3 张` : `Card ${cardIndex + 1} of 3`}. ${cards[language][cardIndex][answerShown ? 1 : 0]}`;
   }
   function applyLanguage(lang, updateUrl = false) {
     language = lang;
@@ -428,6 +439,17 @@
     cardIndex = (cardIndex + 1) % cards.en.length;
     answerShown = false;
     renderCard();
+    const card = document.getElementById("flashcard");
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      card.getAnimations().forEach((animation) => animation.cancel());
+      card.animate(
+        [
+          { opacity: 0.3, transform: "translateY(12px) scale(.98)" },
+          { opacity: 1, transform: "none" },
+        ],
+        { duration: 380, easing: "cubic-bezier(.22,1,.36,1)" },
+      );
+    }
   });
   const gallery = document.querySelector(".gallery-track");
   if (gallery) {

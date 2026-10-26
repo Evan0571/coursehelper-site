@@ -1,0 +1,20 @@
+CourseHelper product demonstrations — 2026-10-26
+
+Source: outputs/iphone-motion-2026-10-24/evidence/iphone-motion-preview.mp4
+Source SHA-256: 67c60138e8504f784946270bc932cb9d743d4d973ef9403086e3739876476c48
+Origin: own CourseHelper native iPhone UI running in the iOS simulator with
+isolated fixture data (BIO 140 / Enzymes & cellular energy). No real account,
+private coursework, microphone recording, cloud transcription or AI request.
+These demonstrate interface interactions, not backend acceptance evidence.
+
+capture.mp4: source 5.00–11.85 s, 1.2x duration; crop 588x1106 at (0,82).
+capture.mp4 adds 0.8 s opening and 1 s ending holds.
+review.mp4: source 12.05–15.30 s, 1.2x duration; crop 588x1136 at (0,126).
+Includes 0.6 s opening, 2.2 s answer hold at source 14.4 s, and 1.2 s ending.
+Source is normalized to 30 fps before trimming/retiming. Scaled/padded to 576x1120,
+30 fps H.264/yuv420p, CRF 22, fast-start, no audio track. Posters are the first
+frame encoded as WebP. Crops remove simulator status bars and test overlays;
+public player explicitly labels these App demos / sample data. English UI
+pixels retain their original language; page controls and captions are bilingual.
+
+No Mobbin media is redistributed. Reference links are documented in README.md.

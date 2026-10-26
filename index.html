@@ -32,7 +32,9 @@
       href="assets/screens/v2/lecture-summary.webp"
     />
     <link rel="stylesheet" href="styles.css?v=20261022" />
-    <script defer src="site.js?v=20261022"></script>
+    <link rel="stylesheet" href="motion.css?v=20261026" />
+    <script defer src="site.js?v=20261026"></script>
+    <script defer src="motion.js?v=20261026"></script>
   </head>
   <body class="marketing">
     <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -81,9 +83,9 @@
           workspace that makes room for learning.
         </p>
         <div class="hero-actions">
-          <a class="button" href="#explore"
-            ><span data-i18n="heroPrimary">Meet CourseHelper</span
-            ><span aria-hidden="true">↓</span></a
+          <a class="button" href="#explore" data-select-feature="capture"
+            ><span class="play-mark" aria-hidden="true">▶</span
+            ><span data-i18n="heroPrimary">See it in motion</span></a
           ><span class="platform-note"
             ><svg
               viewBox="0 0 24 24"
@@ -154,19 +156,42 @@
                 fetchpriority="high"
               /></div
           ></a>
-          <a class="gallery-card gallery-flashcards" href="#practice"
-            ><div class="gallery-label">
-              <span data-i18n="galleryFlashcards">Make it stick.</span
+          <div class="gallery-card gallery-flashcards gallery-motion">
+            <div class="gallery-label">
+              <a href="#practice" data-i18n="galleryFlashcards"
+                >Make it stick.</a
               ><span aria-hidden="true">↗</span>
             </div>
-            <div class="screen-frame">
+            <div class="screen-frame hero-movie-frame">
               <img
-                src="assets/screens/v2/flashcard-question.webp"
-                width="720"
-                height="1562"
-                alt="Example biology flashcard in CourseHelper"
-              /></div
-          ></a>
+                src="assets/motion/review-poster.webp"
+                width="576"
+                height="1120"
+                alt="App demonstration of a biology flashcard using sample data"
+              />
+              <video
+                id="hero-movie"
+                muted
+                playsinline
+                loop
+                preload="none"
+                aria-hidden="true"
+                tabindex="-1"
+                data-src="assets/motion/review.mp4"
+                poster="assets/motion/review-poster.webp"
+              ></video>
+            </div>
+            <div class="hero-movie-bar" hidden>
+              <span data-motion-copy="sampleShort">APP DEMO · SAMPLE DATA</span>
+              <button
+                type="button"
+                id="hero-movie-toggle"
+                aria-label="Play preview"
+              >
+                <span aria-hidden="true">▶</span>
+              </button>
+            </div>
+          </div>
           <a
             class="gallery-card gallery-review"
             href="#explore"
@@ -332,7 +357,7 @@
             <span class="visual-caption" id="feature-caption"
               >A little structure. A lot less searching.</span
             >
-            <div class="feature-phone screen-frame">
+            <div class="feature-phone screen-frame" id="feature-still">
               <img
                 id="feature-image"
                 src="assets/screens/v2/course-overview.webp"
@@ -345,6 +370,69 @@
             <span class="visual-note" data-i18n="exampleNote"
               >EXAMPLE CONTENT</span
             >
+            <div class="motion-demo" id="motion-demo" hidden>
+              <div class="motion-eyebrow">
+                <span class="motion-dot" aria-hidden="true"></span
+                ><span data-motion-copy="sample">APP DEMO · SAMPLE DATA</span>
+              </div>
+              <div class="motion-phone">
+                <video
+                  id="feature-movie"
+                  muted
+                  playsinline
+                  loop
+                  preload="none"
+                  poster="assets/motion/capture-poster.webp"
+                  aria-label="Recording and transcription options demonstration"
+                  aria-describedby="motion-description"
+                  tabindex="-1"
+                ></video>
+                <div class="motion-reflection" aria-hidden="true"></div>
+              </div>
+              <div class="motion-console">
+                <div class="motion-transport">
+                  <button
+                    type="button"
+                    id="movie-toggle"
+                    class="motion-button"
+                    aria-label="Play demo"
+                  >
+                    <span aria-hidden="true">▶</span>
+                  </button>
+                  <input
+                    type="range"
+                    id="movie-progress"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value="0"
+                    aria-label="Demo progress"
+                  />
+                  <span id="movie-time" aria-hidden="true">0:00</span>
+                  <button
+                    type="button"
+                    id="movie-replay"
+                    class="motion-button"
+                    aria-label="Replay demo"
+                  >
+                    <span aria-hidden="true">↻</span>
+                  </button>
+                </div>
+                <div
+                  id="movie-chapters"
+                  class="movie-chapters"
+                  role="group"
+                  aria-label="Demo steps"
+                ></div>
+              </div>
+              <p class="motion-description" id="motion-description"></p>
+              <p
+                class="motion-error"
+                id="motion-error"
+                role="status"
+                hidden
+              ></p>
+            </div>
           </div>
         </div>
       </section>
@@ -446,16 +534,36 @@
               aria-pressed="false"
               aria-describedby="flashcard-hint"
             >
-              <span class="flashcard-subject">BIOLOGY · ENZYMES</span
-              ><span class="flashcard-side" id="card-side">QUESTION</span
-              ><span class="flashcard-content" id="card-content"
-                >What does an enzyme change about a chemical reaction?</span
-              ><span class="flashcard-hint" id="flashcard-hint"
-                ><span aria-hidden="true">↻</span
-                ><span data-i18n="flipHint"
-                  >Tap to reveal the answer</span
-                ></span
-              >
+              <span class="flashcard-rotor">
+                <span class="flashcard-face flashcard-front">
+                  <span class="flashcard-subject">BIOLOGY · ENZYMES</span
+                  ><span class="flashcard-side" id="card-side">QUESTION</span
+                  ><span class="flashcard-content" id="card-content"
+                    >What does an enzyme change about a chemical reaction?</span
+                  ><span class="flashcard-hint" id="flashcard-hint"
+                    ><span aria-hidden="true">↻</span
+                    ><span data-i18n="flipHint"
+                      >Tap to reveal the answer</span
+                    ></span
+                  ></span
+                >
+                <span class="flashcard-face flashcard-back" aria-hidden="true">
+                  <span class="flashcard-subject">BIOLOGY · ENZYMES</span>
+                  <span class="flashcard-side" id="card-answer-side"
+                    >ANSWER</span
+                  >
+                  <span class="flashcard-content" id="card-answer"
+                    >It lowers the activation energy needed for the
+                    reaction.</span
+                  >
+                  <span class="flashcard-hint"
+                    ><span aria-hidden="true">↻</span
+                    ><span id="card-answer-hint"
+                      >Tap to return to the question</span
+                    ></span
+                  >
+                </span>
+              </span>
             </button>
             <p
               id="card-announcement"
