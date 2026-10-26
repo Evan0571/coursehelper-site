@@ -6,6 +6,8 @@
     en: {
       sample: "APP DEMO · SAMPLE DATA",
       sampleShort: "APP DEMO · SAMPLE DATA",
+      animated: "ANIMATED PREVIEW · SAMPLE DATA",
+      animatedShort: "ANIMATED PREVIEW",
       play: "Play demo",
       pause: "Pause demo",
       replay: "Replay demo",
@@ -18,7 +20,7 @@
         "Save the recording",
         "Choose transcription",
       ],
-      review: ["Recall the idea", "Reveal the answer", "Finish the set"],
+      review: ["Recall the idea", "Reveal the answer"],
       captureDescription:
         "Record. Save. Choose how to transcribe. A short walkthrough with sample data.",
       reviewDescription:
@@ -26,11 +28,13 @@
       captureLabel:
         "App demo: recording, saving and choosing a transcription method. Sample data.",
       reviewLabel:
-        "App demo: a biology flashcard question, answer and completion. Sample data.",
+        "Animated interface preview: thinking through a biology flashcard and revealing the answer. Sample data.",
     },
     zh: {
       sample: "APP 操作演示 · 示例数据",
       sampleShort: "APP 演示 · 示例数据",
+      animated: "界面动效示意 · 示例数据",
+      animatedShort: "界面动效示意 · 示例数据",
       play: "播放演示",
       pause: "暂停演示",
       replay: "重新播放",
@@ -38,18 +42,18 @@
       steps: "演示步骤",
       error: "视频暂时无法加载，你仍可以查看上方的示例界面。",
       capture: ["留下课堂", "保存录音", "选择转录方式"],
-      review: ["试着回想", "翻开答案", "完成复习"],
+      review: ["试着回想", "翻开答案"],
       captureDescription:
         "录音、保存、选择转录方式。用一段操作，走近你的课堂。",
       reviewDescription: "先想一想，再翻开答案。让理解，多停留一会儿。",
       captureLabel: "App 操作演示：录音、保存和选择转录方式。使用示例数据。",
       reviewLabel:
-        "App 操作演示：生物学闪卡的问题、答案和完成状态。使用示例数据。",
+        "界面动效示意：回想生物学闪卡的问题，再翻开答案。使用示例数据。",
     },
   };
   const clips = {
-    capture: { starts: [0, 2.0, 6.2], duration: 10.04 },
-    review: { starts: [0, 3.0, 5.5], duration: 8.0 },
+    capture: { starts: [0, 1.1, 7.4], duration: 11.2 },
+    review: { starts: [0, 1.95], duration: 5.5 },
   };
   const panel = document.getElementById("feature-panel");
   const demo = document.getElementById("motion-demo");
@@ -73,16 +77,17 @@
       failed: false,
       enabled: true,
       pendingSeek: null,
+      completed: false,
     };
     element.muted = true;
     const label = () => {
       const playing = !element.paused && !state.failed;
       button.setAttribute(
         "aria-label",
-        copy[language][playing ? "pause" : "play"],
+        copy[language][playing ? "pause" : state.completed ? "replay" : "play"],
       );
       button.title = button.getAttribute("aria-label");
-      button.firstElementChild.textContent = playing ? "Ⅱ" : "▶";
+      button.dataset.playing = String(playing);
       visibilityTarget.classList.toggle("is-playing", playing);
     };
     const load = () => {
@@ -96,6 +101,7 @@
       state.inView &&
       !document.hidden &&
       !state.userPaused &&
+      !state.completed &&
       !state.failed &&
       (state.explicit || (!reducedMotion.matches && !connection?.saveData));
     const reconcile = () => {
@@ -108,6 +114,7 @@
     const seek = (seconds, startPlaying = false) => {
       if (state.failed) return;
       state.pendingSeek = seconds;
+      state.completed = false;
       if (startPlaying) {
         state.userPaused = false;
         state.explicit = true;
@@ -126,6 +133,10 @@
       }
     });
     button.addEventListener("click", () => {
+      if (state.completed) {
+        seek(0, true);
+        return;
+      }
       state.userPaused = !element.paused;
       if (!state.userPaused) state.explicit = true;
       reconcile();
@@ -136,6 +147,10 @@
       label();
     });
     element.addEventListener("pause", label);
+    element.addEventListener("ended", () => {
+      state.completed = true;
+      label();
+    });
     element.addEventListener("error", () => {
       state.failed = true;
       element.pause();
@@ -167,6 +182,7 @@
         state.pendingSeek = null;
         state.failed = false;
         state.explicit = false;
+        state.completed = false;
         button.disabled = false;
         visibilityTarget.classList.remove("has-media-error");
       },
@@ -238,14 +254,16 @@
       progress.disabled = false;
       document.getElementById("movie-replay").disabled = false;
       if (nextClip) {
-        video.dataset.src = `assets/motion/${nextClip}.mp4`;
-        video.poster = `assets/motion/${nextClip}-poster.webp`;
+        video.dataset.src = `assets/motion/${nextClip}.mp4?v=20261026-mobile2`;
+        video.poster = `assets/motion/${nextClip}-poster.webp?v=20261026-mobile2`;
         document
           .querySelector(".motion-phone")
           .style.setProperty("--poster", `url("${video.poster}")`);
       } else delete video.dataset.src;
     }
     if (nextClip) {
+      demo.querySelector('[data-motion-copy="sample"]').textContent =
+        copy[language][nextClip === "review" ? "animated" : "sample"];
       video.setAttribute("aria-label", copy[language][`${nextClip}Label`]);
       document.getElementById("motion-description").textContent =
         copy[language][`${nextClip}Description`];
@@ -254,6 +272,10 @@
         .setAttribute("aria-label", copy[language].replay);
       progress.setAttribute("aria-label", copy[language].progress);
       chapters.setAttribute("aria-label", copy[language].steps);
+      chapters.style.setProperty(
+        "--chapter-count",
+        clips[nextClip].starts.length,
+      );
       chapters.replaceChildren(
         ...copy[language][nextClip].map((title, i) => {
           const button = document.createElement("button");

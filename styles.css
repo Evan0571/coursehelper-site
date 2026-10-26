@@ -64,6 +64,25 @@ summary:focus-visible,
 }
 button {
   border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  vertical-align: middle;
+}
+.gallery-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.flashcard-hint .icon {
+  width: 14px;
+  height: 14px;
+  flex-basis: 14px;
 }
 img {
   display: block;
@@ -505,8 +524,16 @@ section[id] {
   margin-bottom: 11px;
 }
 .feature-details li::before {
-  content: "↗";
-  color: #8c8c8c;
+  content: "";
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  align-self: flex-start;
+  margin-top: 2px;
+  background: #8c8c8c;
+  -webkit-mask: url("assets/icons/arrow-up-right.svg") center / contain
+    no-repeat;
+  mask: url("assets/icons/arrow-up-right.svg") center / contain no-repeat;
 }
 .text-link {
   display: inline-flex;
@@ -605,8 +632,13 @@ section[id] {
   font-weight: 500;
 }
 .ai-details span::before {
-  content: "＋";
-  color: #707070;
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8c8c8c;
+  vertical-align: 1px;
   margin-right: 6px;
 }
 .context-visual {
@@ -864,16 +896,20 @@ section[id] {
   display: none;
 }
 .faq-list summary::after {
-  content: "+";
+  content: "";
   position: absolute;
   right: 4px;
-  top: 22px;
-  font-size: 24px;
-  font-weight: 300;
-  color: #666;
+  top: 29px;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(#666, #666) center / 16px 1px no-repeat,
+    linear-gradient(#666, #666) center / 1px 16px no-repeat;
 }
 .faq-list details[open] summary::after {
-  content: "−";
+  background-size:
+    16px 1px,
+    0 0;
 }
 .faq-list details > p {
   font-size: 14px;

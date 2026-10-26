@@ -3,7 +3,22 @@
   display: none !important;
 }
 .play-mark {
-  font-size: 11px;
+  width: 14px;
+  height: 14px;
+  flex-basis: 14px;
+}
+.control-pause,
+[data-playing="true"] .control-play {
+  display: none;
+}
+[data-playing="true"] .control-pause {
+  display: inline-block;
+}
+.motion-button,
+.hero-movie-bar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .gallery-motion {
   position: relative;
@@ -105,8 +120,7 @@
     0 2px 2px #00000012,
     0 20px 36px -20px #171e275c,
     0 36px 60px -32px #171e2736;
-  transform: rotate(-1deg);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: none;
 }
 .motion-phone:hover {
   transform: rotate(0);
@@ -202,7 +216,7 @@
 }
 .movie-chapters {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--chapter-count, 3), minmax(0, 1fr));
   gap: 3px;
 }
 .movie-chapters button {
@@ -251,6 +265,8 @@
 .flashcard,
 .flashcard:hover,
 .flashcard[aria-pressed="true"] {
+  -webkit-appearance: none;
+  appearance: none;
   position: relative;
   display: block;
   padding: 0;
@@ -263,15 +279,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 .flashcard-rotor {
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: block;
-  width: 100%;
-  min-height: inherit;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.22, 0.75, 0.2, 1);
-}
-.flashcard[aria-pressed="true"] .flashcard-rotor {
-  transform: rotateY(180deg);
+  width: auto;
+  min-height: 0;
 }
 .flashcard-face {
   position: absolute;
@@ -286,11 +298,11 @@
   box-shadow:
     0 1px 2px #24242406,
     0 18px 34px -22px #24242444;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+}
+.flashcard-face[aria-hidden="true"] {
+  visibility: hidden;
 }
 .flashcard-back {
-  transform: rotateY(180deg);
   background: linear-gradient(145deg, #eff3ec, #e2e9df);
   border-color: #f5f7f2;
 }

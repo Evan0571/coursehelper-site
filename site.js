@@ -91,18 +91,18 @@
       "获得必要许可后，你可以录制或导入课堂音频。转录和 AI 功能取决于所选服务、网络与可用额度；你可以在 App 中查看当前方案与可用额度。",
     faqQ4: "怎样体验 CourseHelper？",
     faqA4: "欢迎联系我们，了解当前可用版本和体验方式。",
-    faqA4Link: "联系 CourseHelper →",
+    faqA4Link: "联系 CourseHelper",
     faqQ5: "在哪里了解隐私和账号信息？",
     faqA5:
       "隐私政策说明了数据、服务提供方与账号控制方式。账号或数据删除相关问题，也可以联系支持。",
-    privacyLink: "阅读隐私政策 →",
+    privacyLink: "阅读隐私政策",
     closingTitle: "给理解，<br>留一点空间。",
     closingBody: "少一点散乱，多一点准备。迎接下一堂课。",
     closingCta: "聊聊 CourseHelper",
     footerSupport: "支持",
     footerPrivacy: "隐私政策",
     footerTerms: "使用条款",
-    backToTop: "回到顶部 ↑",
+    backToTop: "回到顶部",
   };
   const featureData = {
     organize: {
@@ -240,6 +240,47 @@
   let activeFeature = "organize";
   let cardIndex = 0;
   let answerShown = false;
+  let flipVersion = 0;
+  let flipping = false;
+  function stopCardMotion() {
+    flipVersion += 1;
+    flipping = false;
+    document
+      .querySelector(".flashcard-rotor")
+      ?.getAnimations()
+      .forEach((animation) => animation.cancel());
+  }
+  async function flipCard() {
+    if (flipping) return;
+    const rotor = document.querySelector(".flashcard-rotor");
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      answerShown = !answerShown;
+      renderCard();
+      return;
+    }
+    flipping = true;
+    const version = ++flipVersion;
+    try {
+      const close = rotor.animate(
+        [{ transform: "rotateY(0deg)" }, { transform: "rotateY(85deg)" }],
+        { duration: 150, easing: "ease-in", fill: "forwards" },
+      );
+      await close.finished;
+      if (version !== flipVersion) return;
+      answerShown = !answerShown;
+      renderCard();
+      close.cancel();
+      // One visible face avoids Safari's native-button 3D/backface rendering bugs.
+      await rotor.animate(
+        [{ transform: "rotateY(-85deg)" }, { transform: "rotateY(0deg)" }],
+        { duration: 230, easing: "cubic-bezier(.16,1,.3,1)" },
+      ).finished;
+    } catch {
+      // Language and next-card actions cancel an in-flight turn.
+    } finally {
+      if (version === flipVersion) flipping = false;
+    }
+  }
   function requestedLanguage() {
     const requested = new URLSearchParams(location.search).get("lang");
     if (["en", "zh"].includes(requested)) return requested;
@@ -337,6 +378,7 @@
       `${language === "zh" ? `第 ${cardIndex + 1} 张，共 3 张` : `Card ${cardIndex + 1} of 3`}. ${cards[language][cardIndex][answerShown ? 1 : 0]}`;
   }
   function applyLanguage(lang, updateUrl = false) {
+    if (isMarketing) stopCardMotion();
     language = lang;
     document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
     try {
@@ -431,11 +473,9 @@
         renderFeature(link.dataset.selectFeature),
       ),
     );
-  document.getElementById("flashcard")?.addEventListener("click", () => {
-    answerShown = !answerShown;
-    renderCard();
-  });
+  document.getElementById("flashcard")?.addEventListener("click", flipCard);
   document.getElementById("next-card")?.addEventListener("click", () => {
+    stopCardMotion();
     cardIndex = (cardIndex + 1) % cards.en.length;
     answerShown = false;
     renderCard();
