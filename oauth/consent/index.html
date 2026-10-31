@@ -9,26 +9,25 @@
     <title>Connect CourseHelper</title>
     <link rel="icon" href="./app-icon.png" type="image/png">
     <link rel="apple-touch-icon" href="./app-icon.png">
-    <link rel="stylesheet" href="./style.css?v=e8a2821fc120">
-    <script type="module" src="./consent.js?v=a19d7e029b5d"></script>
+    <link rel="stylesheet" href="./style.css?v=39f0ea002407">
+    <script type="module" src="./consent.js?v=12c5ea3cf0a1"></script>
   </head>
   <body>
     <a class="skip-link" href="#main" data-copy>Skip to content</a>
-    <header class="site-header">
-      <nav class="nav" aria-label="CourseHelper">
-        <a class="brand" href="https://coursehelper.app/" aria-label="CourseHelper home"><img src="./app-icon.png" width="32" height="32" alt=""><span>CourseHelper</span></a>
-        <div class="language-toggle" aria-label="Language"><button type="button" data-language="en" lang="en">EN</button><button type="button" data-language="zh" lang="zh-Hans">中文</button></div>
-      </nav>
-    </header>
-    <main id="main">
-      <div class="connection-intro">
-        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span><span data-copy>YOUR COURSES, CONNECTED.</span></p>
-        <h1><span data-copy>Your context.</span><span class="soft-ink" data-copy>In the conversation.</span></h1>
-        <p class="intro" data-copy>Bring your courses, transcripts and notes into the conversation. A little less explaining. A little more understanding.</p>
-        <p class="intro-note" data-copy>Connect with CourseHelper Pro. You choose what your assistant can do.</p>
+    <aside class="story-panel" aria-label="CourseHelper">
+      <a class="story-home" href="https://coursehelper.app/">CourseHelper</a>
+      <div class="story-copy">
+        <h1><span data-copy>Less scattered.</span><span data-copy>More understood.</span></h1>
+        <p data-copy>Your courses, lectures and notes. A little closer to the conversation, and to understanding.</p>
+        <a class="story-link" href="https://coursehelper.app/" target="_blank" rel="noopener noreferrer"><span data-copy>Explore CourseHelper</span><span aria-hidden="true">↗</span></a>
       </div>
+      <span class="story-caption" data-copy>MAKE ROOM FOR UNDERSTANDING.</span>
+    </aside>
+    <main id="main">
+      <div class="language-toggle" aria-label="Language"><button type="button" data-language="en" lang="en">EN</button><button type="button" data-language="zh" lang="zh-Hans">中文</button></div>
+      <div class="auth-shell">
+        <a class="brand" href="https://coursehelper.app/" aria-label="CourseHelper home"><img src="./app-icon.png" width="48" height="48" alt=""><span>CourseHelper</span></a>
       <div class="connection-panel">
-        <p class="panel-label" data-copy>CONNECT YOUR ACCOUNT</p>
         <p id="status" role="status" aria-live="polite">Loading connection…</p>
         <div id="account-row" class="account-row" hidden>
           <div class="account-identity"><span class="small" data-copy>Signed in as</span><strong id="account"></strong></div>
@@ -36,14 +35,17 @@
         </div>
         <section id="account-choice" hidden><h2 data-copy>Use this account?</h2><p class="small" data-copy>Check the email above, or switch to the account you want to connect.</p><div class="actions"><button id="continue-account" class="primary"><span data-copy>Continue with this account</span><span aria-hidden="true">↗</span></button></div></section>
         <section id="login" hidden aria-labelledby="login-heading">
-          <h2 id="login-heading" data-copy>Sign in to CourseHelper</h2>
+          <h2 id="login-heading" data-copy>Welcome back.</h2>
           <form id="login-form">
-            <label for="email" data-copy>Email</label><input id="email" type="email" inputmode="email" autocomplete="username" required>
-            <label for="password" data-copy>Password</label><input id="password" type="password" autocomplete="current-password" required>
-            <button class="primary" type="submit"><span data-copy>Continue</span><span aria-hidden="true">↗</span></button>
+            <label class="sr-only" for="email" data-copy>Email</label><input id="email" type="email" inputmode="email" autocomplete="username" data-placeholder="Email address" placeholder="Email address" required>
+            <div class="password-field"><label class="sr-only" for="password" data-copy>Password</label><input id="password" type="password" autocomplete="current-password" data-placeholder="Password" placeholder="Password" required><button id="toggle-password" class="icon-button" type="button" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m4 3 16 18"/></svg><span id="password-toggle-label" class="sr-only" data-copy>Show password</span></button></div>
+            <button id="login-submit" class="primary" type="submit" data-copy>Log in</button>
           </form>
+          <div id="provider-divider" class="divider"><span data-copy>or continue with</span></div>
           <div id="providers"></div>
+          <p id="provider-note" class="small" hidden data-copy>Apple sign-in is not available on the web yet. Please use another sign-in method.</p>
           <p class="small login-note" data-copy>Use the same account as your CourseHelper app.</p>
+          <a class="login-help" href="https://coursehelper.app/support.html" target="_blank" rel="noopener noreferrer" data-copy>Need help signing in?</a>
         </section>
         <section id="upgrade" hidden aria-labelledby="upgrade-heading">
           <h2 id="upgrade-heading" data-copy>A little more with Pro.</h2>
@@ -67,7 +69,8 @@
         <p id="identity-scopes" class="small" hidden></p>
         <section id="connections" hidden aria-labelledby="connections-heading"><h2 id="connections-heading" data-copy>Your connections</h2><ul id="grants"></ul><p class="small" data-copy>To use a different account, open CourseHelper in ChatGPT plugin settings and choose Connect another account. Switching sign-in here does not replace an existing ChatGPT connection.</p></section>
       </div>
+      </div>
+      <footer><div><a href="https://coursehelper.app/privacy.html" data-copy>Privacy</a><a href="https://coursehelper.app/terms.html" data-copy>Terms</a><a href="https://coursehelper.app/support.html" data-copy>Help</a></div></footer>
     </main>
-    <footer><span>CourseHelper</span><div><a href="https://coursehelper.app/privacy.html" data-copy>Privacy</a><a href="https://coursehelper.app/terms.html" data-copy>Terms</a><a href="https://coursehelper.app/support.html" data-copy>Help</a></div></footer>
   </body>
 </html>
