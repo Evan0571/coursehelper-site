@@ -25,7 +25,7 @@
     gallerySummary: "抓住一节课的重点。",
     galleryFlashcards: "让学过的，留下来。",
     galleryReview: "找到适合你的复习方式。",
-    galleryCaption: "走进 CourseHelper · 内置 Example 课程与演示内容",
+    galleryCaption: "走进 CourseHelper · 示例课程与演示内容",
     introEyebrow: "少一些来回切换，多一些前后连接。",
     introTitle: "一门课，远不止一个文件夹。",
     introBody:
@@ -156,7 +156,7 @@
       },
     },
     ask: {
-      image: "ai-home.webp",
+      image: "ai-answer.webp",
       en: {
         title: "A good question.<br>A place to follow it.",
         body: "Choose a course or lecture, bring a question, and work through it with AI. Check the referenced material and keep exploring from there.",
@@ -166,7 +166,7 @@
           "Conversations you can return to later",
         ],
         caption: "Stay curious. Keep your course close.",
-        alt: "CourseHelper AI start screen with course selection and quick actions",
+        alt: "Sample course question with an answer and source reference",
       },
       zh: {
         title: "一个好问题，<br>值得接着想。",
@@ -177,7 +177,7 @@
           "以后还可以接着聊的学习对话",
         ],
         caption: "保留好奇，也保留课堂的上下文。",
-        alt: "CourseHelper AI 首页，显示选择课程与快捷操作",
+        alt: "示例课程问答，显示答案与来源引用",
       },
     },
     review: {
@@ -237,7 +237,10 @@
     ],
   };
   let language = "en";
-  let activeFeature = "organize";
+  const requestedFeature = new URLSearchParams(location.search).get("feature");
+  let activeFeature = Object.hasOwn(featureData, requestedFeature)
+    ? requestedFeature
+    : "organize";
   let cardIndex = 0;
   let answerShown = false;
   let flipVersion = 0;
@@ -332,7 +335,7 @@
       }),
     );
     const image = document.getElementById("feature-image");
-    image.src = `assets/screens/v2/${feature.image}`;
+    image.src = `assets/screens/v3/${feature.image}`;
     image.alt = copy.alt;
     document.getElementById("feature-caption").textContent = copy.caption;
     document.dispatchEvent(

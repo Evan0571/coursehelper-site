@@ -1,0 +1,51 @@
+[
+  {
+    "file": "course-overview.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/course-overview.png",
+    "sha256": "f9e59cad2227cb04d03f2ec4c5a49abb334031062cce8f69f8f8ed9317ea6f1c",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  },
+  {
+    "file": "ai-answer.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/ai-answer.png",
+    "sha256": "6861d67dcdee1585aa57505a0d58f3b7888c57a8b2b4de6aadeebe595b1eb528",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  },
+  {
+    "file": "flashcard-question.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/review-question.png",
+    "sha256": "add54d4b844c045f3a308775d6296f3da071b5b999eb4b7563d6880a00fc698b",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  },
+  {
+    "file": "flashcard-answer.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/review-answer.png",
+    "sha256": "0812449ba6ca429ab5bd5ad0df085c3f8d116c3cc7c360b69022879857201d5a",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  },
+  {
+    "file": "review-library.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/review-library.png",
+    "sha256": "cd69dc7025b8366003c9541dae29163b4554de9b5b2512bf1e0fcea68d5c1759",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  },
+  {
+    "file": "recording.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/recording-10.png",
+    "sha256": "00e836942c5c5c675a0b7eb92f20c548634198aecafb647e2b26426cd8c1e12c",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  },
+  {
+    "file": "lecture-summary.webp",
+    "source": "/Users/yifansong/projects/coursehelper/outputs/site-showcase-20261031/screens/lecture-summary.png",
+    "sha256": "4de16a9967d59e0ebb362ea6fb950ba22972ee78d642c8c43532ff060e44285f",
+    "origin": "2026-10-31 current native UI, isolated safe sample capture",
+    "public": true
+  }
+]

@@ -1,0 +1,4 @@
+GSAP 3.15.0 and ScrollTrigger 3.15.0, from the gsap npm distribution.
+Copyright GreenSock. License: https://gsap.com/standard-license/
+Official skills consulted: https://github.com/greensock/gsap-skills
+Remotion official skills: https://github.com/remotion-dev/skills

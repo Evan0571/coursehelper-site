@@ -29,12 +29,14 @@
     <link
       rel="preload"
       as="image"
-      href="assets/screens/v2/lecture-summary.webp"
+      href="assets/screens/v3/lecture-summary.webp"
     />
-    <link rel="stylesheet" href="styles.css?v=20261026-mobile2" />
-    <link rel="stylesheet" href="motion.css?v=20261026-mobile2" />
-    <script defer src="site.js?v=20261026-mobile2"></script>
-    <script defer src="motion.js?v=20261026-mobile2"></script>
+    <link rel="stylesheet" href="styles.css?v=20261031-actions" />
+    <link rel="stylesheet" href="motion.css?v=20261031-actions" />
+    <script defer src="site.js?v=20261031-actions"></script>
+    <script defer src="assets/vendor/gsap.min.js"></script>
+    <script defer src="assets/vendor/ScrollTrigger.min.js"></script>
+    <script defer src="motion.js?v=20261031-actions"></script>
   </head>
   <body class="marketing">
     <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -155,7 +157,7 @@
             </div>
             <div class="screen-frame">
               <img
-                src="assets/screens/v2/course-overview.webp"
+                src="assets/screens/v3/course-overview.webp"
                 width="720"
                 height="1562"
                 alt="Example course overview in CourseHelper"
@@ -186,10 +188,10 @@
             </div>
             <div class="screen-frame">
               <img
-                src="assets/screens/v2/ai-home.webp"
+                src="assets/screens/v3/ai-answer.webp"
                 width="720"
                 height="1562"
-                alt="CourseHelper AI start screen with course selection and quick actions"
+                alt="Sample class question, populated answer and source reference"
                 fetchpriority="high"
               /></div
           ></a>
@@ -217,7 +219,7 @@
             </div>
             <div class="screen-frame">
               <img
-                src="assets/screens/v2/lecture-summary.webp"
+                src="assets/screens/v3/lecture-summary.webp"
                 width="720"
                 height="1562"
                 alt="Example lecture summary with key concepts"
@@ -246,59 +248,22 @@
             </div>
             <div class="screen-frame hero-movie-frame">
               <img
-                src="assets/motion/review-poster.webp?v=20261026-mobile2"
+                src="assets/motion/v3/review-portrait-poster.webp"
                 width="576"
                 height="1120"
-                alt="Animated interface preview of a biology flashcard using sample data"
+                alt="Native sample flashcard demonstration with a complete question and answer"
               />
               <video
                 id="hero-movie"
                 muted
                 playsinline
+                loop
                 preload="none"
                 aria-hidden="true"
                 tabindex="-1"
-                data-src="assets/motion/review.mp4?v=20261026-mobile2"
-                poster="assets/motion/review-poster.webp?v=20261026-mobile2"
+                data-src="assets/motion/v3/review-portrait.mp4"
+                poster="assets/motion/v3/review-portrait-poster.webp"
               ></video>
-            </div>
-            <div class="hero-movie-bar" hidden>
-              <span data-motion-copy="animatedShort">ANIMATED PREVIEW</span>
-              <button
-                type="button"
-                id="hero-movie-toggle"
-                aria-label="Play preview"
-              >
-                <svg
-                  class="icon control-play"
-                  viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="m9 5 11 7-11 7Z" /></svg
-                ><svg
-                  class="icon control-pause"
-                  viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M9 5v14M16 5v14" />
-                </svg>
-              </button>
             </div>
           </div>
           <a
@@ -325,7 +290,7 @@
             </div>
             <div class="screen-frame">
               <img
-                src="assets/screens/v2/review-library.webp"
+                src="assets/screens/v3/review-library.webp"
                 width="720"
                 height="1562"
                 alt="CourseHelper study guide, quiz, flashcard, and term options"
@@ -334,7 +299,7 @@
         </div>
         <div class="gallery-meta">
           <p data-i18n="galleryCaption">
-            A look inside CourseHelper · Example course & demo content
+            A look inside CourseHelper · Sample courses & demo content
           </p>
           <div class="gallery-controls">
             <button
@@ -550,7 +515,7 @@
             <div class="feature-phone screen-frame" id="feature-still">
               <img
                 id="feature-image"
-                src="assets/screens/v2/course-overview.webp"
+                src="assets/screens/v3/course-overview.webp"
                 width="720"
                 height="1562"
                 alt="Example course overview"
@@ -561,108 +526,27 @@
               >EXAMPLE CONTENT</span
             >
             <div class="motion-demo" id="motion-demo" hidden>
-              <div class="motion-eyebrow">
-                <span class="motion-dot" aria-hidden="true"></span
-                ><span data-motion-copy="sample">APP DEMO · SAMPLE DATA</span>
-              </div>
-              <div class="motion-phone">
+              <div class="motion-film">
+                <img
+                  id="movie-poster"
+                  src="assets/motion/v3/organize-poster.webp"
+                  alt=""
+                  width="600"
+                  height="1304"
+                />
                 <video
                   id="feature-movie"
                   muted
                   playsinline
+                  loop
                   preload="none"
-                  poster="assets/motion/capture-poster.webp?v=20261026-mobile2"
-                  aria-label="Recording and transcription options demonstration"
-                  aria-describedby="motion-description"
+                  aria-hidden="true"
                   tabindex="-1"
                 ></video>
-                <div class="motion-reflection" aria-hidden="true"></div>
               </div>
-              <div class="motion-console">
-                <div class="motion-transport">
-                  <button
-                    type="button"
-                    id="movie-toggle"
-                    class="motion-button"
-                    aria-label="Play demo"
-                  >
-                    <svg
-                      class="icon control-play"
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="m9 5 11 7-11 7Z" /></svg
-                    ><svg
-                      class="icon control-pause"
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M9 5v14M16 5v14" />
-                    </svg>
-                  </button>
-                  <input
-                    type="range"
-                    id="movie-progress"
-                    min="0"
-                    max="100"
-                    step="0.1"
-                    value="0"
-                    aria-label="Demo progress"
-                  />
-                  <span id="movie-time" aria-hidden="true">0:00</span>
-                  <button
-                    type="button"
-                    id="movie-replay"
-                    class="motion-button"
-                    aria-label="Replay demo"
-                  >
-                    <svg
-                      class="icon"
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" />
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  id="movie-chapters"
-                  class="movie-chapters"
-                  role="group"
-                  aria-label="Demo steps"
-                ></div>
-              </div>
-              <p class="motion-description" id="motion-description"></p>
-              <p
-                class="motion-error"
-                id="motion-error"
-                role="status"
-                hidden
-              ></p>
+              <span class="film-note" data-motion-copy="sample"
+                >PRODUCT FILM · SAMPLE CONTENT</span
+              >
             </div>
           </div>
         </div>
