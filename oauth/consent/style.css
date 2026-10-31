@@ -30,7 +30,7 @@ h1, h2, p { margin: 0; }
 .story-copy h1 { font-size: clamp(32px, 3.4vw, 54px); font-weight: 450; line-height: 1.3; letter-spacing: -1.8px; }
 .story-copy h1 span { display: block; }
 .story-copy h1 span + span { color: #d3deea; }
-.story-copy > p { max-width: 360px; margin-top: 30px; color: #d0d9e3; font-size: 15px; line-height: 1.85; }
+.story-copy > p { max-width: 360px; margin-top: 30px; color: #d0d9e3; font-size: 15px; line-height: 1.85; text-wrap: balance; }
 .story-link { display: inline-flex; align-items: center; gap: 26px; margin-top: 44px; min-height: 46px; padding: 11px 21px; border-radius: 99px; background: #fff; color: #171c24; text-decoration: none; font-size: 12px; font-weight: 550; }
 .story-caption { position: absolute; bottom: 32px; font-size: 9px; letter-spacing: 1.8px; color: #cad3dd; opacity: .65; }
 main { position: relative; margin-left: 38%; width: 62%; min-height: 100svh; padding: 100px 48px 68px; display: flex; flex-direction: column; justify-content: center; }
