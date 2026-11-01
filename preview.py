@@ -7,6 +7,20 @@ from pathlib import Path
 
 
 class PreviewHandler(SimpleHTTPRequestHandler):
+    def send_error(self, code, message=None, explain=None):
+        # Match GitHub Pages: unknown paths retain HTTP 404 while showing the branded page.
+        page = Path(__file__).resolve().parent / "404.html"
+        if code == 404 and page.is_file():
+            content = page.read_bytes()
+            self.send_response(404)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(content)))
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(content)
+            return
+        super().send_error(code, message, explain)
+
     def send_head(self):
         self.remaining = None
         path = self.translate_path(self.path)
