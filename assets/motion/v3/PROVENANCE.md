@@ -1,7 +1,17 @@
 # Product films, 2026-10-31
 
+## November 1 focus edit
+
+The current MP4s retain the native sources below. The new Remotion edit uses smooth, action-linked camera crops (1.22–1.62x), then restores the full view after each operation. Brief neutral tap rings mark the class row, Summary selector, Start/Finish/Save controls, Sources disclosure, and Reveal answer. Camera movement and tap hints share source coordinates. The crop is constrained to the captured image so it never reveals an empty edge.
+
+The question's original 243-frame native typing sequence is retimed to 95 output frames (3.17s), with short initial and completion pauses. No letters or app UI are recreated. The answer/source sequence stays at native speed, as do the capture timer/audio meter and the complete card flip. The organization edit shortens idle reading time. Every camera returns to 1x before the loop dissolve. Final durations at 30fps: organize 351 frames (11.7s), capture 600 (20s), ask 320 (10.67s), review and hero 195 (6.5s).
+
+These remain edited simulator/sample demonstrations within the source boundary below.
+
+## Original source collection
+
 The five videos are authored in the Remotion project at `tools/product-film/`.
-Final revision follows preview feedback: show native actions, keep the screen stationary, and remove screenshot camera moves and floating callouts. All four feature clips now use continuous native operation footage; a short reading hold and an 18-frame dissolve return each loop to its start. The hero uses the complete new native card flip.
+The October 31 revision followed preview feedback to show native actions and remove screenshot camera moves and floating callouts. At that stage the camera stayed stationary. All four feature clips use native operation footage; a short reading hold and an 18-frame dissolve return each loop to its start. The hero uses the complete native card flip. The November 1 edit above adds focus moves to this footage.
 
 Sources are in `assets/screens/v3/PROVENANCE.json`. Native captures were collected on 2026-10-31 from an isolated copy of the current iPhone source. No production App source or user data was changed.
 
@@ -26,4 +36,4 @@ Selection audit:
 - Retire the fixed timer/waveform recording: use new sampled-speech meter footage.
 - Remove player bars, elapsed time, replay controls and chapters. Native videos loop while visible; reduced-motion and data-saving visitors receive posters.
 
-Rendered MP4s are H.264, yuv420p, 30fps, CRF21, silent. UI pixels are English; surrounding website copy is bilingual. No third-party UI media is redistributed.
+Rendered MP4s are H.264, 8-bit 4:2:0, 30fps, CRF21, silent. UI pixels are English; surrounding website copy is bilingual. No third-party UI media is redistributed.

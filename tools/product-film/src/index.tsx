@@ -11,81 +11,83 @@ import {
   useCurrentFrame,
   interpolate,
 } from "remotion";
-type Props = {
-  clip: string;
-  poster: string;
-  frames: number;
-  sourceFrames: number;
+import { FocusCamera, TapHints } from "./focus";
+import { organize, capture, ask, review, Film, Edit } from "./edit-plan";
+const mediaStyle = {
+  width: "100%",
+  height: "100%",
+  objectFit: "cover" as const,
 };
-function NativeAction({ clip, poster, frames, sourceFrames }: Props) {
+function NativeFootage({ clip, edits }: { clip: string; edits: Edit[] }) {
   const frame = useCurrentFrame();
-  const returnToStart = interpolate(frame, [frames - 18, frames - 1], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
   return (
-    <AbsoluteFill style={{ background: "#f6f6f5" }}>
-      <Freeze frame={Math.min(frame, sourceFrames - 1)}>
-        <OffthreadVideo
-          src={staticFile(clip)}
-          muted
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
-      </Freeze>
-      <Img
-        src={staticFile(poster)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: returnToStart,
-        }}
-      />
-    </AbsoluteFill>
-  );
-}
-function AnswerScene() {
-  const f = useCurrentFrame();
-  return (
-    <Freeze frame={Math.min(f, 104)}>
-      <OffthreadVideo
-        src={staticFile("ask-answer.mp4")}
-        muted
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
+    <Freeze
+      frame={Math.round(
+        interpolate(
+          frame,
+          edits.map((e) => e[0]),
+          edits.map((e) => e[1]),
+          { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+        ),
+      )}
+    >
+      <OffthreadVideo src={staticFile(clip)} muted style={mediaStyle} />
     </Freeze>
   );
 }
-function AskAction() {
-  const f = useCurrentFrame();
+function LoopReturn({ poster, frames }: { poster: string; frames: number }) {
+  const frame = useCurrentFrame();
   return (
-    <AbsoluteFill style={{ background: "#f6f6f5" }}>
-      <Sequence durationInFrames={243}>
-        <OffthreadVideo
-          src={staticFile("ask-typing.mp4")}
-          muted
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
-      </Sequence>
-      <Sequence from={243}>
-        <AnswerScene />
-      </Sequence>
-      <Img
-        src={staticFile("ask-first.webp")}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: interpolate(f, [360, 377], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          }),
-        }}
-      />
+    <Img
+      src={staticFile(poster)}
+      style={{
+        ...mediaStyle,
+        position: "absolute",
+        inset: 0,
+        opacity: interpolate(frame, [frames - 18, frames - 1], [0, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        }),
+      }}
+    />
+  );
+}
+function ProductFilm({
+  clip,
+  poster,
+  frames,
+  edits,
+  focus,
+  taps,
+  answerAt,
+}: Film) {
+  return (
+    <AbsoluteFill style={{ background: "#f6f6f5", overflow: "hidden" }}>
+      <FocusCamera points={focus}>
+        {answerAt ? (
+          <>
+            <Sequence
+              durationInFrames={answerAt}
+              name="Question — natural typing"
+            >
+              <NativeFootage clip={clip} edits={edits} />
+            </Sequence>
+            <Sequence from={answerAt} name="Answer — open source">
+              <NativeFootage
+                clip="ask-answer.mp4"
+                edits={[
+                  [0, 0],
+                  [104, 104],
+                ]}
+              />
+            </Sequence>
+          </>
+        ) : (
+          <NativeFootage clip={clip} edits={edits} />
+        )}
+        <TapHints taps={taps} />
+      </FocusCamera>
+      <LoopReturn poster={poster} frames={frames} />
     </AbsoluteFill>
   );
 }
@@ -93,67 +95,48 @@ const Root = () => (
   <>
     <Composition
       id="Organize"
-      component={NativeAction}
+      component={ProductFilm}
       width={600}
       height={1304}
       fps={30}
-      durationInFrames={405}
-      defaultProps={{
-        clip: "organize-native.mp4",
-        poster: "organize-first.webp",
-        frames: 405,
-        sourceFrames: 375,
-      }}
+      durationInFrames={organize.frames}
+      defaultProps={organize}
     />
     <Composition
       id="Capture"
-      component={NativeAction}
+      component={ProductFilm}
       width={600}
       height={1304}
       fps={30}
-      durationInFrames={570}
-      defaultProps={{
-        clip: "capture-complete.mp4",
-        poster: "capture-first.webp",
-        frames: 570,
-        sourceFrames: 542,
-      }}
+      durationInFrames={capture.frames}
+      defaultProps={capture}
     />
     <Composition
       id="Ask"
-      component={AskAction}
+      component={ProductFilm}
       width={600}
       height={1304}
       fps={30}
-      durationInFrames={378}
+      durationInFrames={ask.frames}
+      defaultProps={ask}
     />
     <Composition
       id="Review"
-      component={NativeAction}
+      component={ProductFilm}
       width={600}
       height={1304}
       fps={30}
-      durationInFrames={181}
-      defaultProps={{
-        clip: "review-native.mp4",
-        poster: "review-first.webp",
-        frames: 181,
-        sourceFrames: 121,
-      }}
+      durationInFrames={review.frames}
+      defaultProps={review}
     />
     <Composition
       id="ReviewPortrait"
-      component={NativeAction}
+      component={ProductFilm}
       width={600}
       height={1304}
       fps={30}
-      durationInFrames={181}
-      defaultProps={{
-        clip: "review-native.mp4",
-        poster: "review-first.webp",
-        frames: 181,
-        sourceFrames: 121,
-      }}
+      durationInFrames={review.frames}
+      defaultProps={review}
     />
   </>
 );
