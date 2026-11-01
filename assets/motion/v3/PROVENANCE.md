@@ -1,6 +1,14 @@
 # Product films, 2026-10-31
 
-## November 1 focus edit
+## November 1 whole-device camera revision
+
+The website now moves the complete phone and its frame inside the surrounding feature stage. The MP4 itself preserves the full native screen. Input and button regions move to the stage center, then the phone returns to its original full view. The camera keeps the whole screen width visible and caps scale against both the stage width and the native pixel budget at the current display density. It does not add blur or enlarge an already cropped screen.
+
+Current films and posters are 1200 × 2608, recovered from the retained 1206 × 2622 native originals. `inputs/hd/PROVENANCE.json` records the exact inputs and hashes. Presentation timestamps are normalized to zero; the recording source requires `-fflags +igndts` because its decode timestamps are malformed. The organization source ends before the simulator Home transition, and the edit holds on the summary. Native typing remains about 3.2s. The feature review includes a short hold before the native flip to restore the full view; its duration is 213 frames (7.1s). The unzoomed hero review remains 195 frames (6.5s). Other film durations remain 351, 600 and 320 frames.
+
+`tools/product-film/render.mjs` exports the focus keyframes alongside the films to `device-camera.json`. `device-camera.js` applies them to the entire CSS device, synchronized to the actual media clock. Reduced-motion and Save-Data preferences retain full-view posters. All original sample-data and simulator boundaries below still apply.
+
+## Earlier November 1 focus edit (superseded)
 
 The current MP4s retain the native sources below. The new Remotion edit uses smooth, action-linked camera crops (1.22–1.62x), then restores the full view after each operation. Brief neutral tap rings mark the class row, Summary selector, Start/Finish/Save controls, Sources disclosure, and Reveal answer. Camera movement and tap hints share source coordinates. The crop is constrained to the captured image so it never reveals an empty edge.
 
@@ -36,4 +44,4 @@ Selection audit:
 - Retire the fixed timer/waveform recording: use new sampled-speech meter footage.
 - Remove player bars, elapsed time, replay controls and chapters. Native videos loop while visible; reduced-motion and data-saving visitors receive posters.
 
-Rendered MP4s are H.264, 8-bit 4:2:0, 30fps, CRF21, silent. UI pixels are English; surrounding website copy is bilingual. No third-party UI media is redistributed.
+Current MP4s are H.264, 8-bit 4:2:0, 30fps, CRF18, silent, with lossless PNG intermediate frames. UI pixels are English; surrounding website copy is bilingual. No third-party UI media is redistributed.

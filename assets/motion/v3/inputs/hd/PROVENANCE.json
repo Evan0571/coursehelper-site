@@ -1,0 +1,70 @@
+{
+  "scope": "Simulator UI with synthetic sample data, restored from 1206x2622 originals rather than enlarged 600px exports. Timestamps normalized to zero. The capture source requires -fflags +igndts before decoding. Organization ends on the summary, before the simulator Home transition.",
+  "sources": [
+    {
+      "file": "organize-native.mp4",
+      "original": "native-summary-actions.mp4",
+      "decoded_start_seconds": 34.5,
+      "frames": 361,
+      "dimensions": [
+        1200,
+        2608
+      ],
+      "sha256": "1286a7ed65395edfc87a3cbeda513a113b13ef934970f098b49f9af89ae03ee7",
+      "recipe": "trim=start=34.5,setpts=PTS-STARTPTS,fps=30,scale=1200:2608; frames=361; libx264 CRF17",
+      "ignore_broken_dts": false
+    },
+    {
+      "file": "capture-complete.mp4",
+      "original": "native-capture.mp4",
+      "decoded_start_seconds": 175,
+      "frames": 542,
+      "dimensions": [
+        1200,
+        2608
+      ],
+      "sha256": "1a6e45e685c8defa97311c38be15f20b30a2e44498bf8cf127acd2d882905648",
+      "recipe": "trim=start=175,setpts=PTS-STARTPTS,fps=30,scale=1200:2608; frames=542; libx264 CRF17",
+      "ignore_broken_dts": true
+    },
+    {
+      "file": "ask-typing.mp4",
+      "original": "ai-english-native.mp4",
+      "decoded_start_seconds": 12.8,
+      "frames": 243,
+      "dimensions": [
+        1200,
+        2608
+      ],
+      "sha256": "792e762ef8afa5657500ce59128dc6e8850291490ba1ed814e5b164ecedc9b7c",
+      "recipe": "trim=start=12.8,setpts=PTS-STARTPTS,fps=30,scale=1200:2608; frames=243; libx264 CRF17",
+      "ignore_broken_dts": false
+    },
+    {
+      "file": "ask-answer.mp4",
+      "original": "ai-english-native.mp4",
+      "decoded_start_seconds": 23.8,
+      "frames": 105,
+      "dimensions": [
+        1200,
+        2608
+      ],
+      "sha256": "78fe2e7a5325c29da0ef28e98fc20c8a157c2b3e49e2f0860521ef30fbd9cc91",
+      "recipe": "trim=start=23.8,setpts=PTS-STARTPTS,fps=30,scale=1200:2608; frames=105; libx264 CRF17",
+      "ignore_broken_dts": false
+    },
+    {
+      "file": "review-native.mp4",
+      "original": "native-capture.mp4",
+      "decoded_start_seconds": 96.3,
+      "frames": 121,
+      "dimensions": [
+        1200,
+        2608
+      ],
+      "sha256": "9180a2f9a2832ecf4306ad690496091f3efda97feb1ee3511133a26e68f328a7",
+      "recipe": "trim=start=96.3,setpts=PTS-STARTPTS,fps=30,scale=1200:2608; frames=121; libx264 CRF17",
+      "ignore_broken_dts": false
+    }
+  ]
+}

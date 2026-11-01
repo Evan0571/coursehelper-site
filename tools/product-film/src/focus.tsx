@@ -1,53 +1,9 @@
 import React from "react";
-import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
-// [output frame, scale, source focus x, source focus y]
+import { Easing, interpolate, useCurrentFrame } from "remotion";
+// Exported for the website's whole-device camera. The native video stays uncropped.
+// [output frame, scale, source focus x, source focus y], in 600 × 1304 coordinates.
 export type FocusPoint = [number, number, number, number];
 export type Tap = [number, number, number];
-const smooth = {
-  easing: Easing.bezier(0.65, 0, 0.35, 1),
-  extrapolateLeft: "clamp" as const,
-  extrapolateRight: "clamp" as const,
-};
-const clamp = (v: number, low: number, high: number) =>
-  Math.max(low, Math.min(v, high));
-export function FocusCamera({
-  points,
-  children,
-}: {
-  points: FocusPoint[];
-  children: React.ReactNode;
-}) {
-  const frame = useCurrentFrame();
-  return (
-    <AbsoluteFill
-      style={{
-        scale: interpolate(
-          frame,
-          points.map((p) => p[0]),
-          points.map((p) => p[1]),
-          smooth,
-        ),
-        translate: `${interpolate(
-          frame,
-          points.map((p) => p[0]),
-          points.map(
-            ([, s, x]) => (300 - clamp(x, 300 / s, 600 - 300 / s)) * s,
-          ),
-          smooth,
-        )}px ${interpolate(
-          frame,
-          points.map((p) => p[0]),
-          points.map(
-            ([, s, , y]) => (652 - clamp(y, 652 / s, 1304 - 652 / s)) * s,
-          ),
-          smooth,
-        )}px`,
-      }}
-    >
-      {children}
-    </AbsoluteFill>
-  );
-}
 export function TapHints({ taps }: { taps: Tap[] }) {
   const frame = useCurrentFrame();
   return (

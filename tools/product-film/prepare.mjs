@@ -15,6 +15,6 @@ for (const name of [
   "review-first.webp",
 ])
   await fs.copyFile(
-    path.join(website, "assets/motion/v3/inputs", name),
+    path.join(website, "assets/motion/v3/inputs/hd", name),
     path.join(root, "public", name),
   );

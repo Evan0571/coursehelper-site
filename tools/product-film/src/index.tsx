@@ -11,12 +11,20 @@ import {
   useCurrentFrame,
   interpolate,
 } from "remotion";
-import { FocusCamera, TapHints } from "./focus";
-import { organize, capture, ask, review, Film, Edit } from "./edit-plan";
+import { TapHints } from "./focus";
+import {
+  organize,
+  capture,
+  ask,
+  review,
+  reviewOverview,
+  Film,
+  Edit,
+} from "./edit-plan";
 const mediaStyle = {
   width: "100%",
   height: "100%",
-  objectFit: "cover" as const,
+  objectFit: "contain" as const,
 };
 function NativeFootage({ clip, edits }: { clip: string; edits: Edit[] }) {
   const frame = useCurrentFrame();
@@ -52,18 +60,17 @@ function LoopReturn({ poster, frames }: { poster: string; frames: number }) {
     />
   );
 }
-function ProductFilm({
-  clip,
-  poster,
-  frames,
-  edits,
-  focus,
-  taps,
-  answerAt,
-}: Film) {
+function ProductFilm({ clip, poster, frames, edits, taps, answerAt }: Film) {
   return (
     <AbsoluteFill style={{ background: "#f6f6f5", overflow: "hidden" }}>
-      <FocusCamera points={focus}>
+      <AbsoluteFill
+        style={{
+          width: 600,
+          height: 1304,
+          scale: 2,
+          transformOrigin: "top left",
+        }}
+      >
         {answerAt ? (
           <>
             <Sequence
@@ -86,8 +93,8 @@ function ProductFilm({
           <NativeFootage clip={clip} edits={edits} />
         )}
         <TapHints taps={taps} />
-      </FocusCamera>
-      <LoopReturn poster={poster} frames={frames} />
+        <LoopReturn poster={poster} frames={frames} />
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 }
@@ -96,8 +103,8 @@ const Root = () => (
     <Composition
       id="Organize"
       component={ProductFilm}
-      width={600}
-      height={1304}
+      width={1200}
+      height={2608}
       fps={30}
       durationInFrames={organize.frames}
       defaultProps={organize}
@@ -105,8 +112,8 @@ const Root = () => (
     <Composition
       id="Capture"
       component={ProductFilm}
-      width={600}
-      height={1304}
+      width={1200}
+      height={2608}
       fps={30}
       durationInFrames={capture.frames}
       defaultProps={capture}
@@ -114,8 +121,8 @@ const Root = () => (
     <Composition
       id="Ask"
       component={ProductFilm}
-      width={600}
-      height={1304}
+      width={1200}
+      height={2608}
       fps={30}
       durationInFrames={ask.frames}
       defaultProps={ask}
@@ -123,8 +130,8 @@ const Root = () => (
     <Composition
       id="Review"
       component={ProductFilm}
-      width={600}
-      height={1304}
+      width={1200}
+      height={2608}
       fps={30}
       durationInFrames={review.frames}
       defaultProps={review}
@@ -132,11 +139,11 @@ const Root = () => (
     <Composition
       id="ReviewPortrait"
       component={ProductFilm}
-      width={600}
-      height={1304}
+      width={1200}
+      height={2608}
       fps={30}
-      durationInFrames={review.frames}
-      defaultProps={review}
+      durationInFrames={reviewOverview.frames}
+      defaultProps={reviewOverview}
     />
   </>
 );
