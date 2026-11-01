@@ -35,12 +35,13 @@
     chainUnderstanding: "理解",
     exploreEyebrow: "从课前，一直陪你到课后。",
     exploreTitle: "学习的每一部分，都有归处。",
-    exploreAside: "慢慢看，按你的节奏。<br>一个空间，串起整个学习日。",
+    exploreAside: "四个片段，串起整个学习日。<br>向下滚动，慢慢探索。",
     tabOrganize: "安排课程",
     tabCapture: "留下课堂",
     tabAsk: "继续理解",
     tabReview: "把它记住",
     featureLink: "了解 CourseHelper 的更多信息",
+    filmNote: "App 操作演示 · 示例内容",
     exampleNote: "示例内容",
     aiEyebrow: "让每个问题，都有课堂作为背景。",
     aiLine1: "带上你的问题。",
@@ -237,10 +238,6 @@
     ],
   };
   let language = "en";
-  const requestedFeature = new URLSearchParams(location.search).get("feature");
-  let activeFeature = Object.hasOwn(featureData, requestedFeature)
-    ? requestedFeature
-    : "organize";
   let cardIndex = 0;
   let answerShown = false;
   let flipVersion = 0;
@@ -308,39 +305,21 @@
     url.searchParams.set("lang", language);
     link.href = url.href;
   }
-  function renderFeature(key, moveFocus = false) {
-    if (!isMarketing || !featureData[key]) return;
-    activeFeature = key;
-    const keys = Object.keys(featureData);
-    const feature = featureData[key];
-    const copy = feature[language];
-    document.querySelectorAll("[data-feature]").forEach((button) => {
-      const selected = button.dataset.feature === key;
-      button.setAttribute("aria-selected", String(selected));
-      button.tabIndex = selected ? 0 : -1;
-      if (selected && moveFocus) button.focus();
+  function renderFeatures() {
+    document.querySelectorAll(".feature-panel").forEach((panel) => {
+      const copy = featureData[panel.dataset.current][language];
+      panel.querySelector("h3").innerHTML = copy.title;
+      panel.querySelector(".feature-description").textContent = copy.body;
+      panel.querySelector(".feature-details").replaceChildren(
+        ...copy.details.map((detail) => {
+          const item = document.createElement("li");
+          item.textContent = detail;
+          return item;
+        }),
+      );
+      panel.querySelector(".movie-poster").alt = copy.alt;
     });
-    const panel = document.getElementById("feature-panel");
-    panel.dataset.current = key;
-    panel.setAttribute("aria-labelledby", `tab-${key}`);
-    document.querySelector(".feature-index").textContent =
-      `0${keys.indexOf(key) + 1} / 04`;
-    document.getElementById("feature-title").innerHTML = copy.title;
-    document.getElementById("feature-description").textContent = copy.body;
-    document.getElementById("feature-details").replaceChildren(
-      ...copy.details.map((detail) => {
-        const item = document.createElement("li");
-        item.textContent = detail;
-        return item;
-      }),
-    );
-    const image = document.getElementById("feature-image");
-    image.src = `assets/screens/v3/${feature.image}`;
-    image.alt = copy.alt;
-    document.getElementById("feature-caption").textContent = copy.caption;
-    document.dispatchEvent(
-      new CustomEvent("coursehelper:feature", { detail: { key, language } }),
-    );
+    document.dispatchEvent(new CustomEvent("coursehelper:language"));
   }
   function renderCard() {
     if (!isMarketing) return;
@@ -432,7 +411,7 @@
           "aria-label",
           lang === "zh" ? "下一组界面" : "Next app screens",
         );
-      renderFeature(activeFeature);
+      renderFeatures();
       renderCard();
     }
     if (updateUrl) {
@@ -452,30 +431,20 @@
         applyLanguage(button.dataset.langButton, true),
       ),
     );
-  document.querySelectorAll("[data-feature]").forEach((button) => {
-    button.addEventListener("click", () =>
-      renderFeature(button.dataset.feature),
-    );
-    button.addEventListener("keydown", (event) => {
-      const keys = Object.keys(featureData);
-      let index = keys.indexOf(activeFeature);
-      if (event.key === "ArrowRight") index = (index + 1) % keys.length;
-      else if (event.key === "ArrowLeft")
-        index = (index - 1 + keys.length) % keys.length;
-      else if (event.key === "Home") index = 0;
-      else if (event.key === "End") index = keys.length - 1;
-      else return;
+  document.querySelectorAll("[data-select-feature]").forEach((link) =>
+    link.addEventListener("click", (event) => {
+      const key = link.dataset.selectFeature;
+      const target = document.getElementById(`feature-${key}`);
+      if (!target) return;
       event.preventDefault();
-      renderFeature(keys[index], true);
-    });
-  });
-  document
-    .querySelectorAll("[data-select-feature]")
-    .forEach((link) =>
-      link.addEventListener("click", () =>
-        renderFeature(link.dataset.selectFeature),
-      ),
-    );
+      history.pushState(null, "", `#feature-${key}`);
+      const navigation = new CustomEvent("coursehelper:select-feature", {
+        detail: { key },
+        cancelable: true,
+      });
+      if (document.dispatchEvent(navigation)) target.scrollIntoView();
+    }),
+  );
   document.getElementById("flashcard")?.addEventListener("click", flipCard);
   document.getElementById("next-card")?.addEventListener("click", () => {
     stopCardMotion();

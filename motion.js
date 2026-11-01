@@ -1,7 +1,6 @@
 (() => {
   "use strict";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-  const players = [];
   function loop(video, target) {
     const state = { video, visible: false, enabled: true, failed: false };
     video.muted = true;
@@ -41,67 +40,127 @@
     reduce.addEventListener("change", sync);
     navigator.connection?.addEventListener("change", sync);
     state.sync = sync;
-    state.reset = (src) => {
-      video.pause();
-      state.failed = false;
-      target.classList.remove("has-media-error");
-      video.removeAttribute("src");
-      video.dataset.src = src;
-      video.load();
-      sync();
-    };
-    players.push(state);
     return state;
   }
-  const panel = document.getElementById("feature-panel");
-  const demo = document.getElementById("motion-demo");
-  const video = document.getElementById("feature-movie");
-  const feature = loop(video, demo);
+  const panels = [...document.querySelectorAll(".feature-panel")];
+  const chapterPlayers = panels.map((panel) =>
+    loop(panel.querySelector("video"), panel.querySelector(".motion-demo")),
+  );
   loop(
     document.getElementById("hero-movie"),
     document.querySelector(".gallery-motion"),
   );
-  if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
-  let current;
-  function render(key) {
-    if (!["organize", "capture", "ask", "review"].includes(key)) return;
-    demo.hidden = false;
-    panel.classList.add("has-movie");
-    const poster = `assets/motion/v3/${key}-poster.webp`;
-    document.getElementById("movie-poster").src = poster;
-    video.poster = poster;
-    demo.querySelector(".film-note").textContent =
-      document.documentElement.lang.startsWith("zh")
-        ? "App 操作演示 · 示例内容"
-        : "APP WALKTHROUGH · SAMPLE CONTENT";
-    if (current !== key) {
-      current = key;
-      feature.reset(`assets/motion/v3/${key}.mp4?v=actions`);
-    }
-    if (window.gsap && !reduce.matches) {
-      gsap.fromTo(
-        ".feature-copy > h3, .feature-copy > p, .feature-details",
-        { y: 12, opacity: 0.35 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.055,
-          duration: 0.45,
-          ease: "power2.out",
-          overwrite: true,
-        },
-      );
-    }
-    feature.sync();
-    window.ScrollTrigger?.refresh();
+  const story = document.getElementById("feature-story");
+  const viewport = story.querySelector(".feature-viewport");
+  const track = story.querySelector(".feature-track");
+  let horizontal;
+  function selectChapter(key, behavior = "smooth") {
+    const index = panels.findIndex((panel) => panel.dataset.current === key);
+    if (index < 0) return;
+    // Focus and hash navigation must not scroll the clipped rail itself.
+    viewport.scrollLeft = 0;
+    if (horizontal) {
+      const trigger = horizontal.scrollTrigger;
+      const top =
+        trigger.start +
+        ((trigger.end - trigger.start) * index) / (panels.length - 1);
+      window.scrollTo({ top, behavior });
+      if (behavior === "instant") {
+        ScrollTrigger.update();
+        trigger.getTween()?.progress(1);
+      }
+    } else panels[index].scrollIntoView({ behavior, block: "start" });
   }
-  document.addEventListener("coursehelper:feature", (e) =>
-    render(e.detail.key),
-  );
-  render(panel.dataset.current);
+  document.addEventListener("coursehelper:select-feature", (event) => {
+    event.preventDefault();
+    selectChapter(event.detail.key, reduce.matches ? "instant" : "smooth");
+  });
+  function hashChapter() {
+    const key = location.hash.replace("#feature-", "");
+    if (panels.some((panel) => panel.dataset.current === key)) {
+      selectChapter(key, "instant");
+      return true;
+    }
+    return false;
+  }
+  window.addEventListener("hashchange", hashChapter);
+  story.addEventListener("focusin", (event) => {
+    const panel = event.target.closest(".feature-panel");
+    if (horizontal && panel) selectChapter(panel.dataset.current, "instant");
+  });
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    document.addEventListener("coursehelper:language", () =>
+      ScrollTrigger.refresh(),
+    );
+  }
+  function initialChapter() {
+    window.ScrollTrigger?.refresh();
+    const key = new URLSearchParams(location.search).get("feature");
+    if (
+      !hashChapter() &&
+      panels.some((panel) => panel.dataset.current === key)
+    ) {
+      selectChapter(key, "instant");
+    }
+  }
+  if (document.readyState === "complete") requestAnimationFrame(initialChapter);
+  else
+    window.addEventListener(
+      "load",
+      () => requestAnimationFrame(initialChapter),
+      { once: true },
+    );
   if (!window.gsap || !window.ScrollTrigger) return;
-  gsap.registerPlugin(ScrollTrigger);
   const mm = gsap.matchMedia();
+  mm.add(
+    "(min-width: 960px) and (min-height: 740px) and (prefers-reduced-motion: no-preference)",
+    () => {
+      story.classList.add("is-horizontal");
+      let currentIndex = -1;
+      function syncChapter() {
+        const index = Math.round(
+          (horizontal?.progress() || 0) * (panels.length - 1),
+        );
+        if (index === currentIndex) return;
+        currentIndex = index;
+        story.dataset.chapter = panels[index].dataset.current;
+        chapterPlayers.forEach((player, i) => {
+          player.enabled = i === index;
+          player.sync();
+        });
+      }
+      horizontal = gsap.to(track, {
+        x: () => -(track.scrollWidth - viewport.clientWidth),
+        ease: "none",
+        onUpdate: syncChapter,
+        scrollTrigger: {
+          id: "feature-story",
+          trigger: story,
+          start: "top 112px",
+          end: () =>
+            "+=" +
+            (panels.length - 1) *
+              Math.max(innerHeight, viewport.clientWidth + 24),
+          pin: true,
+          scrub: 0.55,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+      syncChapter();
+      return () => {
+        horizontal = null;
+        story.classList.remove("is-horizontal");
+        delete story.dataset.chapter;
+        viewport.scrollLeft = 0;
+        chapterPlayers.forEach((player) => {
+          player.enabled = true;
+          player.sync();
+        });
+      };
+    },
+  );
   mm.add("(prefers-reduced-motion: no-preference)", () => {
     gsap.from(".hero h1 > span", {
       y: 26,

@@ -449,33 +449,9 @@ section[id] {
   color: var(--muted);
   max-width: 250px;
 }
-.feature-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.feature-tabs button {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--soft);
-  border-radius: 99px;
-  padding: 13px 23px;
-  font-size: 13px;
-  font-weight: 550;
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
-.feature-tabs button[aria-selected="true"] {
-  color: #fff;
-  background: var(--ink);
-}
-.tab-number {
-  font-size: 10px;
-  opacity: 0.5;
+.feature-track {
+  display: grid;
+  gap: 28px;
 }
 .feature-panel {
   display: grid;
@@ -491,19 +467,26 @@ section[id] {
   align-items: flex-start;
   padding: 48px 52px;
 }
+.feature-chapter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 36px;
+  font-size: 12px;
+  font-weight: 550;
+}
 .feature-index {
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   color: #707070;
   letter-spacing: 1px;
-  margin-bottom: 42px;
 }
 .feature-copy h3 {
   font-size: 39px;
   line-height: 1.12;
   max-width: 360px;
 }
-.feature-copy > p {
+.feature-description {
   color: var(--muted);
   font-size: 15px;
   line-height: 1.75;
@@ -1164,13 +1147,8 @@ html:not(.has-js) [data-lang="en"] {
   .feature-phone {
     width: 236px;
   }
-  .feature-index {
+  .feature-chapter {
     margin-bottom: 30px;
-  }
-  .feature-tabs button {
-    padding-inline: 17px;
-    font-size: 12px;
-    gap: 8px;
   }
   .ai-section {
     padding-block: 96px;
@@ -1347,19 +1325,6 @@ html:not(.has-js) [data-lang="en"] {
   .section-aside br {
     display: none;
   }
-  .feature-tabs {
-    gap: 7px;
-    margin-bottom: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .feature-tabs button {
-    font-size: 11px;
-    gap: 9px;
-    justify-content: center;
-    padding-inline: 10px;
-    min-height: 46px;
-  }
   .feature-panel {
     grid-template-columns: minmax(0, 1fr);
     border-radius: 24px;
@@ -1369,14 +1334,14 @@ html:not(.has-js) [data-lang="en"] {
     padding: 30px 28px 35px;
     min-height: 435px;
   }
-  .feature-index {
+  .feature-chapter {
     margin-bottom: 24px;
   }
   .feature-copy h3 {
     font-size: 34px;
     max-width: 290px;
   }
-  .feature-copy > p {
+  .feature-description {
     font-size: 14px;
     margin-top: 20px;
   }

@@ -27,16 +27,10 @@
 .has-media-error video {
   visibility: hidden;
 }
-.has-movie .feature-visual {
+.feature-panel .feature-visual {
   padding: 0;
-  min-height: 720px;
+  min-height: 680px;
   justify-content: center;
-  background: #f0eeea;
-}
-.has-movie #feature-still,
-.has-movie .visual-note,
-.has-movie #feature-caption {
-  display: none;
 }
 .motion-demo {
   position: relative;
@@ -56,6 +50,7 @@
   border: 6px solid #2b2c2a;
   border-radius: 34px;
   box-shadow: 0 25px 45px -22px #20242b60;
+  flex-shrink: 0;
 }
 .motion-film video,
 .motion-film img {
@@ -78,20 +73,75 @@
   pointer-events: none;
 }
 @media (max-width: 850px) {
-  .has-movie .feature-visual {
+  .feature-panel .feature-visual {
     min-height: 680px;
   }
 }
 @media (max-width: 600px) {
-  .has-movie .feature-visual {
+  .feature-panel .feature-visual {
     height: auto;
     min-height: 0;
     padding: 0;
+  }
+  .motion-demo {
+    height: auto;
   }
   .film-note {
     bottom: 12px;
     font-size: 7px;
   }
+}
+/* All four chapters remain in normal document flow until ScrollTrigger is ready. */
+.feature-story.is-horizontal {
+  --story-height: min(700px, calc(100svh - 144px));
+}
+.is-horizontal .feature-viewport {
+  overflow: hidden;
+  border-radius: 28px;
+}
+.is-horizontal .feature-track {
+  display: flex;
+  gap: 24px;
+  will-change: transform;
+}
+.is-horizontal .feature-panel {
+  flex: 0 0 100%;
+  min-width: 0;
+  min-height: 0;
+  height: var(--story-height);
+}
+.is-horizontal .feature-copy {
+  min-width: 0;
+  padding: clamp(28px, 3vw, 46px);
+}
+.is-horizontal .feature-chapter {
+  margin: 0 0 clamp(20px, 3vh, 32px);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.is-horizontal .feature-copy h3 {
+  font-size: clamp(30px, 3vw, 42px);
+}
+.is-horizontal .feature-description {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.is-horizontal .feature-details {
+  margin: 24px 0 28px;
+  font-size: 12px;
+}
+.is-horizontal .feature-visual {
+  height: 100%;
+  min-height: 0;
+}
+.is-horizontal .motion-demo {
+  height: 100%;
+  padding: 22px 0 34px;
+}
+.is-horizontal .motion-film {
+  width: min(280px, 82%, calc((var(--story-height) - 58px) * 600 / 1304));
 }
 .flashcard,
 .flashcard:hover,

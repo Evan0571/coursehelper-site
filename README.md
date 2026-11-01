@@ -19,7 +19,7 @@ The preview server supports byte-range requests so video scrubbing behaves like 
 The landing page follows the gallery-white, monochrome direction of the [provided Mobbin reference](https://getdesign.md/mobbin/design-md): generous space, large sans-serif headings, pill controls, understated surfaces, and actual product screenshots.
 
 - `index.html`: English baseline copy, screenshot gallery, feature explorer, interactive flashcards, FAQ, and contact links.
-- `site.js`: Chinese copy, bilingual feature descriptions and sample flashcards, language persistence, keyboard-accessible tabs, and gallery controls. Existing legal/support pages retain their own copy dictionaries.
+- `site.js`: Chinese copy, bilingual feature descriptions and sample flashcards, language persistence, feature links, and gallery controls. Existing legal/support pages retain their own copy dictionaries.
 - `styles.css`: responsive site styling, reduced-motion support, and shared support/legal page presentation.
 - `assets/app-icon.png`: optimized current black-and-white iOS icon.
 - `assets/screens/v3/`: compressed current sample screenshots. `PROVENANCE.txt` records source build, capture origin, and limitations. Screenshot UI language follows the original capture; switching website copy does not translate image pixels.
@@ -36,6 +36,12 @@ The feature explorer contains four silent product films: course organization, le
 - `assets/vendor/`: self-hosted GSAP and ScrollTrigger. Entrance sequences, section reveals, feature transitions and context connections respect reduced motion. No external script CDN is required.
 
 The mobile SVG icon and Safari flashcard fixes remain in place. Validate both WebKit and Chromium whenever changing card geometry or media behavior.
+
+## Scroll-through features — November 1
+
+The four features are independent articles in the page, replacing the tab switcher. On viewports at least 960px wide and 740px tall, GSAP ScrollTrigger pins the feature stage below the navigation and maps ordinary vertical scrolling to horizontal travel through all four articles. Scrolling past the fourth continues down the page; scrolling back reverses the sequence. There is no wheel-event interception. Each scene fits the viewport and retains its silent native-operation loop; only the current scene's video plays.
+
+Phones, shorter windows, reduced-motion preferences, and browsers without GSAP use four vertically stacked articles. All descriptions and posters are in the HTML, so they remain available without JavaScript. Keyboard focus, gallery links, `#feature-ask` style anchors, and the existing `?feature=ask` query navigate to the corresponding article. Language changes update all four articles together.
 
 References: [Remotion official skills](https://github.com/remotion-dev/skills), [GSAP official skills](https://github.com/greensock/gsap-skills), and the previous [Framer](https://mobbin.com/sites/sections/16fc8417-50fc-445e-8cca-e87fc08073ce)/[Airtable](https://mobbin.com/sites/sections/167edd07-5357-4149-ad18-b42cfd3fddeb) Mobbin composition references. No third-party screenshots or videos are redistributed.
 

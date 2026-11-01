@@ -23,21 +23,33 @@
       content="https://coursehelper.app/assets/coursehelper-icon-87df7b088471.png"
     />
     <title>CourseHelper — Make room for understanding.</title>
-    <link rel="icon" href="/assets/coursehelper-icon-87df7b088471.png" type="image/png" sizes="256x256">
-    <link rel="shortcut icon" href="/favicon.ico?v=87df7b088471" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/assets/coursehelper-icon-87df7b088471.png">
+    <link
+      rel="icon"
+      href="/assets/coursehelper-icon-87df7b088471.png"
+      type="image/png"
+      sizes="256x256"
+    />
+    <link
+      rel="shortcut icon"
+      href="/favicon.ico?v=87df7b088471"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/assets/coursehelper-icon-87df7b088471.png"
+    />
     <link rel="canonical" href="https://coursehelper.app/" />
     <link
       rel="preload"
       as="image"
       href="assets/screens/v3/lecture-summary.webp"
     />
-    <link rel="stylesheet" href="styles.css?v=20261031-actions" />
-    <link rel="stylesheet" href="motion.css?v=20261031-actions" />
-    <script defer src="site.js?v=20261031-actions"></script>
+    <link rel="stylesheet" href="styles.css?v=20261101-story" />
+    <link rel="stylesheet" href="motion.css?v=20261101-story" />
+    <script defer src="site.js?v=20261101-story"></script>
     <script defer src="assets/vendor/gsap.min.js"></script>
     <script defer src="assets/vendor/ScrollTrigger.min.js"></script>
-    <script defer src="motion.js?v=20261031-actions"></script>
+    <script defer src="motion.js?v=20261101-story"></script>
   </head>
   <body class="marketing">
     <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -48,9 +60,12 @@
           href="index.html"
           data-preserve-lang
           aria-label="CourseHelper home"
-          ><img src="/assets/coursehelper-icon-87df7b088471.png" width="32" height="32" alt="" /><span
-            >CourseHelper</span
-          ></a
+          ><img
+            src="/assets/coursehelper-icon-87df7b088471.png"
+            width="32"
+            height="32"
+            alt=""
+          /><span>CourseHelper</span></a
         >
         <div class="nav-links">
           <a href="#explore" data-i18n="navExplore">Explore</a
@@ -99,7 +114,10 @@
           workspace that makes room for learning.
         </p>
         <div class="hero-actions">
-          <a class="button" href="#explore" data-select-feature="capture"
+          <a
+            class="button"
+            href="#feature-capture"
+            data-select-feature="capture"
             ><svg
               class="icon play-mark"
               viewBox="0 0 24 24"
@@ -136,7 +154,7 @@
         <div class="gallery-track">
           <a
             class="gallery-card gallery-course"
-            href="#explore"
+            href="#feature-organize"
             data-select-feature="organize"
             ><div class="gallery-label">
               <span data-i18n="galleryCourse">A home for every course.</span
@@ -167,7 +185,7 @@
           ></a>
           <a
             class="gallery-card gallery-ai"
-            href="#explore"
+            href="#feature-ask"
             data-select-feature="ask"
             ><div class="gallery-label">
               <span data-i18n="galleryAi">Questions with context.</span
@@ -198,7 +216,7 @@
           ></a>
           <a
             class="gallery-card gallery-summary"
-            href="#explore"
+            href="#feature-capture"
             data-select-feature="capture"
             ><div class="gallery-label">
               <span data-i18n="gallerySummary">Keep the bigger picture.</span
@@ -269,7 +287,7 @@
           </div>
           <a
             class="gallery-card gallery-review"
-            href="#explore"
+            href="#feature-review"
             data-select-feature="review"
             ><div class="gallery-label">
               <span data-i18n="galleryReview">Find your way to review.</span
@@ -412,142 +430,300 @@
             </h2>
           </div>
           <p class="section-aside" data-i18n="exploreAside">
-            Take a closer look.<br />One workspace, at your pace.
+            Four moments, one study day.<br />Scroll to explore.
           </p>
         </div>
-        <div
-          class="feature-tabs"
-          role="tablist"
-          aria-label="Explore CourseHelper features"
-        >
-          <button
-            type="button"
-            role="tab"
-            id="tab-organize"
-            aria-controls="feature-panel"
-            aria-selected="true"
-            tabindex="0"
-            data-feature="organize"
-          >
-            <span class="tab-number">01</span
-            ><span data-i18n="tabOrganize">Get organized</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            id="tab-capture"
-            aria-controls="feature-panel"
-            aria-selected="false"
-            tabindex="-1"
-            data-feature="capture"
-          >
-            <span class="tab-number">02</span
-            ><span data-i18n="tabCapture">Keep the lecture</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            id="tab-ask"
-            aria-controls="feature-panel"
-            aria-selected="false"
-            tabindex="-1"
-            data-feature="ask"
-          >
-            <span class="tab-number">03</span
-            ><span data-i18n="tabAsk">Work it out</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            id="tab-review"
-            aria-controls="feature-panel"
-            aria-selected="false"
-            tabindex="-1"
-            data-feature="review"
-          >
-            <span class="tab-number">04</span
-            ><span data-i18n="tabReview">Make it stick</span>
-          </button>
-        </div>
-        <div
-          class="feature-panel"
-          id="feature-panel"
-          role="tabpanel"
-          aria-labelledby="tab-organize"
-          tabindex="0"
-          data-current="organize"
-        >
-          <div class="feature-copy">
-            <span class="feature-index" aria-hidden="true">01 / 04</span>
-            <h3 id="feature-title">
-              Your semester.<br />A little more settled.
-            </h3>
-            <p id="feature-description">
-              Start with your schedule and to-dos. Open a course to find its
-              class sessions, materials, and details right where you left them.
-            </p>
-            <ul class="feature-details" id="feature-details">
-              <li>Daily schedule and cross-course tasks</li>
-              <li>Course details and weekly class sessions</li>
-              <li>Files and links, kept with the right course</li>
-            </ul>
-            <a class="text-link" href="support.html" data-preserve-lang
-              ><span data-i18n="featureLink">Ask us about CourseHelper</span
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-                focusable="false"
+        <div class="feature-story" id="feature-story">
+          <div class="feature-viewport">
+            <div class="feature-track">
+              <article
+                class="feature-panel"
+                id="feature-organize"
+                data-current="organize"
+                aria-labelledby="feature-title-organize"
               >
-                <path d="M7 17 17 7M7 7h10v10" /></svg
-            ></a>
-          </div>
-          <div class="feature-visual">
-            <span class="visual-caption" id="feature-caption"
-              >A little structure. A lot less searching.</span
-            >
-            <div class="feature-phone screen-frame" id="feature-still">
-              <img
-                id="feature-image"
-                src="assets/screens/v3/course-overview.webp"
-                width="720"
-                height="1562"
-                alt="Example course overview"
-                loading="lazy"
-              />
-            </div>
-            <span class="visual-note" data-i18n="exampleNote"
-              >EXAMPLE CONTENT</span
-            >
-            <div class="motion-demo" id="motion-demo" hidden>
-              <div class="motion-film">
-                <img
-                  id="movie-poster"
-                  src="assets/motion/v3/organize-poster.webp"
-                  alt=""
-                  width="600"
-                  height="1304"
-                />
-                <video
-                  id="feature-movie"
-                  muted
-                  playsinline
-                  loop
-                  preload="none"
-                  aria-hidden="true"
-                  tabindex="-1"
-                ></video>
-              </div>
-              <span class="film-note" data-motion-copy="sample"
-                >PRODUCT FILM · SAMPLE CONTENT</span
+                <div class="feature-copy">
+                  <p class="feature-chapter">
+                    <span class="feature-index">01 / 04</span
+                    ><span data-i18n="tabOrganize">Get organized</span>
+                  </p>
+                  <h3 id="feature-title-organize">
+                    Your semester.<br />A little more settled.
+                  </h3>
+                  <p class="feature-description">
+                    Start with your schedule and to-dos. Open a course to find
+                    its class sessions, materials, and details right where you
+                    left them.
+                  </p>
+                  <ul class="feature-details">
+                    <li>Daily schedule and cross-course tasks</li>
+                    <li>Course details and weekly class sessions</li>
+                    <li>Files and links, kept with the right course</li>
+                  </ul>
+                  <a class="text-link" href="support.html" data-preserve-lang
+                    ><span data-i18n="featureLink"
+                      >Ask us about CourseHelper</span
+                    ><svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></a>
+                </div>
+                <div class="feature-visual">
+                  <div class="motion-demo">
+                    <div class="motion-film">
+                      <img
+                        class="movie-poster"
+                        src="assets/motion/v3/organize-poster.webp"
+                        alt="Example course overview with sessions and course navigation"
+                        width="600"
+                        height="1304"
+                        loading="lazy"
+                      />
+                      <video
+                        class="feature-movie"
+                        data-src="assets/motion/v3/organize.mp4?v=actions"
+                        poster="assets/motion/v3/organize-poster.webp"
+                        muted
+                        playsinline
+                        loop
+                        preload="none"
+                        aria-hidden="true"
+                        tabindex="-1"
+                      ></video>
+                    </div>
+                    <span class="film-note" data-i18n="filmNote"
+                      >APP WALKTHROUGH · SAMPLE CONTENT</span
+                    >
+                  </div>
+                </div>
+              </article>
+              <article
+                class="feature-panel"
+                id="feature-capture"
+                data-current="capture"
+                aria-labelledby="feature-title-capture"
               >
+                <div class="feature-copy">
+                  <p class="feature-chapter">
+                    <span class="feature-index">02 / 04</span
+                    ><span data-i18n="tabCapture">Keep the lecture</span>
+                  </p>
+                  <h3 id="feature-title-capture">
+                    Class ends.<br />The ideas stay.
+                  </h3>
+                  <p class="feature-description">
+                    Record or import permitted class audio. Keep the transcript,
+                    key ideas, your own notes, and supporting materials together
+                    in the same lecture.
+                  </p>
+                  <ul class="feature-details">
+                    <li>Lecture audio and timestamped transcripts</li>
+                    <li>Summaries with key concepts</li>
+                    <li>Your notes, alongside the class materials</li>
+                  </ul>
+                  <a class="text-link" href="support.html" data-preserve-lang
+                    ><span data-i18n="featureLink"
+                      >Ask us about CourseHelper</span
+                    ><svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></a>
+                </div>
+                <div class="feature-visual">
+                  <div class="motion-demo">
+                    <div class="motion-film">
+                      <img
+                        class="movie-poster"
+                        src="assets/motion/v3/capture-poster.webp"
+                        alt="Example lecture summary showing its overview and key concepts"
+                        width="600"
+                        height="1304"
+                        loading="lazy"
+                      />
+                      <video
+                        class="feature-movie"
+                        data-src="assets/motion/v3/capture.mp4?v=actions"
+                        poster="assets/motion/v3/capture-poster.webp"
+                        muted
+                        playsinline
+                        loop
+                        preload="none"
+                        aria-hidden="true"
+                        tabindex="-1"
+                      ></video>
+                    </div>
+                    <span class="film-note" data-i18n="filmNote"
+                      >APP WALKTHROUGH · SAMPLE CONTENT</span
+                    >
+                  </div>
+                </div>
+              </article>
+              <article
+                class="feature-panel"
+                id="feature-ask"
+                data-current="ask"
+                aria-labelledby="feature-title-ask"
+              >
+                <div class="feature-copy">
+                  <p class="feature-chapter">
+                    <span class="feature-index">03 / 04</span
+                    ><span data-i18n="tabAsk">Work it out</span>
+                  </p>
+                  <h3 id="feature-title-ask">
+                    A good question.<br />A place to follow it.
+                  </h3>
+                  <p class="feature-description">
+                    Choose a course or lecture, bring a question, and work
+                    through it with AI. Check the referenced material and keep
+                    exploring from there.
+                  </p>
+                  <ul class="feature-details">
+                    <li>Questions grounded in your selected context</li>
+                    <li>References you can follow back to the source</li>
+                    <li>Conversations you can return to later</li>
+                  </ul>
+                  <a class="text-link" href="support.html" data-preserve-lang
+                    ><span data-i18n="featureLink"
+                      >Ask us about CourseHelper</span
+                    ><svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></a>
+                </div>
+                <div class="feature-visual">
+                  <div class="motion-demo">
+                    <div class="motion-film">
+                      <img
+                        class="movie-poster"
+                        src="assets/motion/v3/ask-poster.webp"
+                        alt="Sample course question with an answer and source reference"
+                        width="600"
+                        height="1304"
+                        loading="lazy"
+                      />
+                      <video
+                        class="feature-movie"
+                        data-src="assets/motion/v3/ask.mp4?v=actions"
+                        poster="assets/motion/v3/ask-poster.webp"
+                        muted
+                        playsinline
+                        loop
+                        preload="none"
+                        aria-hidden="true"
+                        tabindex="-1"
+                      ></video>
+                    </div>
+                    <span class="film-note" data-i18n="filmNote"
+                      >APP WALKTHROUGH · SAMPLE CONTENT</span
+                    >
+                  </div>
+                </div>
+              </article>
+              <article
+                class="feature-panel"
+                id="feature-review"
+                data-current="review"
+                aria-labelledby="feature-title-review"
+              >
+                <div class="feature-copy">
+                  <p class="feature-chapter">
+                    <span class="feature-index">04 / 04</span
+                    ><span data-i18n="tabReview">Make it stick</span>
+                  </p>
+                  <h3 id="feature-title-review">
+                    Past the reread.<br />Into what you know.
+                  </h3>
+                  <p class="feature-description">
+                    Build review from your course content. Try a flashcard, test
+                    yourself with a quiz, or reconnect the ideas with a study
+                    guide.
+                  </p>
+                  <ul class="feature-details">
+                    <li>Flashcards, quizzes, and key terms</li>
+                    <li>Study guides and mixed review</li>
+                    <li>Choose the scope and language of your review</li>
+                  </ul>
+                  <a class="text-link" href="support.html" data-preserve-lang
+                    ><span data-i18n="featureLink"
+                      >Ask us about CourseHelper</span
+                    ><svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></a>
+                </div>
+                <div class="feature-visual">
+                  <div class="motion-demo">
+                    <div class="motion-film">
+                      <img
+                        class="movie-poster"
+                        src="assets/motion/v3/review-poster.webp"
+                        alt="Example flashcard revealing an explanation of activation energy"
+                        width="600"
+                        height="1304"
+                        loading="lazy"
+                      />
+                      <video
+                        class="feature-movie"
+                        data-src="assets/motion/v3/review.mp4?v=actions"
+                        poster="assets/motion/v3/review-poster.webp"
+                        muted
+                        playsinline
+                        loop
+                        preload="none"
+                        aria-hidden="true"
+                        tabindex="-1"
+                      ></video>
+                    </div>
+                    <span class="film-note" data-i18n="filmNote"
+                      >APP WALKTHROUGH · SAMPLE CONTENT</span
+                    >
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         </div>
