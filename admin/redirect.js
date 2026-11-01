@@ -7,7 +7,7 @@
   if (!supported(language)) language = navigator.language?.toLowerCase().startsWith('zh') ? 'zh' : 'en';
 
   // The destination is fixed. Forward only the language, never arbitrary URLs, query strings or fragments.
-  const destination = new URL('https://coursehelper-admin-yifan.syf1248226176.chatgpt.site/');
+  const destination = new URL('https://admin.coursehelper.app/');
   destination.searchParams.set('lang', language);
   document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
   document.getElementById('redirect-status').textContent = language === 'zh' ? '正在打开管理后台…' : 'Opening the admin workspace…';

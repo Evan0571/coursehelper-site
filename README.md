@@ -49,10 +49,14 @@ The legal text and OAuth consent implementation are retained. Publishing continu
 
 ## Admin entry
 
-`/admin` (normalized by Pages to `/admin/`) is an unlinked redirect to the independently hosted, protected CourseHelper admin workspace. The landing, support and legal pages do not show an admin link. The entry page requests no indexing and forwards only a validated `lang=zh` or `lang=en`; its destination is fixed. Without JavaScript it provides a manual continuation link.
+`/admin` (normalized by Pages to `/admin/`) is an unlinked redirect to the independently hosted, protected CourseHelper admin workspace at `https://admin.coursehelper.app/`. The custom hostname is bound to the existing private Site; its CNAME is DNS-only and ownership/SSL validation records are retained. The landing, support and legal pages do not show an admin link. The entry page requests no indexing and forwards only a validated `lang=zh` or `lang=en`; its destination is fixed. Without JavaScript it provides a manual continuation link.
 
 The redirect contains no application credentials or user data. It does not grant access: the destination retains its private-site gate and the administrator account checks. Keeping the address bar on the marketing domain would require an application host or reverse proxy rather than GitHub Pages' static hosting.
 
 ## Missing pages
 
 `404.html` uses the shared CourseHelper navigation, type and buttons with bilingual recovery links. Its assets and links use root paths so nested missing URLs work. GitHub Pages serves it with HTTP 404; the local preview server mirrors that behavior. The error page does not expose an admin entry.
+
+## Web icon assets
+
+All page icons and visible brand marks use `/assets/coursehelper-icon-87df7b088471.png`, a content-versioned copy of the current black-and-white artwork. Root `favicon.ico`, `favicon.svg` and `apple-touch-icon.png` cover browser fallback requests. The ICO contains the exact canonical PNG pixels, and legacy icon paths remain available. When artwork changes, publish a new hashed filename and update the page references together.
