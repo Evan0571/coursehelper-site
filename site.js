@@ -13,11 +13,10 @@
     navPractice: "试着复习",
     navFaq: "常见问题",
     navContact: "联系了解",
-    heroEyebrow: "课堂有条理，思路更清晰。",
     heroLine1: "少一点散乱。",
     heroLine2: "多一点理解。",
     heroDescription:
-      "课表、课堂、笔记与复习，终于放在一起。给学习一个专注的空间，也给思考留一点余地。",
+      "课表、录音、笔记与复习，集中在一处。",
     heroPrimary: "看看它如何运作",
     heroPlatform: "为 iPhone 打造，围绕你的课堂。",
     galleryCourse: "每门课，都有自己的空间。",
@@ -26,16 +25,13 @@
     galleryFlashcards: "让学过的，留下来。",
     galleryReview: "找到适合你的复习方式。",
     galleryCaption: "走进 CourseHelper · 示例课程与演示内容",
-    introEyebrow: "少一些来回切换，多一些前后连接。",
     introTitle: "一门课，远不止一个文件夹。",
     introBody:
-      "是想再听一遍的讲解，是记在页边的疑问，也是终于想通的那个概念。从第一节课到下一次复习，CourseHelper 把这些片段连在一起。",
+      "按课次整理录音、转录、笔记和资料。",
     chainCourse: "课程",
     chainLecture: "课堂",
     chainUnderstanding: "理解",
-    exploreEyebrow: "从课前，一直陪你到课后。",
     exploreTitle: "学习的每一部分，都有归处。",
-    exploreAside: "四个片段，串起整个学习日。<br>向下滚动，慢慢探索。",
     tabOrganize: "安排课程",
     tabCapture: "留下课堂",
     tabAsk: "继续理解",
@@ -43,11 +39,10 @@
     featureLink: "了解 CourseHelper 的更多信息",
     filmNote: "App 操作演示 · 示例内容",
     exampleNote: "示例内容",
-    aiEyebrow: "让每个问题，都有课堂作为背景。",
     aiLine1: "带上你的问题。",
     aiLine2: "接着这门课聊。",
     aiBody:
-      "从一门课或一节课堂发起提问，结合已经保存的资料，沿着引用回看来源。让对话始终围绕你正在学的内容。",
+      "围绕课程或课次提问，点击引用查看来源。",
     aiDetail1: "课程与课次上下文",
     aiDetail2: "回答附带来源引用",
     aiDetail3: "用中文或英文提问",
@@ -56,29 +51,26 @@
     contextQuestions: "你的问题",
     contextNotes: "课堂笔记",
     contextMaterials: "课程资料",
-    practiceEyebrow: "用片刻回想，把理解留下来。",
     practiceTitle: "读过。<br>想起。<br>真的理解。",
     practiceBody:
-      "把课堂内容变成闪卡、测验、关键术语与学习指南。换一种方式，重新走近学过的知识。",
+      "用课堂内容生成闪卡、测验、术语和学习指南。",
     practiceTag1: "闪卡",
     practiceTag2: "测验",
     practiceTag3: "学习指南",
     demoHeading: "试着翻一张闪卡",
     flipHint: "点一下，查看答案",
-    demoNote: "这是一个交互示例。你的复习，从自己的课堂开始。",
+    demoNote: "交互示例",
     nextCard: "下一张",
     detailsTitle: "贴近你真正的<br>学习习惯。",
-    detailsAside: "那些小细节，<br>让学习继续向前。",
     detailTitle1: "两种语言，你的节奏。",
     detailBody1:
-      "中英文界面随时切换，选择可用的转录和摘要语言。用最有助于思考的语言提问，慢慢理清英语课堂里的概念。",
+      "切换中英文界面，选择可用的学习内容语言。",
     detailTitle2: "随时接上之前的思路。",
     detailBody2:
-      "回到一门课，接着上次的对话，找到上一节课记下的笔记。学习的过程，也有一个可以回去的地方。",
+      "回看已保存的对话、笔记和课程资料。",
     detailTitle3: "从一门示例课开始。",
     detailBody3:
-      "内置 Example 课程与交互式引导，带你看一节课如何被整理、理解和复习。熟悉以后，再把自己的课堂放进来。",
-    faqEyebrow: "你可能想知道",
+      "先探索示例课程，再添加自己的课。",
     faqTitle: "开始前，<br>聊几个问题。",
     faqContact: "还有别的问题？",
     faqQ1: "CourseHelper 适合谁？",
@@ -98,7 +90,6 @@
       "隐私政策说明了数据、服务提供方与账号控制方式。账号或数据删除相关问题，也可以联系支持。",
     privacyLink: "阅读隐私政策",
     closingTitle: "给理解，<br>留一点空间。",
-    closingBody: "少一点散乱，多一点准备。迎接下一堂课。",
     closingCta: "聊聊 CourseHelper",
     footerSupport: "支持",
     footerPrivacy: "隐私政策",
@@ -309,7 +300,6 @@
     document.querySelectorAll(".feature-panel").forEach((panel) => {
       const copy = featureData[panel.dataset.current][language];
       panel.querySelector("h3").innerHTML = copy.title;
-      panel.querySelector(".feature-description").textContent = copy.body;
       panel.querySelector(".feature-details").replaceChildren(
         ...copy.details.map((detail) => {
           const item = document.createElement("li");
