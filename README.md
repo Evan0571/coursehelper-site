@@ -38,6 +38,14 @@ The feature explorer contains four silent product films: course organization, le
 
 The mobile SVG icon and Safari flashcard fixes remain in place. Validate both WebKit and Chromium whenever changing card geometry or media behavior.
 
+## Interactive opening preview — November 4
+
+Open `/?lang=zh&experience=spatial` (or `lang=en`) for the opt-in spatial opening. The default URL continues to display the existing homepage. `experience.js` clones an inert HTML template only for the explicit query value; no experiment state is persisted. The preview includes an Original site link that removes this parameter. Its CSS and selectors are isolated in `experience.css`.
+
+The complete phone and native screen rotate together with pointer drag or left/right arrow keys, returning on release or Escape. Ordinary vertical scrolling opens the surrounding course cards, straightens the phone, and advances through the four native feature films. Card selection also switches the film directly. There is no wheel interception, playback chrome, fake live recording or backend connection. Source UI remains English and the example identity is labeled. The existing native feature films below the opening are retained.
+
+The opening uses CSS perspective and the self-hosted GSAP/ScrollTrigger distribution. Reduced motion keeps a still poster and removes scrolling/drag motion; Save-Data avoids video loading. Short windows and missing GSAP retain a normal-flow scene, and JavaScript disabled retains the original page. Hidden and offscreen video pauses. The baseline before this preview is commit `f9250571d4772e1825fcc1a61fd8ea3e3169b73b`, also locally tagged `preview-baseline-20261104-f925057`; remove the three preview references and template from `index.html` plus `experience.js`/`experience.css` to retire the experiment without touching the original design.
+
 ## Scroll-through features — November 1
 
 The four features are independent articles in the page, replacing the tab switcher. On viewports at least 960px wide and 740px tall, GSAP ScrollTrigger pins the feature stage below the navigation and maps ordinary vertical scrolling to horizontal travel through all four articles. Scrolling past the fourth continues down the page; scrolling back reverses the sequence. There is no wheel-event interception. Each scene fits the viewport and retains its silent native-operation loop; only the current scene's video plays.

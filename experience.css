@@ -1,0 +1,658 @@
+/* Opt-in only: ?experience=spatial. The existing homepage stays the default. */
+.spatial-preview .hero,
+.spatial-preview .gallery-section {
+  display: none;
+}
+.spatial-intro {
+  --phone-width: clamp(174px, 23.7vh, 228px);
+  margin-top: -96px;
+  height: 240svh;
+  position: relative;
+  background: #fafaf8;
+}
+.spatial-stage {
+  height: 100svh;
+  min-height: 680px;
+  position: sticky;
+  top: 0;
+  overflow: clip;
+  isolation: isolate;
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    #e9eae6 0,
+    #f5f5f1 29%,
+    #fafaf8 65%
+  );
+}
+.spatial-opening,
+.spatial-unfolded {
+  position: absolute;
+  top: max(122px, 13.2%);
+  left: 24px;
+  right: 24px;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+.spatial-kicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin-bottom: 16px;
+}
+.spatial-kicker span {
+  color: #7b7c76;
+  font-weight: 400;
+  margin-left: 7px;
+}
+.spatial-opening h1 {
+  font-size: clamp(54px, 5vw, 78px);
+  font-weight: 550;
+  letter-spacing: -4px;
+  line-height: 1.04;
+}
+.spatial-opening h1 > span {
+  display: block;
+}
+.spatial-opening h1 > span:last-child {
+  color: #888b81;
+}
+html[lang="zh-Hans"] .spatial-opening h1 {
+  letter-spacing: -3px;
+  font-weight: 580;
+  line-height: 1.12;
+}
+.spatial-unfolded {
+  opacity: 0;
+  visibility: hidden;
+  top: max(142px, 16%);
+}
+.spatial-unfolded h2 {
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 550;
+  letter-spacing: -1.8px;
+}
+.spatial-unfolded p {
+  color: #73766d;
+  font-size: 15px;
+  margin-top: 16px;
+}
+.spatial-world {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  perspective: 1400px;
+  z-index: 1;
+}
+.spatial-parallax {
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.spatial-orbit {
+  position: absolute;
+  width: 980px;
+  height: 580px;
+  margin: -250px 0 0 -490px;
+  border: 1px solid #d6d9d1;
+  border-radius: 50%;
+  transform: translateZ(-420px) rotateX(67deg) rotateZ(-12deg);
+  pointer-events: none;
+}
+.spatial-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 50px 70px;
+  border: 1px solid #dfe1da;
+  border-radius: 50%;
+}
+.spatial-ground {
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  left: -200px;
+  top: 180px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #3a3e2c24, #3a3e2c00 68%);
+  pointer-events: none;
+}
+.spatial-phone-pose {
+  position: absolute;
+  width: var(--phone-width);
+  left: calc(var(--phone-width) / -2);
+  top: calc(var(--phone-width) * -1.0867);
+  transform-style: preserve-3d;
+  /* Keep idle UI text on a sharp 2D plane; drag rotation has its own wrapper. */
+  transform: rotate(-9deg);
+}
+.spatial-phone-drag {
+  transform-style: preserve-3d;
+}
+.spatial-device {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #9b9d98;
+  border-radius: 36px;
+  background: linear-gradient(
+    120deg,
+    #e8e9e6,
+    #777a76 20%,
+    #eeefed 48%,
+    #5b5e59 80%,
+    #bebfba
+  );
+  box-shadow:
+    1px 1px 0 #676a64,
+    3px 3px 0 #4f524e,
+    5px 5px 0 #b7b9b3,
+    7px 7px 0 #5a5c56,
+    16px 24px 34px -12px #242a3740;
+  cursor: grab;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.spatial-device.is-dragging {
+  cursor: grabbing;
+}
+.spatial-device-screen {
+  display: block;
+  position: relative;
+  aspect-ratio: 1200 / 2608;
+  overflow: hidden;
+  border: 4px solid #171816;
+  border-radius: 29px;
+  background: #f6f6f6;
+}
+.spatial-device-screen img,
+.spatial-device-screen video {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.spatial-device-screen video {
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.spatial-device-screen video.is-ready {
+  opacity: 1;
+}
+.spatial-device-glint {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #ffffff91;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.spatial-card {
+  position: absolute;
+  width: 214px;
+  margin: -80px 0 0 -107px;
+  padding: 0;
+  border-radius: 17px;
+  text-align: left;
+  background: transparent;
+  transform-style: preserve-3d;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.spatial-card-face {
+  display: flex;
+  min-height: 160px;
+  padding: 19px;
+  flex-direction: column;
+  border: 1px solid #fff;
+  border-radius: inherit;
+  background: #ffffffed;
+  box-shadow:
+    0 3px 4px #242a3704,
+    0 15px 30px -16px #30382c30;
+  transition:
+    box-shadow 0.25s,
+    background 0.25s,
+    transform 0.25s;
+}
+.spatial-card:hover .spatial-card-face {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 38px -14px #30382c42;
+}
+.spatial-card.is-selected .spatial-card-face {
+  background: #fff;
+  box-shadow:
+    0 0 0 1px #747e5d,
+    0 15px 30px -16px #30382c30;
+}
+.spatial-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #70736a;
+}
+.spatial-card-heading > svg {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+}
+.spatial-card-index {
+  font-variant-numeric: tabular-nums;
+  color: #95998e;
+  font-size: 9px;
+}
+.spatial-course-name {
+  font-size: 28px;
+  font-weight: 550;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-top: 18px;
+}
+.spatial-card-subtitle {
+  color: #777c70;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.spatial-course-time {
+  border-top: 1px solid #e5e7df;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 10px;
+  font-size: 9px;
+  color: #74786c;
+}
+.spatial-wave {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 9px;
+}
+.spatial-wave i {
+  display: block;
+  width: 2px;
+  height: var(--bar-height);
+  border-radius: 2px;
+  background: #747f5e;
+}
+.spatial-question-text {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-top: 19px;
+  margin-bottom: 17px;
+  letter-spacing: -0.3px;
+}
+.spatial-source {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.spatial-source svg {
+  width: 14px;
+  height: 14px;
+}
+.spatial-recall-stack {
+  display: block;
+  position: relative;
+  width: 103px;
+  height: 56px;
+  margin: 20px auto 16px;
+}
+.spatial-recall-stack > span {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 1px solid #d8dcce;
+  background: #f4f5ef;
+}
+.spatial-recall-stack > span:nth-child(1) {
+  transform: rotate(-13deg) translate(-6px, 1px);
+}
+.spatial-recall-stack > span:nth-child(2) {
+  transform: rotate(9deg) translate(5px, -1px);
+}
+.spatial-recall-stack > span:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  background: #eff2e7;
+  font-size: 16px;
+  font-weight: 500;
+}
+.spatial-recall-stack svg {
+  width: 18px;
+  height: 18px;
+  color: #7e896c;
+}
+.spatial-course {
+  transform: translate(-260px, -110px) rotate(-8deg);
+}
+.spatial-recording {
+  transform: translate(260px, -100px) rotate(9deg);
+}
+.spatial-question {
+  transform: translate(-260px, 110px) rotate(4deg);
+}
+.spatial-recall {
+  transform: translate(260px, 120px) rotate(-6deg);
+}
+.spatial-footer {
+  position: absolute;
+  bottom: 62px;
+  left: max(32px, 5%);
+  right: max(32px, 5%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 3;
+}
+.spatial-drag-hint {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #73776c;
+  font-size: 11px;
+}
+.spatial-drag-hint svg {
+  width: 23px;
+  height: 23px;
+}
+.spatial-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  min-height: 44px;
+}
+.spatial-explore svg {
+  width: 20px;
+  height: 20px;
+}
+.spatial-demo-note {
+  position: absolute;
+  bottom: 17px;
+  left: 24px;
+  right: 24px;
+  color: #7b7f73;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  z-index: 3;
+}
+.spatial-demo-note a {
+  text-underline-offset: 3px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+}
+.spatial-preview .intro-section {
+  margin-top: 0;
+}
+.spatial-intro.is-static {
+  height: auto;
+}
+.spatial-intro.is-static .spatial-stage {
+  position: relative;
+}
+.spatial-intro.is-static .spatial-drag-hint {
+  visibility: hidden;
+}
+@media (min-width: 621px) and (max-width: 850px) {
+  .spatial-intro {
+    margin-top: -80px;
+  }
+}
+@media (min-width: 1700px) {
+  .spatial-intro {
+    --phone-width: 248px;
+  }
+}
+@media (max-width: 960px) {
+  .spatial-opening h1 {
+    font-size: 64px;
+  }
+  .spatial-card {
+    width: 174px;
+    margin-left: -87px;
+  }
+  .spatial-card-face {
+    padding: 15px;
+    min-height: 145px;
+  }
+  .spatial-course {
+    transform: translate(-224px, -105px) rotate(-8deg);
+  }
+  .spatial-recording {
+    transform: translate(224px, -95px) rotate(9deg);
+  }
+  .spatial-question {
+    transform: translate(-224px, 100px) rotate(4deg);
+  }
+  .spatial-recall {
+    transform: translate(224px, 110px) rotate(-6deg);
+  }
+}
+@media (max-width: 620px) {
+  .spatial-intro {
+    --phone-width: clamp(148px, 19.4vh, 164px);
+    margin-top: -80px;
+    height: 210svh;
+  }
+  .spatial-stage {
+    min-height: 820px;
+  }
+  .spatial-opening {
+    top: 120px;
+    left: 12px;
+    right: 12px;
+  }
+  .spatial-kicker {
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+  .spatial-opening h1 {
+    font-size: clamp(39px, 11.2vw, 58px);
+    letter-spacing: -2px;
+    line-height: 1.07;
+  }
+  html[lang="zh-Hans"] .spatial-opening h1 {
+    letter-spacing: -1px;
+  }
+  .spatial-world {
+    top: 53%;
+  }
+  .spatial-phone-pose {
+    transform: rotate(-7deg);
+  }
+  .spatial-device {
+    border-radius: 28px;
+    padding: 4px;
+  }
+  .spatial-device-screen {
+    border-width: 3px;
+    border-radius: 23px;
+  }
+  .spatial-orbit {
+    width: 550px;
+    height: 400px;
+    margin-left: -275px;
+    margin-top: -180px;
+  }
+  .spatial-ground {
+    width: 260px;
+    left: -130px;
+    top: 140px;
+  }
+  .spatial-card {
+    width: 142px;
+    margin: -27px 0 0 -71px;
+  }
+  .spatial-card-face {
+    min-height: 54px;
+    height: 54px;
+    padding: 10px;
+    border-radius: 12px;
+  }
+  .spatial-card-heading {
+    font-size: 11px;
+    gap: 5px;
+  }
+  .spatial-card-heading svg {
+    width: 12px;
+  }
+  .spatial-card-face > :not(.spatial-card-heading) {
+    display: none;
+  }
+  .spatial-card {
+    border-radius: 12px;
+  }
+  .spatial-course {
+    transform: translate(-78px, 215px) rotate(-3deg);
+  }
+  .spatial-recording {
+    transform: translate(78px, 215px) rotate(3deg);
+  }
+  .spatial-question {
+    transform: translate(-78px, 276px) rotate(2deg);
+  }
+  .spatial-recall {
+    transform: translate(78px, 276px) rotate(-2deg);
+  }
+  .spatial-unfolded {
+    top: 128px;
+  }
+  .spatial-unfolded h2 {
+    font-size: clamp(25px, 7vw, 34px);
+    letter-spacing: -0.8px;
+  }
+  .spatial-unfolded p {
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  .spatial-footer {
+    bottom: 42px;
+    left: 20px;
+    right: 20px;
+  }
+  .spatial-drag-hint {
+    font-size: 10px;
+    gap: 4px;
+  }
+  .spatial-drag-hint svg {
+    width: 17px;
+  }
+  .spatial-explore {
+    margin-left: auto;
+    font-size: 10px;
+    min-height: 30px;
+  }
+  .spatial-explore svg {
+    width: 15px;
+  }
+  .spatial-demo-note {
+    bottom: 8px;
+    font-size: 10px;
+    left: 12px;
+    right: 12px;
+    gap: 2px 8px;
+    flex-wrap: wrap;
+  }
+}
+@media (min-width: 621px) and (max-width: 760px) {
+  .spatial-card {
+    width: 148px;
+    margin-left: -74px;
+  }
+  .spatial-course {
+    transform: translate(-200px, -105px) rotate(-6deg);
+  }
+  .spatial-recording {
+    transform: translate(200px, -95px) rotate(6deg);
+  }
+  .spatial-question {
+    transform: translate(-200px, 100px) rotate(3deg);
+  }
+  .spatial-recall {
+    transform: translate(200px, 110px) rotate(-3deg);
+  }
+}
+@media (max-width: 360px) {
+  html[lang="en"] .spatial-opening h1 {
+    font-size: 34px;
+    letter-spacing: -1.7px;
+  }
+}
+@media (max-height: 780px) and (min-width: 621px) {
+  .spatial-intro {
+    --phone-width: 170px;
+  }
+  .spatial-opening {
+    top: 120px;
+  }
+  .spatial-opening h1 {
+    font-size: 56px;
+  }
+  .spatial-world {
+    top: 65%;
+  }
+  .spatial-card {
+    transform-origin: center;
+  }
+}
+@media (max-height: 740px) and (max-width: 620px) {
+  .spatial-intro {
+    height: auto;
+  }
+  .spatial-stage {
+    height: 790px;
+    position: relative;
+  }
+  .spatial-world {
+    top: 52%;
+  }
+}
+@media (max-height: 740px) and (min-width: 621px) {
+  .spatial-intro {
+    height: auto;
+  }
+  .spatial-stage {
+    height: 800px;
+    position: relative;
+  }
+  .spatial-world {
+    top: 60%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spatial-intro {
+    height: auto;
+  }
+  .spatial-stage {
+    position: relative;
+  }
+  .spatial-device-screen video,
+  .spatial-card-face {
+    transition: none;
+  }
+  .spatial-device {
+    cursor: default;
+  }
+  .spatial-drag-hint {
+    visibility: hidden;
+  }
+}

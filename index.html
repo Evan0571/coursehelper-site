@@ -46,9 +46,11 @@
     />
     <link rel="stylesheet" href="styles.css?v=20261101-device" />
     <link rel="stylesheet" href="motion.css?v=20261101-device" />
+    <link rel="stylesheet" href="experience.css?v=20261104-spatial" />
     <script defer src="site.js?v=20261101-device"></script>
     <script defer src="assets/vendor/gsap.min.js"></script>
     <script defer src="assets/vendor/ScrollTrigger.min.js"></script>
+    <script defer src="experience.js?v=20261104-spatial"></script>
     <script defer src="motion.js?v=20261101-device"></script>
     <script defer src="device-camera.js?v=20261101-device"></script>
   </head>
@@ -100,6 +102,252 @@
         </div>
       </nav>
     </header>
+    <template id="spatial-template">
+      <section
+        class="spatial-intro"
+        id="experience"
+        aria-labelledby="spatial-title"
+      >
+        <div class="spatial-stage">
+          <div class="spatial-opening">
+            <p class="spatial-kicker">CourseHelper <span>for iPhone</span></p>
+            <h1 id="spatial-title">
+              <span data-spatial-copy="line1">Less scattered.</span
+              ><span data-spatial-copy="line2">More understood.</span>
+            </h1>
+          </div>
+          <div class="spatial-unfolded" aria-hidden="true">
+            <h2 data-spatial-copy="unfoldTitle">
+              One course. Everything connected.
+            </h2>
+            <p data-spatial-copy="unfoldBody">
+              Your schedule, recordings, questions, and review.
+            </p>
+          </div>
+          <div class="spatial-world">
+            <div class="spatial-parallax">
+              <div class="spatial-orbit" aria-hidden="true"></div>
+              <div class="spatial-ground" aria-hidden="true"></div>
+              <button
+                class="spatial-card spatial-course is-selected"
+                type="button"
+                data-spatial-feature="organize"
+                aria-pressed="true"
+              >
+                <span class="spatial-card-face">
+                  <span class="spatial-card-heading"
+                    ><span class="spatial-card-index">01</span
+                    ><span data-spatial-copy="course">Your course</span
+                    ><svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></span>
+                  <span class="spatial-course-name">BIO 140</span>
+                  <span
+                    class="spatial-card-subtitle"
+                    data-spatial-copy="biology"
+                    >Cell biology</span
+                  >
+                  <span class="spatial-course-time"
+                    ><span data-spatial-copy="monday">MON</span
+                    ><span>09:30 — 10:45</span></span
+                  >
+                </span>
+              </button>
+              <button
+                class="spatial-card spatial-recording"
+                type="button"
+                data-spatial-feature="capture"
+                aria-pressed="false"
+              >
+                <span class="spatial-card-face">
+                  <span class="spatial-card-heading"
+                    ><span class="spatial-card-index">02</span
+                    ><span data-spatial-copy="recording">Keep the lecture</span
+                    ><svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></span>
+                  <span class="spatial-wave" aria-hidden="true"></span>
+                  <span
+                    class="spatial-card-subtitle"
+                    data-spatial-copy="lecture"
+                    >Enzymes & cellular energy</span
+                  >
+                </span>
+              </button>
+              <div class="spatial-phone-pose">
+                <div class="spatial-phone-drag">
+                  <button
+                    class="spatial-device"
+                    type="button"
+                    aria-label="Rotate the phone"
+                    aria-describedby="spatial-drag-hint"
+                  >
+                    <span class="spatial-device-screen">
+                      <img
+                        class="spatial-poster"
+                        src="assets/motion/v3/organize-poster.webp"
+                        width="1200"
+                        height="2608"
+                        alt="Example CourseHelper course interface"
+                      />
+                      <video
+                        id="spatial-movie"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-hidden="true"
+                        tabindex="-1"
+                      ></video>
+                    </span>
+                    <span
+                      class="spatial-device-glint"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+              <button
+                class="spatial-card spatial-question"
+                type="button"
+                data-spatial-feature="ask"
+                aria-pressed="false"
+              >
+                <span class="spatial-card-face">
+                  <span class="spatial-card-heading"
+                    ><span class="spatial-card-index">03</span
+                    ><span data-spatial-copy="ask">Work it out</span
+                    ><svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></span>
+                  <span
+                    class="spatial-question-text"
+                    data-spatial-copy="question"
+                    >Why do enzymes lower activation energy?</span
+                  >
+                  <span class="spatial-card-subtitle spatial-source"
+                    ><svg
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.3"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M3 3h10v14H3zM7 3v4h6M7 10h5M7 13h4M15 5h2v11"
+                      /></svg
+                    ><span data-spatial-copy="source"
+                      >With sources from class</span
+                    ></span
+                  >
+                </span>
+              </button>
+              <button
+                class="spatial-card spatial-recall"
+                type="button"
+                data-spatial-feature="review"
+                aria-pressed="false"
+              >
+                <span class="spatial-card-face">
+                  <span class="spatial-card-heading"
+                    ><span class="spatial-card-index">04</span
+                    ><span data-spatial-copy="review">Make it stick</span
+                    ><svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7M7 7h10v10" /></svg
+                  ></span>
+                  <span class="spatial-recall-stack" aria-hidden="true"
+                    ><span></span><span></span
+                    ><span
+                      >Q
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                      >
+                        <path
+                          d="M6 8a7 7 0 0 1 12 1l1 3M19 6v6h-6M18 16a7 7 0 0 1-12-1l-1-3M5 18v-6h6"
+                        />
+                      </svg>
+                      A</span
+                    ></span
+                  >
+                  <span class="spatial-card-subtitle" data-spatial-copy="recall"
+                    >Turn class content into recall.</span
+                  >
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="spatial-footer">
+            <span id="spatial-drag-hint" class="spatial-drag-hint"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M8 9l-3 3 3 3M16 9l3 3-3 3" /></svg
+              ><span data-spatial-copy="hint"
+                >Drag the phone. Pick a card.</span
+              ></span
+            >
+            <a class="spatial-explore" href="#explore"
+              ><span data-spatial-copy="explore">Scroll to explore</span
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                aria-hidden="true"
+              >
+                <path d="M12 5v14M6 13l6 6 6-6" /></svg
+            ></a>
+          </div>
+          <div class="spatial-demo-note">
+            <span data-spatial-copy="demo"
+              >Interactive preview · Sample content · App UI in English</span
+            ><a
+              href="?lang=en"
+              data-spatial-original
+              data-spatial-copy="original"
+              >Original site</a
+            >
+          </div>
+          <span
+            class="sr-only"
+            role="status"
+            aria-live="polite"
+            id="spatial-announcement"
+          ></span>
+        </div>
+      </section>
+    </template>
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
         <h1 id="hero-title">
