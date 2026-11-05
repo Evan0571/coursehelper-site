@@ -266,6 +266,7 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
     frame = 0,
     videoCallback = 0,
     renderCount = 0;
+  let mediaFrameReady = false;
   function draw() {
     frame = 0;
     if (disposed || !visible || document.hidden) return;
@@ -276,12 +277,15 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
       "YXZ",
     );
     const useFilm =
-      video.classList.contains("is-ready") && video.readyState >= 2;
+      mediaFrameReady &&
+      video.classList.contains("is-ready") &&
+      video.readyState >= 2;
     if (!useFilm && (!poster.complete || !poster.naturalWidth)) return;
     const map = useFilm ? filmTexture : posterTexture;
     if (screenMaterial.map !== map) {
       screenMaterial.map = map;
       screenMaterial.needsUpdate = true;
+      if (useFilm) filmTexture.needsUpdate = true;
     }
     renderer.render(scene, camera);
     if (!host.classList.contains("has-webgl-phone"))
@@ -310,12 +314,22 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
   }
   const videoFrame = () => {
     if (disposed) return;
+    mediaFrameReady = true;
+    filmTexture.needsUpdate = true;
     requestDraw();
     videoCallback = video.requestVideoFrameCallback?.(videoFrame) || 0;
   };
   if (video.requestVideoFrameCallback)
     videoCallback = video.requestVideoFrameCallback(videoFrame);
-  else video.addEventListener("timeupdate", requestDraw);
+  else video.addEventListener("timeupdate", refreshMedia);
+  function refreshMedia(event) {
+    if (event.type === "emptied") mediaFrameReady = false;
+    else if (!video.requestVideoFrameCallback && video.readyState >= 2) {
+      mediaFrameReady = true;
+      filmTexture.needsUpdate = true;
+    }
+    requestDraw();
+  }
   const mediaEvents = [
     "playing",
     "pause",
@@ -324,7 +338,7 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
     "emptied",
     "error",
   ];
-  mediaEvents.forEach((name) => video.addEventListener(name, requestDraw));
+  mediaEvents.forEach((name) => video.addEventListener(name, refreshMedia));
   const screenState = new MutationObserver(requestDraw);
   screenState.observe(video, { attributes: true, attributeFilter: ["class"] });
   const observer = new IntersectionObserver(
@@ -354,8 +368,10 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
     screenState.disconnect();
     poster.removeEventListener("load", posterLoaded);
     document.removeEventListener("visibilitychange", requestDraw);
-    mediaEvents.forEach((name) => video.removeEventListener(name, requestDraw));
-    video.removeEventListener("timeupdate", requestDraw);
+    mediaEvents.forEach((name) =>
+      video.removeEventListener(name, refreshMedia),
+    );
+    video.removeEventListener("timeupdate", refreshMedia);
     model.traverse((object) => {
       object.geometry?.dispose();
     });

@@ -38,7 +38,7 @@
   }
   function enablePhone3d() {
     if (reduce.matches || navigator.connection?.saveData || phoneImport) return;
-    phoneImport = import("./assets/experiences/phone3d.js?v=20261104-body")
+    phoneImport = import("./assets/experiences/phone3d.js?v=20261104-body2")
       .then(({ mountPhone }) => {
         phone3d = mountPhone({
           host: phone,
