@@ -192,33 +192,35 @@
           scrollTrigger: { trigger: el, start: "top 92%", once: true },
         });
       });
-    gsap.from(".context-orbit", {
-      scale: 0.9,
-      opacity: 0,
-      stagger: 0.12,
-      duration: 0.8,
-      ease: "power2.out",
-      clearProps: "transform,opacity",
-      scrollTrigger: {
-        trigger: ".context-visual",
-        start: "top 85%",
-        once: true,
-      },
-    });
-    gsap.fromTo(
-      ".context-lines path",
-      { strokeDashoffset: 50 },
-      {
-        strokeDashoffset: 0,
-        duration: 2.2,
+    if (document.querySelector(".context-visual")) {
+      gsap.from(".context-orbit", {
+        scale: 0.9,
+        opacity: 0,
+        stagger: 0.12,
+        duration: 0.8,
         ease: "power2.out",
+        clearProps: "transform,opacity",
         scrollTrigger: {
           trigger: ".context-visual",
           start: "top 85%",
           once: true,
         },
-      },
-    );
+      });
+      gsap.fromTo(
+        ".context-lines path",
+        { strokeDashoffset: 50 },
+        {
+          strokeDashoffset: 0,
+          duration: 2.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".context-visual",
+            start: "top 85%",
+            once: true,
+          },
+        },
+      );
+    }
     document.querySelectorAll(".gallery-card").forEach((el) => {
       const hover = gsap.to(el, {
         y: -6,

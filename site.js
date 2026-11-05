@@ -312,7 +312,7 @@
     document.dispatchEvent(new CustomEvent("coursehelper:language"));
   }
   function renderCard() {
-    if (!isMarketing) return;
+    if (!isMarketing || !document.getElementById("flashcard")) return;
     document
       .getElementById("flashcard")
       .setAttribute("aria-pressed", String(answerShown));

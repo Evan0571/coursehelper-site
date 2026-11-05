@@ -10,6 +10,19 @@
   const scene = document.getElementById("experience");
   const stage = scene.querySelector(".spatial-stage");
   const cards = [...scene.querySelectorAll("[data-spatial-feature]")];
+  cards.forEach((card) => {
+    const motion = document.createElement("span");
+    motion.className = "spatial-card-motion";
+    motion.append(card.querySelector(".spatial-card-face"));
+    card.append(motion);
+  });
+  scene.querySelector(".spatial-recall-stack").outerHTML =
+    `<span class="spatial-review-kit" aria-hidden="true">
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="7" y="5" width="13" height="16" rx="3"/><path d="M4 17V6a3 3 0 0 1 3-3h9M11 10h5M11 14h4"/></svg></span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m4 7 2 2 3-4M12 7h8M4 15h4v4H4zM12 17h8"/></svg></span>
+    <span class="kit-letters">Aa</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1ZM12 6v14"/></svg></span>
+  </span>`;
   const phone = scene.querySelector(".spatial-device");
   const dragPose = scene.querySelector(".spatial-phone-drag");
   const parallax = scene.querySelector(".spatial-parallax");
@@ -64,6 +77,7 @@
   let selected = "organize";
   let visible = false;
   let mediaFailed = false;
+  let syncCardMotion = () => {};
   let language;
   const copy = {
     en: {
@@ -77,10 +91,10 @@
       recording: "Keep the lecture",
       lecture: "Enzymes & cellular energy",
       ask: "Work it out",
-      question: "Why do enzymes lower activation energy?",
+      question: "How do enzymes lower activation energy?",
       source: "With sources from class",
       review: "Make it stick",
-      recall: "Turn class content into recall.",
+      recall: "Flashcards, quizzes & study guides.",
       hint: "Drag the phone. Pick a card.",
       explore: "Scroll to explore",
       demo: "Interactive preview · Sample content · App UI in English",
@@ -104,10 +118,10 @@
       recording: "留下课堂",
       lecture: "酶与细胞能量",
       ask: "继续理解",
-      question: "为什么酶能降低活化能？",
+      question: "酶如何降低活化能？",
       source: "回答连着课堂来源",
       review: "把它记住",
-      recall: "把课堂内容，变成自己的理解。",
+      recall: "闪卡、测验与学习指南。",
       hint: "拖动手机，点击卡片。",
       explore: "向下探索",
       demo: "交互预览 · 示例内容 · App 界面为英文",
@@ -151,6 +165,7 @@
     ...heights.map((height) => {
       const bar = document.createElement("i");
       bar.style.setProperty("--bar-height", height + "px");
+      bar.style.setProperty("--wave-delay", (height % 13) * -0.17 + "s");
       return bar;
     }),
   );
@@ -164,6 +179,14 @@
     );
   }
   function syncMedia() {
+    scene.classList.toggle(
+      "is-motion-active",
+      visible &&
+        !document.hidden &&
+        !reduce.matches &&
+        !navigator.connection?.saveData,
+    );
+    syncCardMotion();
     if (!canPlay()) {
       video.pause();
       return;
@@ -211,6 +234,30 @@
   cards.forEach((card) =>
     card.addEventListener("click", () => select(card.dataset.spatialFeature)),
   );
+  cards.forEach((card) => {
+    let bounds;
+    const face = card.querySelector(".spatial-card-face");
+    card.addEventListener("pointerenter", () => {
+      bounds = card.getBoundingClientRect();
+    });
+    card.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || reduce.matches || !bounds) return;
+      face.style.setProperty(
+        "--light-x",
+        Math.max(
+          0,
+          Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100),
+        ) + "%",
+      );
+      face.style.setProperty(
+        "--light-y",
+        Math.max(
+          0,
+          Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100),
+        ) + "%",
+      );
+    });
+  });
   document.addEventListener("visibilitychange", syncMedia);
   navigator.connection?.addEventListener("change", syncMedia);
   navigator.connection?.addEventListener("change", enablePhone3d);
@@ -233,6 +280,15 @@
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
+  if (!reduce.matches && !navigator.connection?.saveData) {
+    gsap.from(scene.querySelectorAll(".spatial-card-face"), {
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.08,
+      ease: "power2.out",
+      clearProps: "opacity",
+    });
+  }
   const mm = gsap.matchMedia();
   mm.add(
     {
@@ -247,6 +303,29 @@
       if (!motion) return;
       let drag = null;
       let angle = 0;
+      const limitTurn = gsap.utils.clamp(-24, 24);
+      const floats = cards.map((card, index) =>
+        gsap.to(card.querySelector(".spatial-card-motion"), {
+          y: index % 2 ? 2.5 : -2.5,
+          duration: 2.8 + index * 0.35,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          paused: true,
+        }),
+      );
+      syncCardMotion = () =>
+        floats.forEach((float) => {
+          if (
+            visible &&
+            !document.hidden &&
+            !reduce.matches &&
+            !navigator.connection?.saveData
+          )
+            float.resume();
+          else float.pause();
+        });
+      syncCardMotion();
       phonePose.pitch = 5;
       phonePose.yaw = -14;
       phonePose.roll = mobile ? -7 : -9;
@@ -279,11 +358,7 @@
       };
       const pointerMove = (event) => {
         if (drag) {
-          angle = gsap.utils.clamp(
-            -125,
-            125,
-            drag.angle + (event.clientX - drag.x) * 0.6,
-          );
+          angle = limitTurn(drag.angle + (event.clientX - drag.x) * 0.24);
           rotateY(angle);
           rotateZ(gsap.utils.clamp(-7, 7, (event.clientY - drag.y) * -0.08));
         } else if (event.pointerType === "mouse" && !mobile) {
@@ -302,11 +377,7 @@
         if (event.key === "Escape") reset();
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
           event.preventDefault();
-          angle = gsap.utils.clamp(
-            -125,
-            125,
-            angle + (event.key === "ArrowLeft" ? -10 : 10),
-          );
+          angle = limitTurn(angle + (event.key === "ArrowLeft" ? -6 : 6));
           rotateY(angle);
         }
       };
@@ -418,12 +489,22 @@
             )
             .to(
               ".spatial-question",
-              { x: -spread + 25, y: 130, rotation: 2, duration: 0.8 },
+              {
+                x: -spread + 25,
+                y: innerHeight < 820 ? 78 : 130,
+                rotation: 2,
+                duration: 0.8,
+              },
               0.15,
             )
             .to(
               ".spatial-recall",
-              { x: spread - 25, y: 135, rotation: -3, duration: 0.8 },
+              {
+                x: spread - 25,
+                y: innerHeight < 820 ? 83 : 135,
+                rotation: -3,
+                duration: 0.8,
+              },
               0.15,
             );
         } else {
@@ -432,6 +513,8 @@
       }
       return () => {
         drag = null;
+        floats.forEach((float) => float.kill());
+        syncCardMotion = () => {};
         phone.classList.remove("is-dragging");
         [rotateY, rotateZ, driftY, driftX].forEach((update) =>
           update.tween.kill(),
