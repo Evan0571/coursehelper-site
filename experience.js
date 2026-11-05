@@ -28,6 +28,7 @@
   const parallax = scene.querySelector(".spatial-parallax");
   const poster = scene.querySelector(".spatial-poster");
   const video = scene.querySelector("video");
+  video.loop = false;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const base = "assets/motion/v3/";
   const version = "20261104-spatial";
@@ -214,7 +215,14 @@
     mediaFailed = true;
     video.classList.remove("is-ready");
   });
-  function select(feature) {
+  video.addEventListener("ended", () => {
+    if (!video.ended) return;
+    const index = cards.findIndex(
+      (card) => card.dataset.spatialFeature === selected,
+    );
+    select(cards[(index + 1) % cards.length].dataset.spatialFeature, false);
+  });
+  function select(feature, announce = true) {
     if (feature === selected) return;
     selected = feature;
     mediaFailed = false;
@@ -227,8 +235,9 @@
       card.classList.toggle("is-selected", active);
       card.setAttribute("aria-pressed", String(active));
     });
-    document.getElementById("spatial-announcement").textContent =
-      copy[language][names[selected]];
+    if (announce)
+      document.getElementById("spatial-announcement").textContent =
+        copy[language][names[selected]];
     syncMedia();
   }
   cards.forEach((card) =>
@@ -392,7 +401,6 @@
       phone.addEventListener("keydown", key);
       stage.addEventListener("pointerleave", leave);
       if (!short) {
-        let scrollChapter = 0;
         let openingHidden = false;
         let unfoldedHidden = true;
         const timeline = gsap.timeline({
@@ -406,11 +414,6 @@
           },
           onUpdate() {
             const progress = this.progress();
-            const next = Math.min(3, Math.floor(progress * 4));
-            if (next !== scrollChapter) {
-              scrollChapter = next;
-              select(cards[next].dataset.spatialFeature);
-            }
             if (openingHidden !== progress > 0.32) {
               openingHidden = progress > 0.32;
               scene
