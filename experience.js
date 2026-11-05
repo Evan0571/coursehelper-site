@@ -18,6 +18,49 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const base = "assets/motion/v3/";
   const version = "20261104-spatial";
+  const phonePose = {
+    pitch: 5,
+    yaw: -14,
+    roll: innerWidth <= 620 ? -7 : -9,
+    turn: 0,
+    lean: 0,
+  };
+  let phone3d = null;
+  let phoneImport = null;
+  function syncPhonePose() {
+    if (phone3d) {
+      phone3d.requestDraw();
+    } else {
+      scene.querySelector(".spatial-phone-pose").style.transform =
+        `rotate(${phonePose.roll}deg)`;
+      dragPose.style.transform = `rotateY(${phonePose.turn}deg) rotateZ(${phonePose.lean}deg)`;
+    }
+  }
+  function enablePhone3d() {
+    if (reduce.matches || navigator.connection?.saveData || phoneImport) return;
+    phoneImport = import("./assets/experiences/phone3d.js?v=20261104-body")
+      .then(({ mountPhone }) => {
+        phone3d = mountPhone({
+          host: phone,
+          stage,
+          video,
+          poster,
+          pose: phonePose,
+          onFallback() {
+            phone3d = null;
+            syncPhonePose();
+          },
+        });
+        if (phone3d) {
+          scene.querySelector(".spatial-phone-pose").style.transform = "none";
+          dragPose.style.transform = "none";
+          syncPhonePose();
+        }
+      })
+      .catch(() => {
+        phoneImport = null;
+      });
+  }
   let selected = "organize";
   let visible = false;
   let mediaFailed = false;
@@ -170,16 +213,19 @@
   );
   document.addEventListener("visibilitychange", syncMedia);
   navigator.connection?.addEventListener("change", syncMedia);
+  navigator.connection?.addEventListener("change", enablePhone3d);
   reduce.addEventListener("change", () => {
     video.classList.remove("is-ready");
     syncMedia();
     syncPhoneAccess();
+    enablePhone3d();
   });
   function syncPhoneAccess() {
     phone.setAttribute("aria-disabled", String(reduce.matches));
     phone.tabIndex = reduce.matches ? -1 : 0;
   }
   syncPhoneAccess();
+  enablePhone3d();
   if (!window.gsap || !window.ScrollTrigger) {
     scene.classList.add("is-static");
     phone.setAttribute("aria-disabled", "true");
@@ -201,13 +247,21 @@
       if (!motion) return;
       let drag = null;
       let angle = 0;
-      const rotateY = gsap.quickTo(dragPose, "rotationY", {
+      phonePose.pitch = 5;
+      phonePose.yaw = -14;
+      phonePose.roll = mobile ? -7 : -9;
+      phonePose.turn = 0;
+      phonePose.lean = 0;
+      syncPhonePose();
+      const rotateY = gsap.quickTo(phonePose, "turn", {
         duration: 0.45,
         ease: "power3.out",
+        onUpdate: syncPhonePose,
       });
-      const rotateZ = gsap.quickTo(dragPose, "rotationZ", {
+      const rotateZ = gsap.quickTo(phonePose, "lean", {
         duration: 0.45,
         ease: "power3.out",
+        onUpdate: syncPhonePose,
       });
       const driftY = gsap.quickTo(parallax, "y", {
         duration: 0.8,
@@ -226,9 +280,9 @@
       const pointerMove = (event) => {
         if (drag) {
           angle = gsap.utils.clamp(
-            -35,
-            35,
-            drag.angle + (event.clientX - drag.x) * 0.22,
+            -125,
+            125,
+            drag.angle + (event.clientX - drag.x) * 0.6,
           );
           rotateY(angle);
           rotateZ(gsap.utils.clamp(-7, 7, (event.clientY - drag.y) * -0.08));
@@ -249,8 +303,8 @@
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
           event.preventDefault();
           angle = gsap.utils.clamp(
-            -35,
-            35,
+            -125,
+            125,
             angle + (event.key === "ArrowLeft" ? -10 : 10),
           );
           rotateY(angle);
@@ -324,13 +378,14 @@
             0,
           )
           .to(
-            ".spatial-phone-pose",
+            phonePose,
             {
-              rotationX: 0,
-              rotationY: 0,
-              rotation: 0,
+              pitch: 0,
+              yaw: 0,
+              roll: 0,
               duration: 0.8,
               ease: "power1.inOut",
+              onUpdate: syncPhonePose,
             },
             0.05,
           )
@@ -381,7 +436,10 @@
         [rotateY, rotateZ, driftY, driftX].forEach((update) =>
           update.tween.kill(),
         );
-        gsap.set([dragPose, parallax], { clearProps: "transform" });
+        gsap.set(parallax, { clearProps: "transform" });
+        phonePose.turn = 0;
+        phonePose.lean = 0;
+        syncPhonePose();
         scene.querySelector(".spatial-opening").removeAttribute("aria-hidden");
         scene
           .querySelector(".spatial-unfolded")

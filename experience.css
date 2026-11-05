@@ -134,23 +134,12 @@ html[lang="zh-Hans"] .spatial-opening h1 {
   display: block;
   position: relative;
   width: 100%;
-  padding: 6px;
-  border: 1px solid #9b9d98;
+  padding: 0;
+  aspect-ratio: 1200 / 2608;
+  border: 0;
   border-radius: 36px;
-  background: linear-gradient(
-    120deg,
-    #e8e9e6,
-    #777a76 20%,
-    #eeefed 48%,
-    #5b5e59 80%,
-    #bebfba
-  );
-  box-shadow:
-    1px 1px 0 #676a64,
-    3px 3px 0 #4f524e,
-    5px 5px 0 #b7b9b3,
-    7px 7px 0 #5a5c56,
-    16px 24px 34px -12px #242a3740;
+  background: transparent;
+  box-shadow: none;
   cursor: grab;
   touch-action: pan-y;
   -webkit-user-select: none;
@@ -185,11 +174,23 @@ html[lang="zh-Hans"] .spatial-opening h1 {
   opacity: 1;
 }
 .spatial-device-glint {
+  display: none;
+}
+.spatial-phone-canvas {
   position: absolute;
-  inset: 0;
-  border: 1px solid #ffffff91;
-  border-radius: inherit;
+  width: 200%;
+  height: 130%;
+  left: -50%;
+  top: -15%;
+  max-width: none;
   pointer-events: none;
+  visibility: hidden;
+}
+.has-webgl-phone .spatial-phone-canvas {
+  visibility: visible;
+}
+.has-webgl-phone .spatial-device-screen {
+  opacity: 0;
 }
 .spatial-card {
   position: absolute;
@@ -481,7 +482,7 @@ html[lang="zh-Hans"] .spatial-opening h1 {
   }
   .spatial-device {
     border-radius: 28px;
-    padding: 4px;
+    padding: 0;
   }
   .spatial-device-screen {
     border-width: 3px;
