@@ -1,4 +1,4 @@
-/* Opt-in only: ?experience=spatial. The existing homepage stays the default. */
+/* Production spatial landing experience. */
 .spatial-preview .hero,
 .spatial-preview .gallery-section {
   display: none;
@@ -656,4 +656,23 @@ html[lang="zh-Hans"] .spatial-opening h1 {
   .spatial-drag-hint {
     visibility: hidden;
   }
+}
+
+
+/* Production conversion hierarchy, restrained materials. */
+.spatial-intro { background: #fafaf9; }
+.spatial-stage { background: radial-gradient(ellipse at 50% 72%, #ededec 0%, #f7f7f6 42%, #fafaf9 76%); }
+.spatial-opening h1 { font-weight: 580; letter-spacing: -3.5px; }
+.spatial-description { max-width: 440px; margin: 20px auto 0; font-size: 15px; line-height: 1.55; color: #666; }
+.spatial-opening .spatial-primary { pointer-events: auto; display: inline-flex; margin-top: 22px; min-height: 48px; font-size: 13px; }
+.spatial-preview .spatial-orbit { opacity: .42; }
+.spatial-preview .spatial-card-face { border-color: #e4e4e4; }
+.spatial-demo-note a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 620px) {
+  .spatial-description { max-width: 300px; font-size: 12px; margin-top: 12px; }
+  .spatial-opening .spatial-primary { min-height: 43px; margin-top: 13px; padding: 10px 18px; }
+}
+@media (max-height: 740px) {
+  .spatial-description { font-size: 12px; margin-top: 9px; }
+  .spatial-opening .spatial-primary { margin-top: 10px; }
 }
