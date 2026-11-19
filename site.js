@@ -1,491 +1,53 @@
+// Shared across the landing, support, legal, and recovery pages.
 (() => {
   "use strict";
   document.documentElement.classList.add("has-js");
   const storageKey = "coursehelperSiteLang";
-  const isMarketing = document.body.classList.contains("marketing");
-  const english = {};
-  document.querySelectorAll("[data-i18n]").forEach((node) => {
-    english[node.dataset.i18n] = node.innerHTML;
-  });
-  const chinese = {
-    skip: "跳到正文",
-    navExplore: "探索产品",
-    navPractice: "试着复习",
-    navFaq: "常见问题",
-    navContact: "加入候补名单",
-    waitlistDescription: "即将登陆 iPhone。留下邮箱，上线时我们会发送一封通知。",
-    waitlistLabel: "邮箱地址",
-    waitlistPlaceholder: "输入你的邮箱",
-    waitlistButton: "加入候补名单",
-    waitlistConsent: "我同意收到 CourseHelper 上线通知邮件，也可以随时申请删除邮箱。",
-    heroLine1: "少一点散乱。",
-    heroLine2: "多一点理解。",
-    heroDescription:
-      "课表、录音、笔记与复习，集中在一处。",
-    heroPrimary: "加入候补名单",
-    heroPlatform: "为 iPhone 打造，围绕你的课堂。",
-    galleryCourse: "每门课，都有自己的空间。",
-    galleryAi: "带着课堂内容，继续问。",
-    gallerySummary: "抓住一节课的重点。",
-    galleryFlashcards: "让学过的，留下来。",
-    galleryReview: "找到适合你的复习方式。",
-    galleryCaption: "走进 CourseHelper · 示例课程与演示内容",
-    introTitle: "一门课，远不止一个文件夹。",
-    introBody:
-      "按课次整理录音、转录、笔记和资料。",
-    chainCourse: "课程",
-    chainLecture: "课堂",
-    chainUnderstanding: "理解",
-    exploreTitle: "学习的每一部分，都有归处。",
-    tabOrganize: "安排课程",
-    tabCapture: "留下课堂",
-    tabAsk: "继续理解",
-    tabReview: "把它记住",
-    featureLink: "了解 CourseHelper 的更多信息",
-    filmNote: "App 操作演示 · 示例内容",
-    exampleNote: "示例内容",
-    aiLine1: "带上你的问题。",
-    aiLine2: "接着这门课聊。",
-    aiBody:
-      "围绕课程或课次提问，点击引用查看来源。",
-    aiDetail1: "课程与课次上下文",
-    aiDetail2: "回答附带来源引用",
-    aiDetail3: "用中文或英文提问",
-    contextCenter: "理解，从上下文开始。",
-    contextTranscript: "课堂转录",
-    contextQuestions: "你的问题",
-    contextNotes: "课堂笔记",
-    contextMaterials: "课程资料",
-    practiceTitle: "读过。<br>想起。<br>真的理解。",
-    practiceBody:
-      "用课堂内容生成闪卡、测验、术语和学习指南。",
-    practiceTag1: "闪卡",
-    practiceTag2: "测验",
-    practiceTag3: "学习指南",
-    demoHeading: "试着翻一张闪卡",
-    flipHint: "点一下，查看答案",
-    demoNote: "交互示例",
-    nextCard: "下一张",
-    detailsTitle: "贴近你真正的<br>学习习惯。",
-    detailTitle1: "两种语言，你的节奏。",
-    detailBody1:
-      "切换中英文界面，选择可用的学习内容语言。",
-    detailTitle2: "随时接上之前的思路。",
-    detailBody2:
-      "回看已保存的对话、笔记和课程资料。",
-    detailTitle3: "从一门示例课开始。",
-    detailBody3:
-      "先探索示例课程，再添加自己的课。",
-    faqTitle: "开始前，<br>聊几个问题。",
-    faqContact: "还有别的问题？",
-    faqQ1: "CourseHelper 适合谁？",
-    faqA1:
-      "适合想把课程、课堂内容与复习放在一起的学生。中英文支持尤其适合身处英语授课环境、需要在两种语言之间理解和思考的留学生。",
-    faqQ2: "一门课程里可以放些什么？",
-    faqA2:
-      "课次、课程信息、文件、链接和学习对话。在每节课里，可以查看转录、摘要、笔记和资料，再基于这些内容创建复习材料。",
-    faqQ3: "录音和 AI 功能怎样使用？",
-    faqA3:
-      "获得必要许可后，你可以录制或导入课堂音频。转录和 AI 功能取决于所选服务、网络与可用额度；你可以在 App 中查看当前方案与可用额度。",
-    faqQ4: "怎样体验 CourseHelper？",
-    faqA4: "CourseHelper 正在准备上线。加入候补名单，上线时我们会发邮件通知。",
-    faqA4Link: "加入候补名单",
-    faqQ5: "在哪里了解隐私和账号信息？",
-    faqA5:
-      "隐私政策说明了数据、服务提供方与账号控制方式。账号或数据删除相关问题，也可以联系支持。",
-    privacyLink: "阅读隐私政策",
-    closingTitle: "给理解，<br>留一点空间。",
-    closingCta: "聊聊 CourseHelper",
-    footerSupport: "支持",
-    footerPrivacy: "隐私政策",
-    footerTerms: "使用条款",
-    backToTop: "回到顶部",
-  };
-  const featureData = {
-    organize: {
-      image: "course-overview.webp",
-      en: {
-        title: "Your semester.<br>A little more settled.",
-        body: "Start with your schedule and to-dos. Open a course to find its class sessions, materials, and details right where you left them.",
-        details: [
-          "Daily schedule and cross-course tasks",
-          "Course details and weekly class sessions",
-          "Files and links, kept with the right course",
-        ],
-        caption: "A little structure. A lot less searching.",
-        alt: "Example course overview with sessions and course navigation",
-      },
-      zh: {
-        title: "这一学期，<br>更有条理一点。",
-        body: "从今天的课表和待办开始，打开课程，就能找到每周的课次、资料和课程信息。学习需要的东西，各就各位。",
-        details: [
-          "当天课表与跨课程待办",
-          "课程信息与按周排列的课次",
-          "按课程归档的文件和链接",
-        ],
-        caption: "有一点条理，少很多翻找。",
-        alt: "Example 课程概览，显示课次和课程入口",
-      },
-    },
-    capture: {
-      image: "lecture-summary.webp",
-      en: {
-        title: "Class ends.<br>The ideas stay.",
-        body: "Record or import permitted class audio. Keep the transcript, key ideas, your own notes, and supporting materials together in the same lecture.",
-        details: [
-          "Lecture audio and timestamped transcripts",
-          "Summaries with key concepts",
-          "Your notes, alongside the class materials",
-        ],
-        caption: "From a full lecture to a clearer picture.",
-        alt: "Example lecture summary showing its overview and key concepts",
-      },
-      zh: {
-        title: "下课了，<br>思路还在。",
-        body: "录制或导入获得许可的课堂音频。把转录、重点、自己的笔记和相关资料，一起留在这节课里。",
-        details: [
-          "课堂音频与带时间戳的转录",
-          "课堂摘要与关键概念",
-          "和课堂资料放在一起的个人笔记",
-        ],
-        caption: "从整节课堂，看见清晰的重点。",
-        alt: "Example 课堂摘要，显示概览和关键概念",
-      },
-    },
-    ask: {
-      image: "ai-answer.webp",
-      en: {
-        title: "A good question.<br>A place to follow it.",
-        body: "Choose a course or lecture, bring a question, and work through it with AI. Check the referenced material and keep exploring from there.",
-        details: [
-          "Questions grounded in your selected context",
-          "References you can follow back to the source",
-          "Conversations you can return to later",
-        ],
-        caption: "Stay curious. Keep your course close.",
-        alt: "Sample course question with an answer and source reference",
-      },
-      zh: {
-        title: "一个好问题，<br>值得接着想。",
-        body: "选好课程或课次，带着疑问与 AI 一起梳理。查看回答引用的资料，从那里继续探索。",
-        details: [
-          "围绕所选课程与课次提问",
-          "可回看原文的来源引用",
-          "以后还可以接着聊的学习对话",
-        ],
-        caption: "保留好奇，也保留课堂的上下文。",
-        alt: "示例课程问答，显示答案与来源引用",
-      },
-    },
-    review: {
-      image: "flashcard-answer.webp",
-      en: {
-        title: "Past the reread.<br>Into what you know.",
-        body: "Build review from your course content. Try a flashcard, test yourself with a quiz, or reconnect the ideas with a study guide.",
-        details: [
-          "Flashcards, quizzes, and key terms",
-          "Study guides and mixed review",
-          "Choose the scope and language of your review",
-        ],
-        caption: "Small questions. Stronger connections.",
-        alt: "Example flashcard revealing an explanation of activation energy",
-      },
-      zh: {
-        title: "不只再读一遍。<br>试着真的记住。",
-        body: "从课堂内容创建复习。翻一张闪卡，做一组测验，或者用学习指南把零散的概念重新串起来。",
-        details: [
-          "闪卡、测验与关键术语",
-          "学习指南和混合复习",
-          "选择复习范围与语言",
-        ],
-        caption: "小小的问题，把知识连接起来。",
-        alt: "Example 闪卡答案，解释酶与活化能",
-      },
-    },
-  };
-  const cards = {
-    en: [
-      [
-        "What does an enzyme change about a chemical reaction?",
-        "It lowers the activation energy, helping the reaction happen faster without being used up.",
-      ],
-      [
-        "Why does an enzyme’s shape matter?",
-        "Its active site fits specific substrates. A change in shape can reduce or stop its activity.",
-      ],
-      [
-        "What can happen to an enzyme at a very high temperature?",
-        "It can denature. The active site changes shape, so the substrate no longer fits as well.",
-      ],
-    ],
-    zh: [
-      [
-        "酶会改变化学反应的什么？",
-        "它降低反应所需的活化能，让反应更快发生，而自身不会被消耗。",
-      ],
-      [
-        "为什么酶的形状很重要？",
-        "酶的活性位点与特定底物相匹配。形状改变，可能使酶的活性降低或消失。",
-      ],
-      [
-        "温度过高，酶可能会发生什么？",
-        "酶可能发生变性，活性位点的形状改变，底物就不再容易与它结合。",
-      ],
-    ],
-  };
-  let language = "en";
-  let cardIndex = 0;
-  let answerShown = false;
-  let flipVersion = 0;
-  let flipping = false;
-  function stopCardMotion() {
-    flipVersion += 1;
-    flipping = false;
-    document
-      .querySelector(".flashcard-rotor")
-      ?.getAnimations()
-      .forEach((animation) => animation.cancel());
-  }
-  async function flipCard() {
-    if (flipping) return;
-    const rotor = document.querySelector(".flashcard-rotor");
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      answerShown = !answerShown;
-      renderCard();
-      return;
-    }
-    flipping = true;
-    const version = ++flipVersion;
-    try {
-      const close = rotor.animate(
-        [{ transform: "rotateY(0deg)" }, { transform: "rotateY(85deg)" }],
-        { duration: 150, easing: "ease-in", fill: "forwards" },
-      );
-      await close.finished;
-      if (version !== flipVersion) return;
-      answerShown = !answerShown;
-      renderCard();
-      close.cancel();
-      // One visible face avoids Safari's native-button 3D/backface rendering bugs.
-      await rotor.animate(
-        [{ transform: "rotateY(-85deg)" }, { transform: "rotateY(0deg)" }],
-        { duration: 230, easing: "cubic-bezier(.16,1,.3,1)" },
-      ).finished;
-    } catch {
-      // Language and next-card actions cancel an in-flight turn.
-    } finally {
-      if (version === flipVersion) flipping = false;
-    }
-  }
+  const nodes = [...document.querySelectorAll("[data-i18n]")];
+  const english = new Map(nodes.map(node => [node, node.innerHTML]));
+  const labels = [...document.querySelectorAll("[data-label]")];
+  const englishLabels = new Map(labels.map(node => [node, node.getAttribute("aria-label")]));
+  const fields = [...document.querySelectorAll("[data-placeholder]")];
+  const placeholders = new Map(fields.map(node => [node, node.placeholder]));
+  const links = [...document.querySelectorAll("a[data-preserve-lang]")].map(node => [node, node.getAttribute("href")]);
+  const buttons = document.querySelectorAll("[data-lang-button]");
+  const supported = lang => lang === "en" || lang === "zh";
   function requestedLanguage() {
-    const requested = new URLSearchParams(location.search).get("lang");
-    if (["en", "zh"].includes(requested)) return requested;
+    const query = new URLSearchParams(location.search).get("lang");
+    if (supported(query)) return query;
     try {
       const stored = localStorage.getItem(storageKey);
-      if (["en", "zh"].includes(stored)) return stored;
-    } catch {
-      /* Private browsing may disable storage. */
-    }
+      if (supported(stored)) return stored;
+    } catch { /* Storage is optional. */ }
     return navigator.language?.toLowerCase().startsWith("zh") ? "zh" : "en";
   }
-  function preserveLanguage(link) {
-    const original = link.dataset.baseHref || link.getAttribute("href");
-    link.dataset.baseHref = original;
-    if (!original || original.startsWith("#")) return;
-    const url = new URL(original, location.href);
-    if (
-      url.origin !== location.origin ||
-      !["http:", "https:", "file:"].includes(url.protocol)
-    )
-      return;
-    url.searchParams.set("lang", language);
-    link.href = url.href;
-  }
-  function renderFeatures() {
-    document.querySelectorAll(".feature-panel").forEach((panel) => {
-      const copy = featureData[panel.dataset.current][language];
-      panel.querySelector("h3").innerHTML = copy.title;
-      panel.querySelector(".feature-details").replaceChildren(
-        ...copy.details.map((detail) => {
-          const item = document.createElement("li");
-          item.textContent = detail;
-          return item;
-        }),
-      );
-      panel.querySelector(".movie-poster").alt = copy.alt;
-    });
-    document.dispatchEvent(new CustomEvent("coursehelper:language"));
-  }
-  function renderCard() {
-    if (!isMarketing || !document.getElementById("flashcard")) return;
-    document
-      .getElementById("flashcard")
-      .setAttribute("aria-pressed", String(answerShown));
-    document
-      .getElementById("flashcard")
-      .setAttribute(
-        "aria-describedby",
-        answerShown ? "card-answer-hint" : "flashcard-hint",
-      );
-    document.getElementById("card-content").textContent =
-      cards[language][cardIndex][0];
-    const answer = document.getElementById("card-answer");
-    if (answer) answer.textContent = cards[language][cardIndex][1];
-    document.getElementById("card-counter").textContent =
-      `0${cardIndex + 1} / 03`;
-    document.getElementById("card-side").textContent =
-      language === "zh" ? "问题" : "QUESTION";
-    document.getElementById("card-answer-side").textContent =
-      language === "zh" ? "答案" : "ANSWER";
-    document.getElementById("card-answer-hint").textContent =
-      language === "zh" ? "点一下，回到问题" : "Tap to return to the question";
-    document.querySelectorAll(".flashcard-subject").forEach((node) => {
-      node.textContent =
-        language === "zh" ? "生物学 · 酶" : "BIOLOGY · ENZYMES";
-    });
-    document
-      .querySelector(".flashcard-front")
-      .setAttribute("aria-hidden", String(answerShown));
-    document
-      .querySelector(".flashcard-back")
-      .setAttribute("aria-hidden", String(!answerShown));
-    document.querySelector('[data-i18n="flipHint"]').textContent =
-      language === "zh" ? "点一下，查看答案" : "Tap to reveal the answer";
-    document.getElementById("card-announcement").textContent =
-      `${language === "zh" ? `第 ${cardIndex + 1} 张，共 3 张` : `Card ${cardIndex + 1} of 3`}. ${cards[language][cardIndex][answerShown ? 1 : 0]}`;
-  }
   function applyLanguage(lang, updateUrl = false) {
-    if (isMarketing) stopCardMotion();
-    language = lang;
+    const dictionary = window.COURSEHELPER_COPY?.[lang] || {};
     document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
-    try {
-      localStorage.setItem(storageKey, lang);
-    } catch {
-      /* Language still works without persistence. */
-    }
-    const copy = isMarketing
-      ? lang === "zh"
-        ? chinese
-        : english
-      : window.COURSEHELPER_COPY?.[lang] || {};
-    document.querySelectorAll("[data-i18n]").forEach((node) => {
-      const value = copy[node.dataset.i18n];
-      if (value !== undefined) node.innerHTML = value;
-    });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
-      const value = copy[node.dataset.i18nPlaceholder] ?? english[node.dataset.i18nPlaceholder];
-      if (value !== undefined) node.placeholder = value;
-    });
-    document
-      .querySelectorAll("[data-lang]")
-      .forEach((node) =>
-        node.classList.toggle("active", node.dataset.lang === lang),
-      );
-    document.querySelectorAll("[data-lang-button]").forEach((button) => {
+    for (const node of nodes) node.innerHTML = dictionary[node.dataset.i18n] ?? english.get(node);
+    for (const node of labels) node.setAttribute("aria-label", dictionary[node.dataset.label] ?? englishLabels.get(node));
+    for (const node of fields) node.placeholder = dictionary[node.dataset.placeholder] ?? placeholders.get(node);
+    for (const node of document.querySelectorAll("[data-lang]")) node.classList.toggle("active", node.dataset.lang === lang);
+    for (const button of buttons) {
       const selected = button.dataset.langButton === lang;
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
-    });
-    document
-      .querySelectorAll("a[data-preserve-lang]")
-      .forEach(preserveLanguage);
-    if (isMarketing) {
-      document.title =
-        lang === "zh"
-          ? "CourseHelper — 给理解，留一点空间。"
-          : "CourseHelper — Make room for understanding.";
-      document.querySelector('meta[name="description"]').content =
-        lang === "zh"
-          ? "课表、课堂、笔记与复习，终于放在一起。CourseHelper 为英语课堂中的学习与理解，提供专注的 iPhone 学习空间。"
-          : "Your courses, lectures, notes, and review. Finally together. CourseHelper brings the context of your classes into one calm study workspace for iPhone.";
-      document
-        .querySelector('[data-gallery-direction="-1"]')
-        .setAttribute(
-          "aria-label",
-          lang === "zh" ? "上一组界面" : "Previous app screens",
-        );
-      document
-        .querySelector('[data-gallery-direction="1"]')
-        .setAttribute(
-          "aria-label",
-          lang === "zh" ? "下一组界面" : "Next app screens",
-        );
-      renderFeatures();
-      renderCard();
     }
+    for (const [node, path] of links) {
+      if (!path || path.startsWith("#")) continue;
+      const url = new URL(path, location.href);
+      if (url.origin !== location.origin || !["http:", "https:", "file:"].includes(url.protocol)) continue;
+      url.searchParams.set("lang", lang);
+      node.href = url.href;
+    }
+    try { localStorage.setItem(storageKey, lang); } catch { /* Still works in private browsing. */ }
     if (updateUrl) {
       const url = new URL(location.href);
       url.searchParams.set("lang", lang);
-      try {
-        history.replaceState(null, "", url);
-      } catch {
-        /* Local file previews can restrict history updates. */
-      }
+      try { history.replaceState(null, "", url); } catch { /* Local file previews may restrict history. */ }
     }
+    document.dispatchEvent(new CustomEvent("coursehelper:language", {detail: {lang}}));
   }
-  document
-    .querySelectorAll("[data-lang-button]")
-    .forEach((button) =>
-      button.addEventListener("click", () =>
-        applyLanguage(button.dataset.langButton, true),
-      ),
-    );
-  document.querySelectorAll("[data-select-feature]").forEach((link) =>
-    link.addEventListener("click", (event) => {
-      const key = link.dataset.selectFeature;
-      const target = document.getElementById(`feature-${key}`);
-      if (!target) return;
-      event.preventDefault();
-      history.pushState(null, "", `#feature-${key}`);
-      const navigation = new CustomEvent("coursehelper:select-feature", {
-        detail: { key },
-        cancelable: true,
-      });
-      if (document.dispatchEvent(navigation)) target.scrollIntoView();
-    }),
-  );
-  document.getElementById("flashcard")?.addEventListener("click", flipCard);
-  document.getElementById("next-card")?.addEventListener("click", () => {
-    stopCardMotion();
-    cardIndex = (cardIndex + 1) % cards.en.length;
-    answerShown = false;
-    renderCard();
-    const card = document.getElementById("flashcard");
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      card.getAnimations().forEach((animation) => animation.cancel());
-      card.animate(
-        [
-          { opacity: 0.3, transform: "translateY(12px) scale(.98)" },
-          { opacity: 1, transform: "none" },
-        ],
-        { duration: 380, easing: "cubic-bezier(.22,1,.36,1)" },
-      );
-    }
-  });
-  const gallery = document.querySelector(".gallery-track");
-  if (gallery) {
-    const previous = document.querySelector('[data-gallery-direction="-1"]');
-    const next = document.querySelector('[data-gallery-direction="1"]');
-    const updateGallery = () => {
-      previous.disabled = gallery.scrollLeft <= 1;
-      next.disabled =
-        gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 2;
-    };
-    [previous, next].forEach((button) =>
-      button.addEventListener("click", () => {
-        gallery.scrollBy({
-          left:
-            Number(button.dataset.galleryDirection) *
-            (gallery.querySelector(".gallery-card").offsetWidth + 18),
-          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "instant"
-            : "smooth",
-        });
-      }),
-    );
-    gallery.addEventListener("scroll", updateGallery, { passive: true });
-    new ResizeObserver(updateGallery).observe(gallery);
-    updateGallery();
-  }
+  for (const button of buttons) button.addEventListener("click", () => applyLanguage(button.dataset.langButton, true));
   applyLanguage(requestedLanguage());
 })();
