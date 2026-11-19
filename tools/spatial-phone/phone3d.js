@@ -19,7 +19,6 @@ import {
   SRGBColorSpace,
   Texture,
   TorusGeometry,
-  VideoTexture,
   WebGLRenderer,
 } from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -72,7 +71,7 @@ function surface(w, h, r) {
 }
 
 /** Geometry, lights and media stay in WebGL; DOM transforms never rasterize the screen. */
-export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
+export function mountPhone({ host, stage, poster, pose, onFallback }) {
   let renderer;
   try {
     renderer = new WebGLRenderer({
@@ -178,14 +177,9 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
     0.139,
   );
   const posterTexture = new Texture(poster);
-  const filmTexture = new VideoTexture(video);
-  for (const texture of [posterTexture, filmTexture]) {
-    texture.colorSpace = SRGBColorSpace;
-    texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-    texture.magFilter = LinearFilter;
-  }
-  // One video element is reused only with the site's 1200 x 2608 source films.
-  filmTexture.generateMipmaps = false;
+  posterTexture.colorSpace = SRGBColorSpace;
+  posterTexture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  posterTexture.magFilter = LinearFilter;
   screenMaterial.map = posterTexture;
 
   // Physical side controls and antenna breaks, visible when the phone is turned.
@@ -264,9 +258,7 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
   let disposed = false,
     visible = true,
     frame = 0,
-    videoCallback = 0,
     renderCount = 0;
-  let mediaFrameReady = false;
   function draw() {
     frame = 0;
     if (disposed || !visible || document.hidden) return;
@@ -276,17 +268,7 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
       -(pose.roll + pose.lean) * DEG,
       "YXZ",
     );
-    const useFilm =
-      mediaFrameReady &&
-      video.classList.contains("is-ready") &&
-      video.readyState >= 2;
-    if (!useFilm && (!poster.complete || !poster.naturalWidth)) return;
-    const map = useFilm ? filmTexture : posterTexture;
-    if (screenMaterial.map !== map) {
-      screenMaterial.map = map;
-      screenMaterial.needsUpdate = true;
-      if (useFilm) filmTexture.needsUpdate = true;
-    }
+    if (!poster.complete || !poster.naturalWidth) return;
     renderer.render(scene, camera);
     if (!host.classList.contains("has-webgl-phone"))
       host.classList.add("has-webgl-phone");
@@ -312,35 +294,6 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
       requestDraw();
     }
   }
-  const videoFrame = () => {
-    if (disposed) return;
-    mediaFrameReady = true;
-    filmTexture.needsUpdate = true;
-    requestDraw();
-    videoCallback = video.requestVideoFrameCallback?.(videoFrame) || 0;
-  };
-  if (video.requestVideoFrameCallback)
-    videoCallback = video.requestVideoFrameCallback(videoFrame);
-  else video.addEventListener("timeupdate", refreshMedia);
-  function refreshMedia(event) {
-    if (event.type === "emptied") mediaFrameReady = false;
-    else if (!video.requestVideoFrameCallback && video.readyState >= 2) {
-      mediaFrameReady = true;
-      filmTexture.needsUpdate = true;
-    }
-    requestDraw();
-  }
-  const mediaEvents = [
-    "playing",
-    "pause",
-    "seeked",
-    "loadeddata",
-    "emptied",
-    "error",
-  ];
-  mediaEvents.forEach((name) => video.addEventListener(name, refreshMedia));
-  const screenState = new MutationObserver(requestDraw);
-  screenState.observe(video, { attributes: true, attributeFilter: ["class"] });
   const observer = new IntersectionObserver(
     ([entry]) => {
       visible = entry.isIntersecting;
@@ -362,16 +315,10 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
     if (disposed) return;
     disposed = true;
     cancelAnimationFrame(frame);
-    if (videoCallback) video.cancelVideoFrameCallback?.(videoCallback);
     observer.disconnect();
     sizeObserver.disconnect();
-    screenState.disconnect();
     poster.removeEventListener("load", posterLoaded);
     document.removeEventListener("visibilitychange", requestDraw);
-    mediaEvents.forEach((name) =>
-      video.removeEventListener(name, refreshMedia),
-    );
-    video.removeEventListener("timeupdate", refreshMedia);
     model.traverse((object) => {
       object.geometry?.dispose();
     });
@@ -379,7 +326,6 @@ export function mountPhone({ host, stage, video, poster, pose, onFallback }) {
       (material) => material.dispose(),
     );
     posterTexture.dispose();
-    filmTexture.dispose();
     environment.dispose();
     renderer.dispose();
     renderer.domElement.remove();

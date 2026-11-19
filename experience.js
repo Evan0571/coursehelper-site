@@ -26,11 +26,8 @@
   const dragPose = scene.querySelector(".spatial-phone-drag");
   const parallax = scene.querySelector(".spatial-parallax");
   const poster = scene.querySelector(".spatial-poster");
-  const video = scene.querySelector("video");
-  video.loop = false;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const base = "assets/motion/v3/";
-  const version = "20261104-spatial";
   const phonePose = {
     pitch: 5,
     yaw: -14,
@@ -51,12 +48,11 @@
   }
   function enablePhone3d() {
     if (reduce.matches || navigator.connection?.saveData || phoneImport) return;
-    phoneImport = import("./assets/experiences/phone3d.js?v=20261104-body2")
+    phoneImport = import("./assets/experiences/phone3d.js?v=20261119-stills")
       .then(({ mountPhone }) => {
         phone3d = mountPhone({
           host: phone,
           stage,
-          video,
           poster,
           pose: phonePose,
           onFallback() {
@@ -76,7 +72,6 @@
   }
   let selected = "organize";
   let visible = false;
-  let mediaFailed = false;
   let syncCardMotion = () => {};
   let language;
   const copy = {
@@ -84,7 +79,6 @@
       line1: "Less scattered.",
       line2: "More understood.",
       description: "Your courses, lectures, notes, and review. In one place.",
-      join: "Join the waitlist",
       unfoldTitle: "One course. Everything connected.",
       unfoldBody: "Your schedule, recordings, questions, and review.",
       course: "Your course",
@@ -113,7 +107,6 @@
       line1: "少一点散乱。",
       line2: "多一点理解。",
       description: "课程、课堂录音、笔记和复习，都在同一个地方。",
-      join: "加入候补名单",
       unfoldTitle: "一门课，所有思路接起来。",
       unfoldBody: "课表、录音、提问与复习，留在同一门课里。",
       course: "安排课程",
@@ -168,16 +161,7 @@
       return bar;
     }),
   );
-  function canPlay() {
-    return (
-      visible &&
-      !document.hidden &&
-      !reduce.matches &&
-      !navigator.connection?.saveData &&
-      !mediaFailed
-    );
-  }
-  function syncMedia() {
+  function syncStageMotion() {
     scene.classList.toggle(
       "is-motion-active",
       visible &&
@@ -186,46 +170,17 @@
         !navigator.connection?.saveData,
     );
     syncCardMotion();
-    if (!canPlay()) {
-      video.pause();
-      return;
-    }
-    const src = base + selected + ".mp4?v=" + version;
-    if (video.getAttribute("src") !== src) {
-      video.classList.remove("is-ready");
-      video.src = src;
-      video.load();
-    }
-    video.play().catch(() => {});
   }
   new IntersectionObserver(
     ([entry]) => {
       visible = entry.isIntersecting;
-      syncMedia();
+      syncStageMotion();
     },
     { threshold: 0.25 },
   ).observe(stage);
-  video.addEventListener("playing", () => {
-    if (canPlay()) video.classList.add("is-ready");
-    else video.pause();
-  });
-  video.addEventListener("error", () => {
-    mediaFailed = true;
-    video.classList.remove("is-ready");
-  });
-  video.addEventListener("ended", () => {
-    if (!video.ended) return;
-    const index = cards.findIndex(
-      (card) => card.dataset.spatialFeature === selected,
-    );
-    select(cards[(index + 1) % cards.length].dataset.spatialFeature, false);
-  });
-  function select(feature, announce = true) {
+  function select(feature) {
     if (feature === selected) return;
     selected = feature;
-    mediaFailed = false;
-    video.pause();
-    video.classList.remove("is-ready");
     poster.src = base + selected + "-poster.webp";
     poster.alt = copy[language].poster + copy[language][names[selected]];
     cards.forEach((card) => {
@@ -233,10 +188,8 @@
       card.classList.toggle("is-selected", active);
       card.setAttribute("aria-pressed", String(active));
     });
-    if (announce)
-      document.getElementById("spatial-announcement").textContent =
-        copy[language][names[selected]];
-    syncMedia();
+    document.getElementById("spatial-announcement").textContent =
+      copy[language][names[selected]];
   }
   cards.forEach((card) =>
     card.addEventListener("click", () => select(card.dataset.spatialFeature)),
@@ -265,12 +218,11 @@
       );
     });
   });
-  document.addEventListener("visibilitychange", syncMedia);
-  navigator.connection?.addEventListener("change", syncMedia);
+  document.addEventListener("visibilitychange", syncStageMotion);
+  navigator.connection?.addEventListener("change", syncStageMotion);
   navigator.connection?.addEventListener("change", enablePhone3d);
   reduce.addEventListener("change", () => {
-    video.classList.remove("is-ready");
-    syncMedia();
+    syncStageMotion();
     syncPhoneAccess();
     enablePhone3d();
   });

@@ -44,7 +44,7 @@
   }
   const panels = [...document.querySelectorAll(".feature-panel")];
   const spatialProduction = document.documentElement.classList.contains("spatial-preview");
-  const chapterPlayers = spatialProduction ? [] : panels.map((panel) =>
+  const chapterPlayers = panels.map((panel) =>
     loop(panel.querySelector("video"), panel.querySelector(".motion-demo")),
   );
   if (!spatialProduction) loop(
@@ -112,7 +112,7 @@
       () => requestAnimationFrame(initialChapter),
       { once: true },
     );
-  if (!window.gsap || !window.ScrollTrigger || spatialProduction) return;
+  if (!window.gsap || !window.ScrollTrigger) return;
   const mm = gsap.matchMedia();
   mm.add(
     "(min-width: 960px) and (min-height: 740px) and (prefers-reduced-motion: no-preference)",
@@ -162,6 +162,7 @@
       };
     },
   );
+  if (spatialProduction) return;
   mm.add("(prefers-reduced-motion: no-preference)", () => {
     gsap.from(".hero h1 > span", {
       y: 26,
