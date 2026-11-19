@@ -43,10 +43,11 @@
     return state;
   }
   const panels = [...document.querySelectorAll(".feature-panel")];
-  const chapterPlayers = panels.map((panel) =>
+  const spatialProduction = document.documentElement.classList.contains("spatial-preview");
+  const chapterPlayers = spatialProduction ? [] : panels.map((panel) =>
     loop(panel.querySelector("video"), panel.querySelector(".motion-demo")),
   );
-  loop(
+  if (!spatialProduction) loop(
     document.getElementById("hero-movie"),
     document.querySelector(".gallery-motion"),
   );
@@ -111,7 +112,7 @@
       () => requestAnimationFrame(initialChapter),
       { once: true },
     );
-  if (!window.gsap || !window.ScrollTrigger) return;
+  if (!window.gsap || !window.ScrollTrigger || spatialProduction) return;
   const mm = gsap.matchMedia();
   mm.add(
     "(min-width: 960px) and (min-height: 740px) and (prefers-reduced-motion: no-preference)",
