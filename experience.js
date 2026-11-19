@@ -1,7 +1,6 @@
 (() => {
   "use strict";
-  if (new URLSearchParams(location.search).get("experience") !== "spatial")
-    return;
+  // Spatial introduction is now the default landing experience.
   const template = document.getElementById("spatial-template");
   const main = document.getElementById("main");
   if (!template || !main) return;
@@ -84,6 +83,8 @@
     en: {
       line1: "Less scattered.",
       line2: "More understood.",
+      description: "Your courses, lectures, notes, and review. In one place.",
+      join: "Join the waitlist",
       unfoldTitle: "One course. Everything connected.",
       unfoldBody: "Your schedule, recordings, questions, and review.",
       course: "Your course",
@@ -98,8 +99,8 @@
       recall: "Flashcards, quizzes & study guides.",
       hint: "Drag the phone. Pick a card.",
       explore: "Scroll to explore",
-      demo: "Interactive preview · Sample content · App UI in English",
-      original: "Original site",
+      demo: "Product demonstration · Sample content · App UI in English",
+      original: "Join the waitlist",
       rotate:
         "Rotate the phone. Use left and right arrow keys; Escape to reset.",
       poster: "CourseHelper app demonstration: ",
@@ -111,6 +112,8 @@
     zh: {
       line1: "少一点散乱。",
       line2: "多一点理解。",
+      description: "课程、课堂录音、笔记和复习，都在同一个地方。",
+      join: "加入候补名单",
       unfoldTitle: "一门课，所有思路接起来。",
       unfoldBody: "课表、录音、提问与复习，留在同一门课里。",
       course: "安排课程",
@@ -125,8 +128,8 @@
       recall: "闪卡、测验与学习指南。",
       hint: "拖动手机，点击卡片。",
       explore: "向下探索",
-      demo: "交互预览 · 示例内容 · App 界面为英文",
-      original: "查看原版",
+      demo: "产品演示 · 示例内容 · App 界面为英文",
+      original: "加入候补名单",
       rotate: "转动手机。也可用左右方向键转动，Esc 复位。",
       poster: "CourseHelper 操作演示：",
       organize: "课程整理",
@@ -148,12 +151,7 @@
     });
     phone.setAttribute("aria-label", copy[language].rotate);
     poster.alt = copy[language].poster + copy[language][names[selected]];
-    const original = new URL(location.href);
-    original.searchParams.delete("experience");
-    original.searchParams.set("lang", language);
-    original.hash = "";
-    scene.querySelector("[data-spatial-original]").href =
-      original.pathname + original.search;
+    scene.querySelector("[data-spatial-original]").href = "#waitlist";
   }
   document.addEventListener("coursehelper:language", translate);
   translate();
