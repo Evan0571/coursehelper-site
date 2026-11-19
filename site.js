@@ -12,12 +12,17 @@
     navExplore: "探索产品",
     navPractice: "试着复习",
     navFaq: "常见问题",
-    navContact: "联系了解",
+    navContact: "加入候补名单",
+    waitlistDescription: "即将登陆 iPhone。留下邮箱，上线时我们会发送一封通知。",
+    waitlistLabel: "邮箱地址",
+    waitlistPlaceholder: "输入你的邮箱",
+    waitlistButton: "加入候补名单",
+    waitlistConsent: "我同意收到 CourseHelper 上线通知邮件，也可以随时申请删除邮箱。",
     heroLine1: "少一点散乱。",
     heroLine2: "多一点理解。",
     heroDescription:
       "课表、录音、笔记与复习，集中在一处。",
-    heroPrimary: "看看它如何运作",
+    heroPrimary: "加入候补名单",
     heroPlatform: "为 iPhone 打造，围绕你的课堂。",
     galleryCourse: "每门课，都有自己的空间。",
     galleryAi: "带着课堂内容，继续问。",
@@ -83,8 +88,8 @@
     faqA3:
       "获得必要许可后，你可以录制或导入课堂音频。转录和 AI 功能取决于所选服务、网络与可用额度；你可以在 App 中查看当前方案与可用额度。",
     faqQ4: "怎样体验 CourseHelper？",
-    faqA4: "欢迎联系我们，了解当前可用版本和体验方式。",
-    faqA4Link: "联系 CourseHelper",
+    faqA4: "CourseHelper 正在准备上线。加入候补名单，上线时我们会发邮件通知。",
+    faqA4Link: "加入候补名单",
     faqQ5: "在哪里了解隐私和账号信息？",
     faqA5:
       "隐私政策说明了数据、服务提供方与账号控制方式。账号或数据删除相关问题，也可以联系支持。",
@@ -366,6 +371,10 @@
     document.querySelectorAll("[data-i18n]").forEach((node) => {
       const value = copy[node.dataset.i18n];
       if (value !== undefined) node.innerHTML = value;
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+      const value = copy[node.dataset.i18nPlaceholder] ?? english[node.dataset.i18nPlaceholder];
+      if (value !== undefined) node.placeholder = value;
     });
     document
       .querySelectorAll("[data-lang]")
