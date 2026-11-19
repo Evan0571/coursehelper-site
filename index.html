@@ -6,7 +6,7 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaf8">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191a18">
   <title data-i18n="pageTitle">CourseHelper for iPhone — From lecture to recall</title>
-  <meta name="description" content="Keep class recordings, notes, and review together. Explore CourseHelper for iPhone and join the waitlist for a launch email.">
+  <meta name="description" content="Explore CourseHelper for iPhone. Walk through a sample course, read a lecture transcript, follow an AI citation, and try a practice quiz.">
   <link rel="canonical" href="https://coursehelper.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CourseHelper">
@@ -20,20 +20,20 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="launch.css?v=20261119a">
-  <script defer src="launch.js?v=20261119a"></script>
-  <script defer src="site.js?v=20261119a"></script>
-  <script defer src="waitlist.js?v=20261119a"></script>
+  <link rel="stylesheet" href="launch.css?v=20261119b">
+  <script defer src="launch.js?v=20261119b"></script>
+  <script defer src="site.js?v=20261119b"></script>
+  <script defer src="waitlist.js?v=20261119b"></script>
 </head>
-<body>
+<body class="product-home">
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
   <header class="masthead">
     <nav class="wrap masthead-inner" aria-label="Main navigation" data-label="navigation">
       <a class="wordmark" href="./" data-preserve-lang><img src="assets/coursehelper-icon-87df7b088471.png" width="33" height="33" alt="">CourseHelper</a>
       <div class="nav-end">
         <div class="nav-links">
-          <a href="#explore" data-i18n="demoNav">Product demo</a>
-          <a href="#faq" data-i18n="faqNav">FAQ</a>
+          <a href="#course-tour" data-i18n="demoNav">Course tour</a>
+          <a href="#practice" data-i18n="practiceNav">Try a quiz</a>
         </div>
         <div class="language-switch" role="group" aria-label="Language" data-label="language">
           <button type="button" lang="en" data-lang-button="en" aria-label="English">EN</button>
@@ -47,22 +47,10 @@
       <div class="hero-copy">
         <p class="eyebrow platform"><span class="phone-symbol" aria-hidden="true"></span><span data-i18n="platform">Coming to iPhone</span></p>
         <h1 id="hero-title"><span data-i18n="titleLine">From lecture</span><em data-i18n="titleEm">to recall.</em></h1>
-        <p class="lead" data-i18n="lead">Record a lecture, revisit the part that matters, and turn your notes into flashcards. All in the same course.</p>
-        <div class="signup" id="waitlist">
-          <form id="waitlist-form" method="post" novalidate hidden>
-            <label class="sr-only" for="waitlist-email" data-i18n="email">Email address</label>
-            <div class="signup-line">
-              <input id="waitlist-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" maxlength="254" required placeholder="Email address" data-placeholder="placeholder" aria-describedby="waitlist-status">
-              <button type="submit" class="solid-button" data-i18n="join">Join the waitlist</button>
-            </div>
-            <div class="signup-consent">
-              <label><input id="waitlist-consent" name="consent" type="checkbox" required aria-describedby="waitlist-status"><span data-i18n="consent">Email me when CourseHelper launches.</span></label>
-              <a href="privacy.html#launch-waitlist" data-preserve-lang data-i18n="privacy">Privacy</a>
-            </div>
-            <div class="trap" aria-hidden="true"><label for="waitlist-website">Website</label><input name="website" id="waitlist-website" type="text" autocomplete="off" tabindex="-1"></div>
-          </form>
-          <p class="signup-status" id="waitlist-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
-          <noscript>Enable JavaScript to join the iPhone launch waitlist, or <a href="support.html">contact support</a>.</noscript>
+        <p class="lead" data-i18n="lead">Bring your timetable, lecture recordings, and notes into one course. Ask about a passage or turn it into a quiz when it’s time to study.</p>
+        <div class="hero-actions">
+          <a class="tour-button" href="#course-tour" data-i18n="tourAction">Explore a sample course</a>
+          <a class="quiet-link" href="#waitlist" data-i18n="updatesLink">Get launch updates</a>
         </div>
       </div>
       <figure class="showcase" id="explore" aria-labelledby="demo-caption">
@@ -93,6 +81,66 @@
       <button class="close-viewer" type="button" data-i18n="close">Close</button>
       <div class="viewer-slot"></div>
     </dialog>
+    <section class="course-tour" id="course-tour" aria-labelledby="tour-title">
+      <div class="wrap">
+        <header class="tour-head">
+          <p class="eyebrow" data-i18n="tourLabel">Inside a sample course</p>
+          <h2 id="tour-title" data-i18n="tourTitle">A week in biology.</h2>
+        </header>
+        <div class="course-spread">
+          <article class="chapter">
+            <h3 data-i18n="scheduleTitle">Start with the syllabus.</h3>
+            <p class="chapter-copy" data-i18n="scheduleBody">Import your syllabus or add a course by hand. Check the meeting times before saving them to your weekly schedule.</p>
+            <div class="plan-board">
+              <div class="plan-paper">
+                <div class="sheet-meta"><span data-i18n="scheduleSample">Sample timetable</span><span>BIO 140</span></div>
+                <h4 data-i18n="biology">Principles of Biology</h4>
+                <dl class="agenda">
+                  <div><dt data-i18n="meetDays">Tue / Thu</dt><dd><strong>09:30 – 10:45</strong><span data-i18n="meetLocation">Lecture · Life Sciences 204</span></dd></div>
+                  <div><dt data-i18n="dueLabel">Next class</dt><dd><strong data-i18n="readChapter">Read Chapter 6</strong><span data-i18n="dueDetail">Bring your energy diagrams.</span></dd></div>
+                </dl>
+              </div>
+            </div>
+          </article>
+          <article class="chapter" id="lecture-notebook">
+            <h3 data-i18n="notebookTitle">Keep the whole lecture.</h3>
+            <p class="chapter-copy" data-i18n="notebookBody">Record with permission or import class audio. Open that lecture to read the transcript, skim the summary, or find your own notes.</p>
+            <div class="lecture-book">
+              <div class="sheet-meta"><span data-i18n="sampleLecture">Sample lecture</span><span>BIO 140</span></div>
+              <h4 data-i18n="lessonName">Enzymes &amp; cellular energy</h4>
+              <div class="notebook-switch" role="group" aria-label="Lecture views" data-label="views" hidden>
+                <button type="button" aria-controls="lesson-summary" aria-pressed="true" data-view="summary" data-i18n="summary">Summary</button>
+                <button type="button" aria-controls="lesson-transcript" aria-pressed="false" data-view="transcript" data-i18n="transcript">Transcript</button>
+                <button type="button" aria-controls="lesson-notes" aria-pressed="false" data-view="notes" data-i18n="notes">Notes</button>
+                <button type="button" aria-controls="lesson-files" aria-pressed="false" data-view="files" data-i18n="files">Files</button>
+              </div>
+              <div class="lesson-page" id="lesson-summary">
+                <h5 data-i18n="keyIdea">Key idea</h5>
+                <p data-i18n="keyText">Enzymes lower the energy needed to start a reaction. Its starting and ending energy stay the same.</p>
+                <h5 data-i18n="nextClass">Before the next class</h5>
+                <p data-i18n="nextText">Draw the energy curves with and without an enzyme.</p>
+              </div>
+              <div class="lesson-page" id="lesson-transcript" tabindex="-1" hidden>
+                <dl class="segments">
+                  <div><dt>00:30</dt><dd data-i18n="passageA">Think of activation energy as the initial climb. An enzyme provides another, lower route without changing where you begin or end.</dd></div>
+                  <div><dt>01:00</dt><dd data-i18n="passageB">Substrates bind at the active site. After products leave, the enzyme can catalyze another reaction.</dd></div>
+                </dl>
+              </div>
+              <div class="lesson-page" id="lesson-notes" hidden>
+                <h5 data-i18n="notesTitle">My class notes</h5>
+                <p data-i18n="noteText">Draw both curves on the same axes. Mark the starting energy, the peak, and the ending energy.</p>
+                <h5 data-i18n="officeHours">For office hours</h5><p data-i18n="noteQuestion">How does pH change the shape of the active site?</p>
+              </div>
+              <div class="lesson-page" id="lesson-files" hidden>
+                <h5 data-i18n="courseMaterials">Course materials</h5>
+                <details class="material"><summary><span data-i18n="slides">Lecture slides · Enzyme essentials</span><span class="plus" aria-hidden="true"></span></summary><p data-i18n="slideText">Learning goals: explain activation energy, identify an active site, and predict the effect of temperature.</p></details>
+                <details class="material"><summary><span data-i18n="reading">Reading · Rate and equilibrium</span><span class="plus" aria-hidden="true"></span></summary><p data-i18n="readingText">A reaction can be energetically favorable yet slow. Rate describes how quickly it proceeds.</p></details>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
     <section class="source-section" id="context" aria-labelledby="source-heading">
       <div class="wrap source-layout">
         <div class="source-intro">
@@ -105,32 +153,85 @@
           <h3 data-i18n="question">How do enzymes speed up a reaction?</h3>
           <p data-i18n="answer">They give the reaction a different pathway with a lower activation energy.</p>
           <details class="excerpt">
-            <summary><span class="source-symbol" aria-hidden="true"></span><span data-i18n="sourceLink">View lecture transcript</span><span class="plus" aria-hidden="true"></span></summary>
-            <blockquote data-i18n="quote">“Enzymes lower this activation energy by providing an alternative reaction pathway.”</blockquote>
+            <summary><span class="source-symbol" aria-hidden="true"></span><span data-i18n="sourceLink">View transcript · 00:30</span><span class="plus" aria-hidden="true"></span></summary>
+            <blockquote data-i18n="quote">“Think of activation energy as the initial climb. An enzyme provides another, lower route without changing where you begin or end.”</blockquote>
+            <a class="citation-link" href="#lesson-transcript" data-i18n="readInLecture" hidden>Read in the sample lecture</a>
           </details>
         </article>
       </div>
     </section>
+    <section class="practice wrap" id="practice" aria-labelledby="practice-title">
+      <div class="practice-intro">
+        <p class="eyebrow" data-i18n="practiceLabel">Active recall</p>
+        <h2 id="practice-title" data-i18n="practiceTitle">Close the notes.<br>Try it yourself.</h2>
+        <p class="chapter-copy" data-i18n="practiceBody">Build flashcards, quizzes, and study guides from a course or a single lecture. Try two questions from this biology lesson.</p>
+      </div>
+      <div class="quiz-paper">
+        <div class="sheet-meta"><span data-i18n="sampleQuiz">Sample quiz · BIO 140</span><span id="quiz-progress">1 / 2</span></div>
+        <div class="quiz-item">
+          <h3 tabindex="-1" data-i18n="quizOne">After an enzyme helps one reaction, what happens to it?</h3>
+          <div class="quiz-options" role="group" aria-label="Answer choices" data-label="answers" hidden>
+            <button type="button" data-correct="false" aria-pressed="false" data-i18n="q1a">It is used up in the reaction.</button>
+            <button type="button" data-correct="true" aria-pressed="false" data-i18n="q1b">It can catalyze another reaction.</button>
+          </div>
+          <span class="quiz-reason" hidden data-i18n="why1">The products leave the active site, freeing the enzyme to work again.</span>
+        </div>
+        <div class="quiz-item" hidden>
+          <h3 tabindex="-1" data-i18n="quizTwo">Why might an enzyme work more slowly at a very high temperature?</h3>
+          <div class="quiz-options" role="group" aria-label="Answer choices" data-label="answers" hidden>
+            <button type="button" data-correct="true" aria-pressed="false" data-i18n="q2a">Its active site may change shape.</button>
+            <button type="button" data-correct="false" aria-pressed="false" data-i18n="q2b">Its molecules stop moving.</button>
+          </div>
+          <span class="quiz-reason" hidden data-i18n="why2">Excessive heat can change the shape of the protein, making it harder for the substrate to bind.</span>
+        </div>
+        <p class="quiz-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+        <button type="button" class="quiz-next" hidden></button>
+        <noscript><details><summary>Reveal the answer</summary><p>It can catalyze another reaction after the products leave its active site.</p></details></noscript>
+      </div>
+    </section>
     <section id="faq" class="faq wrap" aria-labelledby="faq-title">
       <div>
-        <h2 id="faq-title" data-i18n="faqTitle">Before you join.</h2>
+        <h2 id="faq-title" data-i18n="faqTitle">Questions about CourseHelper.</h2>
         <a class="quiet-link" href="support.html" data-preserve-lang data-i18n="supportLink">Contact support</a>
       </div>
       <div class="questions">
+        <details><summary><span data-i18n="bilingualQ">Can I study across English and Chinese?</span><span class="plus" aria-hidden="true"></span></summary>
+          <p data-i18n="bilingualA">Yes. You can switch the app interface, ask questions in either language, and choose a language when you create review materials.</p></details>
+        <details><summary><span data-i18n="recordQ">Can I record my classes?</span><span class="plus" aria-hidden="true"></span></summary>
+          <p data-i18n="recordA">You can record or import class audio once you have the necessary permission. Check your instructor’s and school’s recording policy first.</p></details>
         <details><summary><span data-i18n="availabilityQ">When can I download CourseHelper?</span><span class="plus" aria-hidden="true"></span></summary>
           <p><span data-i18n="availabilityA">CourseHelper is preparing to launch on iPhone.</span> <a href="#waitlist" data-i18n="notify">Join the waitlist for the launch email.</a></p></details>
         <details><summary><span data-i18n="pricingQ">Does it cost anything to join?</span><span class="plus" aria-hidden="true"></span></summary>
           <p data-i18n="pricingA">Joining the waitlist is free. In the app, some transcription and AI features have usage limits or require a paid plan. You can see the price and allowance before choosing a plan.</p></details>
-        <details><summary><span data-i18n="recordQ">Can I record my classes?</span><span class="plus" aria-hidden="true"></span></summary>
-          <p data-i18n="recordA">You can record or import class audio once you have the necessary permission. Check your instructor’s and school’s recording policy first.</p></details>
         <details><summary><span data-i18n="removeQ">Can I leave the waitlist?</span><span class="plus" aria-hidden="true"></span></summary>
           <p><span data-i18n="removeA">Yes. Request removal using the email you signed up with.</span> <a data-preserve-lang href="privacy.html#launch-waitlist" data-i18n="privacyDetails">Waitlist privacy and contact details</a></p></details>
+      </div>
+    </section>
+    <section class="launch-invite" id="waitlist" aria-labelledby="launch-title">
+      <div class="wrap invite-inner">
+        <div><p class="eyebrow" data-i18n="platform">Coming to iPhone</p><h2 id="launch-title" data-i18n="launchTitle">Know when it launches.</h2></div>
+        <div class="signup">
+          <form id="waitlist-form" method="post" novalidate hidden>
+            <label class="sr-only" for="waitlist-email" data-i18n="email">Email address</label>
+            <div class="signup-line">
+              <input id="waitlist-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" maxlength="254" required placeholder="Email address" data-placeholder="placeholder" aria-describedby="waitlist-status">
+              <button type="submit" class="solid-button" data-i18n="join">Join the waitlist</button>
+            </div>
+            <div class="signup-consent">
+              <label><input id="waitlist-consent" name="consent" type="checkbox" required aria-describedby="waitlist-status"><span data-i18n="consent">Email me when CourseHelper launches.</span></label>
+              <a href="privacy.html#launch-waitlist" data-preserve-lang data-i18n="privacy">Privacy</a>
+            </div>
+            <div class="trap" aria-hidden="true"><label for="waitlist-website">Website</label><input name="website" id="waitlist-website" type="text" autocomplete="off" tabindex="-1"></div>
+          </form>
+          <p class="signup-status" id="waitlist-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+          <noscript>Enable JavaScript to join the iPhone launch waitlist, or <a href="support.html">contact support</a>.</noscript>
+        </div>
       </div>
     </section>
   </main>
   <footer class="footer"><div class="wrap footer-inner">
     <span>© 2026 CourseHelper</span>
-    <nav aria-label="Footer" data-label="footer"><a href="support.html" data-preserve-lang data-i18n="support">Support</a><a href="privacy.html" data-preserve-lang data-i18n="privacy">Privacy</a><a href="terms.html" data-preserve-lang data-i18n="terms">Terms</a><a href="#waitlist" data-i18n="join">Join the waitlist</a></nav>
+    <nav aria-label="Footer" data-label="footer"><a href="support.html" data-preserve-lang data-i18n="support">Support</a><a href="privacy.html" data-preserve-lang data-i18n="privacy">Privacy</a><a href="terms.html" data-preserve-lang data-i18n="terms">Terms</a><a href="#main" data-i18n="backTop">Back to top</a></nav>
   </div></footer>
 </body>
 </html>

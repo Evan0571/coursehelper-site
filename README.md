@@ -16,7 +16,7 @@ The preview server supports byte-range requests so video scrubbing behaves like 
 
 ## iPhone launch landing page
 
-The homepage shows an email signup, one localized three-scene app demo, a lecture-source example, and launch FAQs. `launch.css` and `launch.js` drive the homepage. `site.js` handles language selection across the public pages. The older gallery, spatial prototype, and film tooling are not loaded by this page.
+The homepage introduces the app with one localized three-scene demo. The sample course tour covers syllabus import and the weekly timetable, lecture summaries, timestamped transcripts, notes and readings. Visitors can open a source citation and answer two biology questions. The launch signup follows the product tour and FAQ; links to `#waitlist` lead directly to the form. `launch.css` and `launch.js` drive the homepage. `site.js` handles language selection across the public pages. The older gallery, spatial prototype, and film tooling are not loaded by this page.
 
 The six silent H.264 videos and corresponding WebP posters in `assets/launch-demo/` were recorded on November 19, 2026 from the current local SwiftUI sources (based on App commit `4dc812e`) in an iPhone 18 Pro simulator running iOS 27. Both languages use the app’s built-in sample courses. The three scenes open the calendar, switch a class summary to its timestamped transcript, and reveal and advance a flashcard. The desk background is a generated image. The social card combines this background and an actual lecture screenshot.
 
