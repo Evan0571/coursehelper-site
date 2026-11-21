@@ -35,6 +35,8 @@
   let poster = lowerScreen;
   let wantedScreen = poster.getAttribute("src");
   let switchingScreen = false;
+  const handheld = matchMedia("(max-width: 959px), (pointer: coarse) and (max-width: 1100px) and (max-height: 650px)");
+  document.documentElement.classList.toggle("handheld", handheld.matches);
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const media = (name) => "assets/experiences/media-20261121/" + language + "/" + name;
   const phonePose = {
@@ -73,9 +75,10 @@
     }
   }
   function enablePhone3d() {
-    if (reduce.matches || navigator.connection?.saveData || phoneImport) return;
-    phoneImport = import("./assets/experiences/phone3d.js?v=20261121-source-film")
+    if (handheld.matches || reduce.matches || navigator.connection?.saveData || phoneImport) return;
+    phoneImport = import("./assets/experiences/phone3d.js?v=20261121-native-detail")
       .then(({ mountPhone }) => {
+        if (handheld.matches) { phoneImport = null; return; }
         phone3d = mountPhone({
           host: phone,
           stage,
@@ -99,17 +102,6 @@
   }
   const aiSources = "sources.webp";
   const answerScreen = "ai-answer.webp";
-  function makeSheetFilm() {
-    const video = document.createElement("video");
-    video.muted = true;
-    video.playsInline = true;
-    video.preload = "none";
-    video.hidden = true;
-    video.setAttribute("aria-hidden", "true");
-    return video;
-  }
-  const sheetFilm = makeSheetFilm();
-  upperScreen.after(sheetFilm);
   // One camera position keeps the question, answer and open citation in the same shot.
   const conversationFraming = 0.49;
   const tourScreens = {
@@ -238,6 +230,7 @@
   }
   const copy = {
     en: {
+      exploreFeatures: "Explore features",
       line1: "Less scattered.",
       line2: "More understood.",
       description: "Your courses, lectures, notes, and review. In one place.",
@@ -274,6 +267,7 @@
       askName: "Questions and sources",
     },
     zh: {
+      exploreFeatures: "了解功能",
       line1: "少一点散乱。",
       line2: "多一点理解。",
       description: "课程、课堂录音、笔记和复习，都在同一个地方。",
@@ -328,44 +322,35 @@
     upperScreen.style.opacity = String(value);
     phone3d?.requestDraw();
   }
-  function prepareSheetFilm() {
-    const src = media("source-open.mp4");
-    if (sheetFilm.getAttribute("src") !== src) {
-      sheetFilm.src = src;
-      sheetFilm.preload = "auto";
-      sheetFilm.load();
-    }
+  // Both endpoints are the simulator captures. The answer stays painted while its
+  // backdrop dims and the citation sheet slides into its captured position.
+  function makeSourceMotion(answer, sources) {
+    const layer = document.createElement("span");
+    layer.className = "source-motion";
+    layer.setAttribute("aria-hidden", "true");
+    layer.style.setProperty("--answer-image", `url("${answer}")`);
+    layer.style.setProperty("--sources-image", `url("${sources}")`);
+    layer.append(document.createElement("span"));
+    return layer;
   }
-  async function playSheetOpening(src) {
-    prepareSheetFilm();
-    sheetFilm.currentTime = 0;
-    const started = performance.now();
-    let showing = false;
-    let failed = false;
-    sheetFilm.play().catch(() => { failed = true; });
-    try {
-      return await new Promise(resolve => {
-        function frame() {
-          if (src !== wantedScreen || failed || sheetFilm.error || reduce.matches ||
-              document.hidden || performance.now() - started > 1800) return resolve(false);
-          if (sheetFilm.readyState >= 2 && !sheetFilm.paused) {
-            if (!showing) {
-              showing = true;
-              sheetFilm.hidden = false;
-              phone3d?.setFilm(sheetFilm);
-            }
-            phone3d?.requestDraw();
-          }
-          if (sheetFilm.ended) return resolve(showing);
-          requestAnimationFrame(frame);
-        }
-        frame();
-      });
-    } finally {
-      sheetFilm.pause();
-      sheetFilm.hidden = true;
-      phone3d?.setFilm(null);
-    }
+  function moveSourceSheet(layer, initiallyOpen, target) {
+    let position = initiallyOpen ? 1 : 0;
+    let last = performance.now();
+    return new Promise(resolve => {
+      function frame(now) {
+        const open = target();
+        if (open == null || !layer.isConnected) return resolve();
+        const distance = (now - last) / 560;
+        last = now;
+        position = reduce.matches || document.hidden ? Number(open) :
+          Math.min(1, Math.max(0, position + (open ? distance : -distance)));
+        const progress = position * position * (3 - 2 * position);
+        layer.style.setProperty("--sheet-progress", progress);
+        if (position === Number(open)) resolve();
+        else requestAnimationFrame(frame);
+      }
+      frame(last);
+    });
   }
   function blendScreens(next) {
     const to = next === upperScreen ? 1 : 0;
@@ -398,13 +383,24 @@
         }
         // A fast scroll can skip several pages while an image is decoding.
         if (src !== wantedScreen) continue;
-        const fromAnswer = poster.getAttribute("src") === media(answerScreen);
-        const openingSource = fromAnswer && src === media(aiSources) && !stillDetail &&
-          !reduce.matches && !navigator.connection?.saveData;
-        const played = openingSource && await playSheetOpening(src);
-        if (src !== wantedScreen) continue;
-        if (played) displayBlend(next === upperScreen ? 1 : 0);
-        else await blendScreens(next);
+        const answer = media(answerScreen);
+        const sources = media(aiSources);
+        const previous = poster.getAttribute("src");
+        if (!stillDetail && !reduce.matches && ((previous === answer && src === sources) ||
+            (previous === sources && src === answer))) {
+          const layer = makeSourceMotion(answer, sources);
+          upperScreen.after(layer);
+          try {
+            await moveSourceSheet(layer, previous === sources, () =>
+              wantedScreen === sources ? true : wantedScreen === answer ? false : null);
+            if (src !== wantedScreen) continue;
+            displayBlend(next === upperScreen ? 1 : 0);
+          } finally {
+            layer.remove();
+          }
+        } else {
+          await blendScreens(next);
+        }
         poster.classList.remove("spatial-poster");
         poster.alt = "";
         poster = next;
@@ -417,7 +413,6 @@
   }
   function updatePhoneScreen() {
     wantedScreen = media(tourIndex < 0 ? (selected ? selected + "-poster.webp" : "today.webp") : currentScreen().src);
-    if (wantedScreen === media(answerScreen) && !stillDetail && !reduce.matches && !navigator.connection?.saveData) prepareSheetFilm();
     showWantedScreen();
     updatePosterDescription();
     measureDetail();
@@ -430,24 +425,20 @@
     updatePhoneScreen();
   }
   const stripObserver = new IntersectionObserver(entries => {
-    for (const { target, isIntersecting } of entries) {
-      const film = target.querySelector("video");
-      if (!film) continue;
-      if (!isIntersecting || reduce.matches || navigator.connection?.saveData) {
-        film.pause();
-        film.hidden = true;
-        continue;
+    for (const entry of entries) {
+      const layer = entry.target.querySelector(".source-motion");
+      if (!layer) continue;
+      if (entry.intersectionRatio >= 0.55) {
+        stripObserver.unobserve(entry.target);
+        moveSourceSheet(layer, false, () => true);
       }
-      film.src = media("source-open.mp4");
-      film.currentTime = 0;
-      film.play().then(() => { if (!film.paused) film.hidden = false; }).catch(() => {});
     }
   }, { threshold: 0.55 });
   function renderStep(step, index) {
     const path = activePath();
     const strip = step.querySelector(".tour-screen-strip");
     stripObserver.unobserve(strip);
-    strip.querySelector("video")?.remove();
+    strip.querySelector(".source-motion")?.remove();
     step.hidden = index >= path.length;
     if (step.hidden) return;
     const id = path[index];
@@ -457,11 +448,10 @@
     const src = media(screen.src);
     if (img.getAttribute("src") !== src) img.src = src;
     img.style.objectPosition = "50% " + screen.strip + "%";
-    if (id === "sources") {
-      const film = makeSheetFilm();
-      film.style.objectPosition = img.style.objectPosition;
-      film.addEventListener("ended", () => { film.hidden = true; });
-      strip.append(film);
+    if (id === "sources" && !reduce.matches && !navigator.connection?.saveData) {
+      const layer = makeSourceMotion(media(answerScreen), src);
+      layer.style.setProperty("--strip-position", screen.strip + "%");
+      strip.append(layer);
       stripObserver.observe(strip);
     }
     step.querySelector(".tour-demo-label").textContent = copy[language].demo;
@@ -486,6 +476,7 @@
     }
   }
   function renderTour() {
+    if (handheld.matches) return;
     margins.dataset.tour = tourFeature();
     stage.classList.toggle("has-reading-sequence", hasReadingSequence());
     tourSteps.forEach(renderStep);
@@ -677,6 +668,27 @@
   }
   layoutGallery();
   new ResizeObserver(layoutGallery).observe(world);
+  function showHandheldDesk() {
+    desk.removeAttribute("aria-hidden");
+    desk.append(opening);
+    stage.hidden = margins.hidden = true;
+    return () => {
+      stage.hidden = margins.hidden = false;
+      stage.prepend(opening);
+      desk.setAttribute("aria-hidden", "true");
+    };
+  }
+  handheld.addEventListener("change", () => {
+    document.documentElement.classList.toggle("handheld", handheld.matches);
+    if (handheld.matches && phone3d) {
+      phone3d.dispose();
+      phone3d = phoneImport = null;
+    } else if (!handheld.matches) {
+      renderTour();
+      enablePhone3d();
+    }
+    document.dispatchEvent(new Event("coursehelper:layout"));
+  });
   function showStillDesk() {
     scene.classList.add("desk-still");
     desk.removeAttribute("aria-hidden");
@@ -697,7 +709,8 @@
   }
   if (!window.gsap || !window.ScrollTrigger) {
     scene.classList.add("is-static");
-    showStillDesk();
+    if (handheld.matches) showHandheldDesk();
+    else showStillDesk();
     phone.setAttribute("aria-disabled", "true");
     phone.tabIndex = -1;
     return;
@@ -805,6 +818,7 @@
     {
       motion: "(prefers-reduced-motion: no-preference)",
       reduced: "(prefers-reduced-motion: reduce)",
+      handheld: handheld.media,
       mobile: "(max-width: 620px)",
       narrow: "(max-width: 960px)",
       compact: "(max-width: 760px)",
@@ -813,6 +827,7 @@
     },
     (context) => {
       const { motion, mobile, short, sideNotes } = context.conditions;
+      if (context.conditions.handheld) return showHandheldDesk();
       if (!motion) return showStillDesk();
       const marginPages = () => sideNotes ? activePath().length * (selected === null ? 0.7 : 0.9) : 0;
       if (sideNotes) {
@@ -1112,6 +1127,7 @@
         stage.style.setProperty("--detail-header-height", (top - 6) + "px");
         stage.style.setProperty("--detail-phone-width", width + "px");
         travel.style.setProperty("--detail-scale", renderScale / zoom);
+        travel.style.setProperty("--detail-start-scale", zoom / renderScale);
         if (inDetail) setDetailResolution(renderScale);
       };
       function setDetailActive(active) {
@@ -1130,6 +1146,10 @@
         syncCardMotion();
         setDetailResolution(active ? renderScale : 1);
       }
+      function syncDetail(timeline) {
+        setDetailActive(timeline.time() > 0.14);
+        stage.classList.toggle("is-front-detail", timeline.progress() >= 0.999);
+      }
       measureDetail();
       const detail = gsap.timeline({
         scrollTrigger: {
@@ -1138,10 +1158,10 @@
           scrub: 0.4, invalidateOnRefresh: true,
           onRefresh(trigger) {
             measureDetail();
-            setDetailActive(trigger.animation.time() > 0.14);
+            syncDetail(trigger.animation);
           },
         },
-        onUpdate() { setDetailActive(this.time() > 0.14); },
+        onUpdate() { syncDetail(this); },
       });
       detail.fromTo(stage, { "--detail-ink": 1 }, {
         "--detail-ink": 0, duration: 0.34, ease: "sine.inOut", immediateRender: false,
@@ -1219,10 +1239,12 @@
           scene.style.removeProperty("--margin-travel");
         }
         setDetailActive(false);
+        stage.classList.remove("is-front-detail");
         measureDetail = () => {};
         stage.style.removeProperty("--detail-header-height");
         stage.style.removeProperty("--detail-phone-width");
         travel.style.removeProperty("--detail-scale");
+        travel.style.removeProperty("--detail-start-scale");
         travel.style.removeProperty("--detail-shift");
         resetDesk();
         drag = null;

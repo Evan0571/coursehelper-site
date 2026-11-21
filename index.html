@@ -46,14 +46,15 @@
     />
     <link rel="stylesheet" href="styles.css?v=20261121-study" />
     <link rel="stylesheet" href="motion.css?v=20261120-chapters" />
-    <link rel="stylesheet" href="experience.css?v=20261121-source-film" />
+    <link rel="stylesheet" href="experience.css?v=20261121-native-detail" />
     <link rel="stylesheet" href="material.css?v=20261120-bound-index" />
+    <link rel="stylesheet" href="handheld.css?v=20261121-reader" />
     <script defer src="site.js?v=20261121-focus"></script>
     <script defer src="waitlist.js?v=20261119"></script>
     <script defer src="assets/vendor/gsap.min.js"></script>
     <script defer src="assets/vendor/ScrollTrigger.min.js"></script>
-    <script defer src="experience.js?v=20261121-focus"></script>
-    <script defer src="motion.js?v=20261121-focus"></script>
+    <script defer src="experience.js?v=20261121-native-detail"></script>
+    <script defer src="motion.js?v=20261121-reader"></script>
     <script defer src="device-camera.js?v=20261121-focus"></script>
   </head>
   <body class="marketing">
@@ -138,6 +139,7 @@
               <span><span data-spatial-copy="line2">More understood.</span></span>
             </h1>
             <p class="spatial-description"><span data-spatial-copy="description">Your courses, lectures, notes, and review. In one place.</span></p>
+            <a class="handheld-explore" href="#explore"><span data-spatial-copy="exploreFeatures">Explore features</span><span aria-hidden="true">↓</span></a>
           </div>
           <div class="spatial-unfolded" aria-hidden="true">
             <h2 data-spatial-copy="unfoldTitle">
@@ -721,14 +723,17 @@
                 <div class="feature-visual">
                   <div class="motion-demo">
                     <div class="motion-film">
-                      <img
-                        class="movie-poster"
-                        data-product-image="ask-poster.webp" src="assets/experiences/media-20261121/en/ask-poster.webp"
-                        alt="A question about spaced practice in the class assistant"
-                        width="600"
-                        height="1304"
-                        loading="lazy"
-                      />
+                      <picture>
+                        <source id="handheld-citation-preview" media="not all" />
+                        <img
+                          class="movie-poster"
+                          data-product-image="ask-poster.webp" src="assets/experiences/media-20261121/en/ask-poster.webp"
+                          alt="A question about spaced practice in the class assistant"
+                          width="600"
+                          height="1304"
+                          loading="lazy"
+                        />
+                      </picture>
                       <video
                         class="feature-movie"
                         data-src="assets/experiences/media-20261121/en/ask.mp4"
@@ -1074,5 +1079,13 @@
         </div>
       </section>
     </main>
+    <dialog class="handheld-player" aria-labelledby="handheld-film-title">
+      <header>
+        <h2 id="handheld-film-title"></h2>
+        <button type="button" aria-label="Close video" autofocus>×</button>
+      </header>
+      <video controls playsinline muted preload="none" aria-labelledby="handheld-film-title"></video>
+      <p class="film-error" role="status" hidden><span></span> <button type="button"></button></p>
+    </dialog>
   </body>
 </html>

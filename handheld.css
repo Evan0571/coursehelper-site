@@ -1,0 +1,212 @@
+.handheld-explore, .handheld-watch, .handheld-player:not([open]) { display: none; }
+
+.handheld {
+  --page-gutter: clamp(18px, 5.5vw, 40px);
+  scroll-padding-top: 68px;
+}
+
+.handheld .site-header {
+  top: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0 max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left));
+  background: #fafafa;
+  border-bottom: 1px solid #e3e3e3;
+}
+.handheld .nav {
+  min-width: 0;
+  min-height: 58px;
+  padding: 0;
+  gap: 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.handheld .nav-links, .handheld .language-toggle button[aria-pressed="true"] { display: none; }
+.handheld .brand { min-height: 44px; font-size: 17px; gap: 6px; }
+.handheld .brand img { width: 27px; height: 27px; }
+.handheld .nav-actions { margin-left: auto; gap: 4px; }
+.handheld .language-toggle { padding: 0; }
+.handheld .language-toggle button { min-width: 44px; min-height: 44px; font-size: 13px; color: #454545; }
+.handheld .nav-actions .button-small {
+  display: inline-flex;
+  min-height: 44px;
+  padding: 8px 12px;
+  white-space: nowrap;
+  font-size: 13px;
+}
+.handheld .nav-actions .button-small svg { display: none; }
+.handheld .spatial-intro { height: auto; margin: 0; }
+.handheld .desk-cover {
+  height: clamp(520px, 80svh, 720px);
+  min-height: 0;
+  --desk-phone-width: min(44vw, 22svh);
+  --desk-phone-x: 61%;
+  --desk-phone-y: 68%;
+}
+.handheld .desk-photo img { object-position: 45% 85%; transform: scale(1.13); transform-origin: 48% 0; }
+.handheld .desk-cover .spatial-opening {
+  position: absolute;
+  inset: clamp(26px, 5svh, 50px) var(--page-gutter) auto;
+  text-align: left;
+  pointer-events: auto;
+}
+.handheld .spatial-opening h1 {
+  font-size: clamp(35px, 10.65vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -.065em;
+}
+.handheld:lang(zh-Hans) .spatial-opening h1 { line-height: 1.12; letter-spacing: -.05em; }
+.handheld .spatial-description {
+  max-width: 29ch;
+  margin: 13px 0 0;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.handheld .spatial-opening [data-spatial-copy] { animation: none; }
+.handheld .handheld-explore, .handheld .handheld-watch {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #181818;
+  text-decoration: none;
+}
+.handheld .handheld-explore { margin-top: 6px; }
+.handheld .handheld-explore > :first-child { border-bottom: 1px solid #777; }
+.handheld .section-wrap { width: min(680px, calc(100% - 2 * var(--page-gutter))); }
+.handheld .explore-section { padding-top: clamp(38px, 7vw, 64px); }
+.handheld .section-heading { margin-bottom: 24px; }
+.handheld .section-heading h2, .handheld .details-intro h2, .handheld .faq-section h2 {
+  font-size: clamp(32px, 8.5vw, 50px);
+  line-height: 1.08;
+  letter-spacing: -.05em;
+}
+.handheld .feature-track { display: grid; gap: 26px; }
+.handheld .feature-story .feature-panel {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 0;
+  border: 1px solid #dedede;
+  border-radius: 18px;
+  scroll-margin-top: 72px;
+}
+.handheld .feature-story .feature-copy {
+  display: block;
+  min-height: 0;
+  padding: clamp(18px, 5.5vw, 30px);
+}
+.handheld .feature-chapter { gap: 10px; margin: 0 0 12px; font-size: 13px; }
+.handheld .feature-index { display: none; }
+.handheld .feature-story .feature-intro h3 { font-size: clamp(27px, 7.5vw, 40px); line-height: 1.08; }
+.handheld .feature-intro .feature-description {
+  max-width: 42ch;
+  margin-top: 9px;
+  font-size: 16px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.handheld .feature-story .feature-visual { height: auto; min-height: 0; padding: 0; background: #f0f0ef; }
+.handheld .motion-demo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 8px;
+  align-items: center;
+  height: auto;
+  padding: clamp(14px, 4vw, 22px) clamp(14px, 4vw, 22px) 4px;
+}
+.handheld .motion-film {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: clamp(138px, 43vw, 215px);
+  aspect-ratio: auto;
+  border: 1px solid #e1e1df;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / .045);
+  transform: none !important;
+  will-change: auto;
+}
+.handheld .motion-film .movie-poster { object-fit: cover; object-position: center 52%; }
+.handheld [data-current="capture"] .movie-poster { object-position: center 36%; }
+.handheld [data-current="ask"] .movie-poster { object-position: center 62%; }
+.handheld [data-current="review"] .movie-poster { object-position: center 39%; }
+.handheld .motion-film video { display: none; }
+.handheld .film-note {
+  position: static;
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: .025em;
+  color: #575755;
+}
+.handheld .handheld-watch { justify-self: end; padding: 0 2px; }
+.handheld-watch::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-block: 4px solid transparent;
+  border-left: 7px solid currentColor;
+}
+.handheld .details-section { height: auto; min-height: 0; padding-block: 58px 32px; row-gap: 22px; }
+.handheld .details-intro { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.handheld .details-intro img { height: clamp(145px, 44vw, 260px); }
+.handheld .study-notes { grid-template-columns: minmax(0, 1fr); }
+.handheld .study-notes article { padding-block: 16px; }
+.handheld .faq-section { padding-block: 40px 52px; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.handheld .faq-section h2 { margin-bottom: 8px; }
+.handheld .faq-section h2 br { display: revert; }
+.handheld .faq-list summary { min-height: 48px; padding-block: 16px; font-size: 16px; }
+.handheld .faq-list details > p { font-size: 15px; line-height: 1.55; }
+.handheld .waitlist { scroll-margin-top: 12px; }
+.handheld .waitlist-fields input { font-size: 16px; }
+.handheld .footer-inner { padding-bottom: max(22px, env(safe-area-inset-bottom)); }
+.handheld .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 15px; }
+.handheld .footer-links a { display: inline-flex; min-height: 44px; align-items: center; }
+.handheld-player[open] {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100%;
+  padding: max(8px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  margin: 0;
+  border: 0;
+  color: white;
+  background: #171717;
+}
+.handheld-player::backdrop { background: #171717; }
+.handheld:has(.handheld-player[open]) { overflow: hidden; }
+.handheld-player header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.handheld-player h2 { font-size: 18px; letter-spacing: -.025em; }
+.handheld-player header button { width: 44px; height: 44px; border: 0; border-radius: 50%; color: white; background: #333; font-size: 27px; }
+.handheld-player video { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+
+.handheld-player .film-error { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 15px; }
+.handheld-player .film-error button { min-height: 44px; padding: 0 14px; border: 1px solid #888; border-radius: 22px; color: white; background: transparent; }
+
+@media (max-width: 360px) {
+  .handheld .nav { gap: 3px; }
+  .handheld .brand { font-size: 15px; gap: 3px; }
+  .handheld .nav-actions { gap: 0; }
+  .handheld .nav-actions .button-small { padding-inline: 10px; font-size: 12px; }
+}
+@media (min-width: 600px) {
+  .handheld .feature-story .feature-panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; }
+  .handheld .motion-film { height: clamp(160px, 22vw, 200px); }
+  .handheld .feature-story .feature-copy { align-self: center; }
+
+  .handheld .desk-cover { height: clamp(335px, 70svh, 655px); --desk-phone-x: 76%; --desk-phone-y: 57%; --desk-phone-width: min(24vw, 30svh); }
+  .handheld .desk-cover .spatial-opening { right: 44%; top: 15%; }
+  .handheld .spatial-opening h1 { font-size: clamp(39px, 6.6vw, 64px); }
+}
+@media (max-height: 500px) {
+  .handheld .site-header { position: relative; }
+  .handheld { scroll-padding-top: 8px; }
+}

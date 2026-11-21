@@ -20,7 +20,6 @@ import {
   Texture,
   TorusGeometry,
   Vector3,
-  VideoTexture,
   WebGLRenderer,
 } from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -74,7 +73,7 @@ function surface(w, h, r) {
   return g;
 }
 
-/** Geometry, lights and media stay in WebGL; DOM transforms never rasterize the screen. */
+/** Render the rotating handset. The front-facing close-up uses the native image over the bezel. */
 export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
   let renderer;
   try {
@@ -190,9 +189,12 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
     );
   };
   const screenWidth = W - 0.101;
+  const screenHeight = screenWidth * 2608 / 1200;
+  const projectedHeight = screenHeight / H * camera.position.z / (camera.position.z - SCREEN_Z);
+  host.style.setProperty("--display-inset", (1 - projectedHeight) * 50 + "%");
   const screen = add(
     "native operation display",
-    surface(screenWidth, (screenWidth * 2608) / 1200, 0.265),
+    surface(screenWidth, screenHeight, 0.265),
     screenMaterial,
     0,
     0,
@@ -207,16 +209,6 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
   }
   const posterTexture = screenTexture(poster);
   const nextTexture = screenTexture(overlay);
-  let filmTexture = null;
-  function setFilm(video) {
-    if (disposed) return;
-    filmTexture?.dispose();
-    filmTexture = video ? new VideoTexture(video) : null;
-    if (filmTexture) filmTexture.colorSpace = SRGBColorSpace;
-    screenMaterial.map = filmTexture || posterTexture;
-    screenMaterial.needsUpdate = true;
-    requestDraw();
-  }
   screenMaterial.map = posterTexture;
   overlayMap.value = posterTexture;
 
@@ -304,7 +296,7 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
       "YXZ",
     );
     if (!posterTexture.version) return;
-    screenBlend.value = filmTexture ? 0 : pose.screenBlend;
+    screenBlend.value = pose.screenBlend;
     glassLight.value.set(pose.lightX, pose.lightY, pose.lightStrength);
     renderer.render(scene, camera);
     if (!host.classList.contains("has-webgl-phone"))
@@ -378,7 +370,6 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
     );
     posterTexture.dispose();
     nextTexture.dispose();
-    filmTexture?.dispose();
     environment.dispose();
     renderer.dispose();
     renderer.domElement.remove();
@@ -393,5 +384,5 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
   window.addEventListener("pagehide", (event) => {
     if (!event.persisted) dispose();
   });
-  return { requestDraw, resize, dispose, setFilm, canvas: renderer.domElement, model, screen };
+  return { requestDraw, resize, dispose, canvas: renderer.domElement, model, screen };
 }

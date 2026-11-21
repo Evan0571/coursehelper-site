@@ -1,12 +1,14 @@
 (() => {
   "use strict";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const handheld = () => document.documentElement.classList.contains("handheld");
   function loop(video, target) {
     const state = { video, visible: false, enabled: true, failed: false };
     video.muted = true;
     video.loop = true;
     const sync = () => {
       if (
+        !handheld() &&
         state.enabled &&
         state.visible &&
         !state.failed &&
@@ -27,7 +29,7 @@
     }, { threshold: 0.15 });
     observer.observe(target);
     video.addEventListener("play", () => {
-      if (!state.enabled || !state.visible || document.hidden || reduce.matches)
+      if (handheld() || !state.enabled || !state.visible || document.hidden || reduce.matches)
         video.pause();
     });
     video.addEventListener("error", () => {
@@ -45,6 +47,7 @@
       sync();
     });
     document.addEventListener("visibilitychange", sync);
+    document.addEventListener("coursehelper:layout", sync);
     reduce.addEventListener("change", sync);
     navigator.connection?.addEventListener("change", sync);
     return {
@@ -65,6 +68,77 @@
   const chapterPlayers = panels.map((panel) =>
     loop(panel.querySelector("video"), panel.querySelector(".motion-demo")),
   );
+  // Small screens show a readable crop. One native, user-initiated player
+  // serves all four clips and releases its media when the visitor closes it.
+  const player = document.querySelector(".handheld-player");
+  const movie = player.querySelector("video");
+  const dismiss = player.querySelector("header button");
+  const failure = player.querySelector(".film-error");
+  let filmOpener;
+  const watchLinks = panels.map(panel => {
+    const link = document.createElement("a");
+    link.className = "handheld-watch";
+    panel.querySelector(".motion-demo").append(link);
+    link.addEventListener("click", event => {
+      if (!player.showModal) return;
+      event.preventDefault();
+      player.querySelector("h2").textContent = panel.querySelector(".feature-chapter > :last-child").textContent;
+      movie.poster = panel.querySelector(".movie-poster").src;
+      failure.hidden = true;
+      filmOpener = link;
+      movie.src = link.href;
+      player.showModal();
+      movie.play().catch(() => { /* Native controls remain available. */ });
+    });
+    return link;
+  });
+  const askPanel = document.getElementById("feature-ask");
+  const askPoster = askPanel.querySelector(".movie-poster");
+  const citationPreview = document.getElementById("handheld-citation-preview");
+  function syncCitationPreview() {
+    if (handheld()) {
+      askPoster.alt = document.documentElement.lang.startsWith("zh") ? "AI 回答引用的课堂资料" : "The class source cited in an AI answer";
+    } else {
+      askPoster.alt = askPoster.dataset.answerAlt;
+    }
+    citationPreview.media = handheld() ? "all" : "not all";
+    citationPreview.srcset = new URL("sources.webp", askPoster.src).href;
+  }
+  function labelFilms() {
+    askPoster.dataset.answerAlt = askPoster.alt;
+    const zh = document.documentElement.lang.startsWith("zh");
+    dismiss.setAttribute("aria-label", zh ? "关闭视频" : "Close video");
+    failure.querySelector("span").textContent = zh ? "视频暂时无法播放。" : "This video couldn’t load.";
+    failure.querySelector("button").textContent = zh ? "重试" : "Try again";
+    watchLinks.forEach((link, i) => {
+      link.textContent = zh ? "看演示" : "Watch demo";
+      link.href = panels[i].querySelector(".feature-movie").dataset.src;
+      const chapter = panels[i].querySelector(".feature-chapter > :last-child").textContent;
+      link.setAttribute("aria-label", link.textContent + " · " + chapter);
+    });
+    syncCitationPreview();
+  }
+  labelFilms();
+  document.addEventListener("coursehelper:language", labelFilms);
+  dismiss.addEventListener("click", () => player.close());
+  movie.addEventListener("error", () => {
+    if (player.open && movie.hasAttribute("src")) failure.hidden = false;
+  });
+  failure.querySelector("button").addEventListener("click", () => {
+    failure.hidden = true;
+    movie.load();
+    movie.play().catch(() => {});
+  });
+  player.addEventListener("close", () => {
+    if (player.open) return;
+    movie.pause();
+    movie.removeAttribute("src");
+    movie.load();
+    if (handheld()) filmOpener?.focus({ preventScroll: true });
+    filmOpener = null;
+  });
+  document.addEventListener("coursehelper:layout", () => { syncCitationPreview(); if (!handheld() && player.open) player.close(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden && player.open) movie.pause(); });
   if (!spatialProduction) loop(
     document.getElementById("hero-movie"),
     document.querySelector(".gallery-motion"),
@@ -220,6 +294,7 @@
   );
   if (spatialProduction) return;
   mm.add("(prefers-reduced-motion: no-preference)", () => {
+    if (handheld()) return;
     gsap.from(".hero h1 > span", {
       y: 26,
       opacity: 0,

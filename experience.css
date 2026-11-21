@@ -152,7 +152,7 @@ html[lang="zh-Hans"] .spatial-opening h1 {
   border-radius: 29px;
   background: #f6f6f6;
 }
-.spatial-device-screen :is(img, video) {
+.spatial-device-screen img {
   position: absolute;
   inset: 0;
   height: 100%;
@@ -760,7 +760,47 @@ html[lang="zh-Hans"] .spatial-opening h1 {
 }
 .is-in-detail .spatial-phone-detail {
   transform: translateY(calc(var(--detail-progress, 0) * var(--detail-shift, 0px)))
-    scale(calc(1 + var(--detail-progress, 0) * (var(--detail-scale, 1) - 1)));
+    scale(calc(var(--detail-start-scale, 1) + var(--detail-progress, 0) * (1 - var(--detail-start-scale, 1))));
+}
+/* Lay out the close-up at its reading size. Only the approach scales its pixels. */
+.is-in-detail .spatial-phone-pose { zoom: var(--detail-scale, 1); }
+.is-front-detail .has-webgl-phone .spatial-device-screen {
+  position: absolute;
+  inset: var(--display-inset);
+  z-index: 1;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 12.63% / 5.81%;
+  box-shadow: none;
+  opacity: 1;
+}
+.is-front-detail .spatial-device::after { z-index: 2; }
+.source-motion {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--answer-image) center / 100% 100% no-repeat;
+  --sheet-progress: 0;
+}
+.source-motion::before, .source-motion > span, .source-motion::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.source-motion::before { background: rgb(0 0 0 / calc(.2 * var(--sheet-progress))); }
+.source-motion > span, .source-motion::after {
+  background: var(--sources-image) center / 100% 100% no-repeat;
+}
+.source-motion > span {
+  /* The native sheet occupies the same bounds in both localized captures. */
+  clip-path: inset(47.48% 1.99% .99% round 11% 11% 14% 14% / 10% 10% 13% 13%);
+  transform: translateY(calc((1 - var(--sheet-progress)) * 53%));
+}
+.source-motion::after {
+  /* Settle onto the exact native shadow and rounded corners. */
+  opacity: clamp(0, calc((var(--sheet-progress) - .96) * 25), 1);
 }
 .is-in-detail :is(.spatial-card-motion, .spatial-unfolded > *, .spatial-opening > *) {
   opacity: var(--detail-ink, 1);
@@ -828,8 +868,15 @@ html[lang="zh-Hans"] .tour-title { line-height: 1.23; letter-spacing: -.025em; }
   background: #f2f2f2;
   box-shadow: 0 1px 3px #20202018, 0 8px 20px -13px #20202030;
 }
-.tour-screen-strip video { position: absolute; inset: 0; }
-.tour-screen-strip :is(img, video) { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tour-screen-strip .source-motion {
+  inset: var(--strip-position) 0 auto;
+  aspect-ratio: 1206 / 2622;
+  transform: translateY(calc(-1 * var(--strip-position)));
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-screen-strip .source-motion { display: none; }
+}
+.tour-screen-strip img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tour-step:has(.tour-action:not([hidden])) .tour-screen-strip { aspect-ratio: 2.6; }
 .tour-step[hidden] { display: none !important; }
 #main > .product-walkthrough:is([data-tour="ask"], [data-tour="overview"]) { grid-template-columns: minmax(0, 760px); }
