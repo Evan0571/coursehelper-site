@@ -200,15 +200,15 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
     0,
     SCREEN_Z,
   );
-  function screenTexture(image) {
-    const texture = new Texture(image);
+  function screenTexture() {
+    const texture = new Texture(document.createElement("canvas"));
     texture.colorSpace = SRGBColorSpace;
     texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     texture.magFilter = LinearFilter;
     return texture;
   }
-  const posterTexture = screenTexture(poster);
-  const nextTexture = screenTexture(overlay);
+  const posterTexture = screenTexture();
+  const nextTexture = screenTexture();
   screenMaterial.map = posterTexture;
   overlayMap.value = posterTexture;
 
@@ -321,15 +321,24 @@ export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
     camera.updateProjectionMatrix();
     requestDraw();
   }
+  function uploadScreen(texture, image) {
+    if (!image.complete || !image.naturalWidth) return false;
+    // WebKit can crop a texture uploaded from a CSS-sized img. Give WebGL a
+    // full-frame bitmap whose backing dimensions are independent of layout.
+    const canvas = texture.image;
+    if (canvas.width !== image.naturalWidth) canvas.width = image.naturalWidth;
+    if (canvas.height !== image.naturalHeight) canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d");
+    context.globalCompositeOperation = "copy";
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    texture.needsUpdate = true;
+    return true;
+  }
   function posterLoaded() {
-    if (poster.complete && poster.naturalWidth) {
-      posterTexture.needsUpdate = true;
-      requestDraw();
-    }
+    if (uploadScreen(posterTexture, poster)) requestDraw();
   }
   function overlayLoaded() {
-    if (overlay.complete && overlay.naturalWidth) {
-      nextTexture.needsUpdate = true;
+    if (uploadScreen(nextTexture, overlay)) {
       overlayMap.value = nextTexture;
       requestDraw();
     }

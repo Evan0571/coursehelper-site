@@ -91,7 +91,7 @@
   }
   function enablePhone3d() {
     if (handheld.matches || reduce.matches || navigator.connection?.saveData || phoneImport) return;
-    phoneImport = import("./assets/experiences/phone3d.js?v=20261121-native-detail")
+    phoneImport = import("./assets/experiences/phone3d.js?v=20261121-full-frame")
       .then(({ mountPhone }) => {
         if (handheld.matches) { phoneImport = null; return; }
         phone3d = mountPhone({

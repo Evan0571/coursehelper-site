@@ -7,6 +7,9 @@
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     english[node.dataset.i18n] = node.innerHTML;
   });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+    english[node.dataset.i18nPlaceholder] = node.placeholder;
+  });
   const chinese = {
     skip: "跳到正文",
     navExplore: "探索产品",

@@ -11,9 +11,16 @@
     en: { required: "Enter a valid email address.", consent: "Agree to the launch notification before joining.", pending: "Joining…", success: "You're on the list. We'll email you when CourseHelper launches.", failure: "Unable to join right now. Please try again.", limit: "Too many attempts. Please try again later." },
     zh: { required: "请输入有效的邮箱地址。", consent: "请先同意接收上线通知。", pending: "正在提交…", success: "已加入名单。CourseHelper 上线时我们会通过邮件通知你。", failure: "暂时无法提交，请稍后重试。", limit: "提交过于频繁，请稍后重试。" }
   };
-  function show(key, error = false) {
+  let currentMessage;
+  function renderStatus() {
+    if (!currentMessage) return;
     const language = document.documentElement.lang === "zh-Hans" ? "zh" : "en";
-    status.textContent = messages[language][key];
+    status.textContent = messages[language][currentMessage];
+  }
+  document.addEventListener("coursehelper:language", renderStatus);
+  function show(key, error = false) {
+    currentMessage = key;
+    renderStatus();
     if (error) status.dataset.error = "";
     else delete status.dataset.error;
   }
