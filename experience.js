@@ -37,6 +37,21 @@
   let switchingScreen = false;
   const handheld = matchMedia("(max-width: 959px), (pointer: coarse) and (max-width: 1100px) and (max-height: 650px)");
   document.documentElement.classList.toggle("handheld", handheld.matches);
+  let coverWidth;
+  function sizeHandheldCover() {
+    if (!handheld.matches) {
+      coverWidth = undefined;
+      desk.style.removeProperty("--cover-vh");
+      return;
+    }
+    const width = desk.clientWidth;
+    if (width === coverWidth) return;
+    // Mobile browser bars resize the viewport during a swipe. Reframe only on a width change.
+    coverWidth = width;
+    desk.style.setProperty("--cover-vh", document.documentElement.clientHeight / 100 + "px");
+  }
+  sizeHandheldCover();
+  new ResizeObserver(sizeHandheldCover).observe(desk);
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const media = (name) => "assets/experiences/media-20261121/" + language + "/" + name;
   const phonePose = {
@@ -680,6 +695,7 @@
   }
   handheld.addEventListener("change", () => {
     document.documentElement.classList.toggle("handheld", handheld.matches);
+    sizeHandheldCover();
     if (handheld.matches && phone3d) {
       phone3d.dispose();
       phone3d = phoneImport = null;

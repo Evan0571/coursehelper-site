@@ -40,16 +40,17 @@
 .handheld .nav-actions .button-small svg { display: none; }
 .handheld .spatial-intro { height: auto; margin: 0; }
 .handheld .desk-cover {
-  height: clamp(520px, 80svh, 720px);
+  --cover-vh: 1svh;
+  height: clamp(520px, calc(80 * var(--cover-vh)), 720px);
   min-height: 0;
-  --desk-phone-width: min(44vw, 22svh);
+  --desk-phone-width: min(44vw, calc(22 * var(--cover-vh)));
   --desk-phone-x: 61%;
   --desk-phone-y: 68%;
 }
 .handheld .desk-photo img { object-position: 45% 85%; transform: scale(1.13); transform-origin: 48% 0; }
 .handheld .desk-cover .spatial-opening {
   position: absolute;
-  inset: clamp(26px, 5svh, 50px) var(--page-gutter) auto;
+  inset: clamp(26px, calc(5 * var(--cover-vh)), 50px) var(--page-gutter) auto;
   text-align: left;
   pointer-events: auto;
 }
@@ -186,7 +187,12 @@
   .handheld .feature-story .feature-panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; }
   .handheld .feature-story .feature-copy { align-self: center; }
 
-  .handheld .desk-cover { height: clamp(335px, 70svh, 655px); --desk-phone-x: 76%; --desk-phone-y: 57%; --desk-phone-width: min(24vw, 30svh); }
+  .handheld .desk-cover {
+    height: clamp(335px, calc(70 * var(--cover-vh)), 655px);
+    --desk-phone-x: 76%;
+    --desk-phone-y: 57%;
+    --desk-phone-width: min(24vw, calc(30 * var(--cover-vh)));
+  }
   .handheld .desk-cover .spatial-opening { right: 44%; top: 15%; }
   .handheld .spatial-opening h1 { font-size: clamp(39px, 6.6vw, 64px); }
 }
