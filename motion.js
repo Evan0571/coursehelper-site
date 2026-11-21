@@ -2,143 +2,125 @@
   "use strict";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const handheld = () => document.documentElement.classList.contains("handheld");
+  const players = new Map();
+  const panels = [...document.querySelectorAll(".feature-panel")];
+  const spatialProduction = document.documentElement.classList.contains("spatial-preview");
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      const player = players.get(entry.target);
+      player.ratio = entry.intersectionRatio;
+    }
+    syncPlayback();
+  }, { threshold: [0, .15, .25, .4, .55, .7, .85, 1] });
+
+  // A phone shows the film already on the page. Give playback to the most visible one.
+  function syncPlayback(preferred) {
+    let active;
+    if (handheld()) {
+      for (const player of players.values()) {
+        if (player.enabled && player.ratio >= .25 && (!active || player.ratio > active.ratio))
+          active = player;
+      }
+      if (preferred?.enabled && preferred.ratio > 0) active = preferred;
+    }
+    for (const player of players.values()) {
+      const visible = handheld() ? player === active : player.ratio > 0;
+      player.sync(visible && player.enabled && !document.hidden);
+    }
+  }
+
   function loop(video, target) {
-    const state = { video, visible: false, enabled: true, failed: false };
+    const panel = target.closest(".feature-panel");
+    const player = { enabled: true, ratio: 0, sync, setEnabled };
+    let choice = "auto";
+    let blocked = false;
+    let pending;
+    let button, errorNote;
     video.muted = true;
     video.loop = true;
-    const sync = () => {
-      if (
-        !handheld() &&
-        state.enabled &&
-        state.visible &&
-        !state.failed &&
-        !document.hidden &&
-        !reduce.matches &&
-        !navigator.connection?.saveData
-      ) {
-        if (!video.getAttribute("src") && video.dataset.src) {
-          video.src = video.dataset.src;
-          video.load();
-        }
-        if (video.paused) video.play().catch(() => {});
-      } else video.pause();
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      state.visible = entry.isIntersecting;
-      sync();
-    }, { threshold: 0.15 });
-    observer.observe(target);
-    video.addEventListener("play", () => {
-      if (handheld() || !state.enabled || !state.visible || document.hidden || reduce.matches)
-        video.pause();
-    });
-    video.addEventListener("error", () => {
-      state.failed = true;
-      target.classList.add("has-media-error");
-    });
+
+    function updateControls() {
+      const error = Boolean(video.error);
+      target.classList.toggle("has-media-error", error);
+      if (!button) return;
+      const zh = document.documentElement.lang.startsWith("zh");
+      const label = error ? (zh ? "重试" : "Retry") :
+        video.paused ? (zh ? "播放" : "Play") : (zh ? "暂停" : "Pause");
+      button.textContent = label;
+      button.setAttribute("aria-label", label + " · " + panel.querySelector(".feature-chapter > :last-child").textContent);
+      errorNote.textContent = error ? (zh ? "视频暂时无法播放。" : "This video couldn’t load.") : "";
+    }
+    function sync(visible) {
+      const manual = handheld() && choice === "play";
+      const allowAuto = !reduce.matches && !navigator.connection?.saveData;
+      if (!visible || (!manual && !allowAuto) || (handheld() && choice === "pause") || blocked || video.error) {
+        pending = undefined;
+        if (!video.paused) video.pause();
+        return;
+      }
+      if (!video.hasAttribute("src")) video.src = video.dataset.src;
+      if (!video.paused || pending) return;
+      const attempt = video.play();
+      pending = attempt;
+      attempt.catch(error => {
+        if (pending === attempt && error.name !== "AbortError") blocked = true;
+      }).finally(() => {
+        if (pending === attempt) pending = undefined;
+        updateControls();
+      });
+    }
+    function setEnabled(enabled) {
+      if (player.enabled === enabled) return;
+      player.enabled = enabled;
+      player.ratio = 0;
+      observer.unobserve(target);
+      if (enabled) observer.observe(target);
+      syncPlayback();
+    }
+
+    if (panel) {
+      video.id = panel.id + "-film";
+      button = document.createElement("button");
+      button.className = "film-toggle";
+      button.type = "button";
+      button.setAttribute("aria-controls", video.id);
+      errorNote = document.createElement("p");
+      errorNote.className = "film-error-note";
+      errorNote.setAttribute("role", "status");
+      target.append(button, errorNote);
+      button.addEventListener("click", () => {
+        choice = video.paused || video.error ? "play" : "pause";
+        blocked = false;
+        if (video.error) video.load();
+        if (choice === "play") target.classList.add("is-manual");
+        syncPlayback(player);
+        updateControls();
+      });
+    }
+    for (const event of ["play", "pause", "error", "emptied"]) video.addEventListener(event, updateControls);
     document.addEventListener("coursehelper:language", () => {
-      if (video.getAttribute("src") && video.getAttribute("src") !== video.dataset.src) {
+      if (video.hasAttribute("src") && video.getAttribute("src") !== video.dataset.src) {
+        pending = undefined;
+        blocked = false;
         video.pause();
         video.removeAttribute("src");
         video.load();
-        state.failed = false;
-        target.classList.remove("has-media-error");
       }
-      sync();
+      updateControls();
+      syncPlayback();
     });
-    document.addEventListener("visibilitychange", sync);
-    document.addEventListener("coursehelper:layout", sync);
-    reduce.addEventListener("change", sync);
-    navigator.connection?.addEventListener("change", sync);
-    return {
-      setEnabled(enabled) {
-        if (state.enabled === enabled) return;
-        state.enabled = enabled;
-        observer.disconnect();
-        observer.takeRecords();
-        state.visible = false;
-        // A newly revealed film needs a fresh intersection after the pin and clip have moved.
-        if (enabled) observer.observe(target);
-        sync();
-      },
-    };
+    updateControls();
+    players.set(target, player);
+    observer.observe(target);
+    return player;
   }
-  const panels = [...document.querySelectorAll(".feature-panel")];
-  const spatialProduction = document.documentElement.classList.contains("spatial-preview");
-  const chapterPlayers = panels.map((panel) =>
-    loop(panel.querySelector("video"), panel.querySelector(".motion-demo")),
+  document.addEventListener("visibilitychange", () => syncPlayback());
+  document.addEventListener("coursehelper:layout", () => syncPlayback());
+  reduce.addEventListener("change", () => syncPlayback());
+  navigator.connection?.addEventListener("change", () => syncPlayback());
+  const chapterPlayers = panels.map(panel =>
+    loop(panel.querySelector("video"), panel.querySelector(".motion-demo"))
   );
-  // Small screens show a readable crop. One native, user-initiated player
-  // serves all four clips and releases its media when the visitor closes it.
-  const player = document.querySelector(".handheld-player");
-  const movie = player.querySelector("video");
-  const dismiss = player.querySelector("header button");
-  const failure = player.querySelector(".film-error");
-  let filmOpener;
-  const watchLinks = panels.map(panel => {
-    const link = document.createElement("a");
-    link.className = "handheld-watch";
-    panel.querySelector(".motion-demo").append(link);
-    link.addEventListener("click", event => {
-      if (!player.showModal) return;
-      event.preventDefault();
-      player.querySelector("h2").textContent = panel.querySelector(".feature-chapter > :last-child").textContent;
-      movie.poster = panel.querySelector(".movie-poster").src;
-      failure.hidden = true;
-      filmOpener = link;
-      movie.src = link.href;
-      player.showModal();
-      movie.play().catch(() => { /* Native controls remain available. */ });
-    });
-    return link;
-  });
-  const askPanel = document.getElementById("feature-ask");
-  const askPoster = askPanel.querySelector(".movie-poster");
-  const citationPreview = document.getElementById("handheld-citation-preview");
-  function syncCitationPreview() {
-    if (handheld()) {
-      askPoster.alt = document.documentElement.lang.startsWith("zh") ? "AI 回答引用的课堂资料" : "The class source cited in an AI answer";
-    } else {
-      askPoster.alt = askPoster.dataset.answerAlt;
-    }
-    citationPreview.media = handheld() ? "all" : "not all";
-    citationPreview.srcset = new URL("sources.webp", askPoster.src).href;
-  }
-  function labelFilms() {
-    askPoster.dataset.answerAlt = askPoster.alt;
-    const zh = document.documentElement.lang.startsWith("zh");
-    dismiss.setAttribute("aria-label", zh ? "关闭视频" : "Close video");
-    failure.querySelector("span").textContent = zh ? "视频暂时无法播放。" : "This video couldn’t load.";
-    failure.querySelector("button").textContent = zh ? "重试" : "Try again";
-    watchLinks.forEach((link, i) => {
-      link.textContent = zh ? "看演示" : "Watch demo";
-      link.href = panels[i].querySelector(".feature-movie").dataset.src;
-      const chapter = panels[i].querySelector(".feature-chapter > :last-child").textContent;
-      link.setAttribute("aria-label", link.textContent + " · " + chapter);
-    });
-    syncCitationPreview();
-  }
-  labelFilms();
-  document.addEventListener("coursehelper:language", labelFilms);
-  dismiss.addEventListener("click", () => player.close());
-  movie.addEventListener("error", () => {
-    if (player.open && movie.hasAttribute("src")) failure.hidden = false;
-  });
-  failure.querySelector("button").addEventListener("click", () => {
-    failure.hidden = true;
-    movie.load();
-    movie.play().catch(() => {});
-  });
-  player.addEventListener("close", () => {
-    if (player.open) return;
-    movie.pause();
-    movie.removeAttribute("src");
-    movie.load();
-    if (handheld()) filmOpener?.focus({ preventScroll: true });
-    filmOpener = null;
-  });
-  document.addEventListener("coursehelper:layout", () => { syncCitationPreview(); if (!handheld() && player.open) player.close(); });
-  document.addEventListener("visibilitychange", () => { if (document.hidden && player.open) movie.pause(); });
   if (!spatialProduction) loop(
     document.getElementById("hero-movie"),
     document.querySelector(".gallery-motion"),

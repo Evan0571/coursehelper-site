@@ -1,6 +1,7 @@
 /* The camera moves the complete CSS phone, including its frame and native video. */
 (() => {
   "use strict";
+  const handheld = () => document.documentElement.classList.contains("handheld");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const manifest = fetch(
     "assets/experiences/media-20261121/device-camera.json?v=focus-2",
@@ -33,7 +34,7 @@
       function render() {
         const locale = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
         const plan = plans?.[locale]?.[key];
-        if (!plan || !geometry || reduce.matches || navigator.connection?.saveData || video.error) {
+        if (handheld() || !plan || !geometry || reduce.matches || navigator.connection?.saveData || video.error) {
           phone.style.removeProperty("transform");
           return;
         }
@@ -66,14 +67,14 @@
       function tick() {
         raf = 0;
         render();
-        if (!video.paused && !document.hidden && !reduce.matches)
+        if (!handheld() && !video.paused && !document.hidden && !reduce.matches)
           raf = requestAnimationFrame(tick);
       }
       function sync() {
         cancelAnimationFrame(raf);
         raf = 0;
         render();
-        if (!video.paused && !document.hidden && !reduce.matches)
+        if (!handheld() && !video.paused && !document.hidden && !reduce.matches)
           raf = requestAnimationFrame(tick);
       }
       new ResizeObserver(updateGeometry).observe(stage);
@@ -88,6 +89,7 @@
         video.addEventListener(event, sync);
       reduce.addEventListener("change", sync);
       document.addEventListener("visibilitychange", sync);
+      document.addEventListener("coursehelper:layout", sync);
       document.addEventListener("coursehelper:language", sync);
       manifest.then((localizedPlans) => {
         plans = localizedPlans;
