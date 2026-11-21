@@ -171,7 +171,7 @@
 .handheld .faq-section h2 br { display: revert; }
 .handheld .faq-list summary { min-height: 48px; padding-block: 16px; font-size: 16px; }
 .handheld .faq-list details > p { font-size: 15px; line-height: 1.55; }
-.handheld .waitlist { scroll-margin-top: 12px; }
+.handheld .waitlist { scroll-margin-top: clamp(110px, 31vw, 150px); }
 .handheld .waitlist-fields input { font-size: 16px; }
 .handheld .footer-inner { padding-bottom: max(22px, env(safe-area-inset-bottom)); }
 .handheld .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 15px; }
