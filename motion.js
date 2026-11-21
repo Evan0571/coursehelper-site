@@ -21,13 +21,11 @@
         if (video.paused) video.play().catch(() => {});
       } else video.pause();
     };
-    new IntersectionObserver(
-      (entries) => {
-        state.visible = entries[0].isIntersecting;
-        sync();
-      },
-      { threshold: 0.15 },
-    ).observe(target);
+    const observer = new IntersectionObserver(([entry]) => {
+      state.visible = entry.isIntersecting;
+      sync();
+    }, { threshold: 0.15 });
+    observer.observe(target);
     video.addEventListener("play", () => {
       if (!state.enabled || !state.visible || document.hidden || reduce.matches)
         video.pause();
@@ -36,11 +34,31 @@
       state.failed = true;
       target.classList.add("has-media-error");
     });
+    document.addEventListener("coursehelper:language", () => {
+      if (video.getAttribute("src") && video.getAttribute("src") !== video.dataset.src) {
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+        state.failed = false;
+        target.classList.remove("has-media-error");
+      }
+      sync();
+    });
     document.addEventListener("visibilitychange", sync);
     reduce.addEventListener("change", sync);
     navigator.connection?.addEventListener("change", sync);
-    state.sync = sync;
-    return state;
+    return {
+      setEnabled(enabled) {
+        if (state.enabled === enabled) return;
+        state.enabled = enabled;
+        observer.disconnect();
+        observer.takeRecords();
+        state.visible = false;
+        // A newly revealed film needs a fresh intersection after the pin and clip have moved.
+        if (enabled) observer.observe(target);
+        sync();
+      },
+    };
   }
   const panels = [...document.querySelectorAll(".feature-panel")];
   const spatialProduction = document.documentElement.classList.contains("spatial-preview");
@@ -54,6 +72,7 @@
   const story = document.getElementById("feature-story");
   const viewport = story.querySelector(".feature-viewport");
   const track = story.querySelector(".feature-track");
+  const lastChapter = panels.length - 1;
   let horizontal;
   function selectChapter(key, behavior = "smooth") {
     const index = panels.findIndex((panel) => panel.dataset.current === key);
@@ -62,9 +81,7 @@
     viewport.scrollLeft = 0;
     if (horizontal) {
       const trigger = horizontal.scrollTrigger;
-      const top =
-        trigger.start +
-        ((trigger.end - trigger.start) * index) / (panels.length - 1);
+      const top = trigger.start + (trigger.end - trigger.start) * index / lastChapter;
       window.scrollTo({ top, behavior });
       if (behavior === "instant") {
         ScrollTrigger.update();
@@ -77,6 +94,10 @@
     selectChapter(event.detail.key, reduce.matches ? "instant" : "smooth");
   });
   function hashChapter() {
+    if (spatialProduction && (location.hash === "#context" || location.hash === "#practice")) {
+      const chapter = location.hash === "#context" ? "ask" : "review";
+      history.replaceState(history.state, "", "#feature-" + chapter);
+    }
     const key = location.hash.replace("#feature-", "");
     if (panels.some((panel) => panel.dataset.current === key)) {
       selectChapter(key, "instant");
@@ -87,16 +108,39 @@
   window.addEventListener("hashchange", hashChapter);
   story.addEventListener("focusin", (event) => {
     const panel = event.target.closest(".feature-panel");
-    if (horizontal && panel) selectChapter(panel.dataset.current, "instant");
+    if (horizontal && panel) {
+      selectChapter(panel.dataset.current, "instant");
+    }
+  });
+  story.addEventListener("keydown", (event) => {
+    if (!horizontal || !panels.includes(document.activeElement)) return;
+    const i = panels.indexOf(document.activeElement);
+    const direction = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+    if (!direction || !panels[i + direction]) return;
+    event.preventDefault();
+    panels[i + direction].focus({ preventScroll: true });
   });
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
-    document.addEventListener("coursehelper:language", () =>
-      ScrollTrigger.refresh(),
-    );
+    document.addEventListener("coursehelper:language", () => {
+      const pinned = [horizontal?.scrollTrigger, ScrollTrigger.getById("lecture-margins")]
+        .find((trigger) => trigger?.isActive);
+      const progress = pinned?.animation.progress();
+      ScrollTrigger.refresh();
+      if (pinned) {
+        window.scrollTo({ top: pinned.start + progress * (pinned.end - pinned.start), behavior: "instant" });
+        ScrollTrigger.update();
+        pinned.getTween()?.progress(1);
+      }
+    });
   }
   function initialChapter() {
     window.ScrollTrigger?.refresh();
+    if (location.hash === "#study-habits") {
+      // Pinning the preceding chapters changes the position of the native anchor.
+      document.getElementById("study-habits")?.scrollIntoView({ behavior: "instant" });
+      return;
+    }
     const key = new URLSearchParams(location.search).get("feature");
     if (
       !hashChapter() &&
@@ -117,48 +161,60 @@
   mm.add(
     "(min-width: 960px) and (min-height: 740px) and (prefers-reduced-motion: no-preference)",
     () => {
+      let previousPosition;
+      let currentIndex;
+      let resumeTimer;
       story.classList.add("is-horizontal");
-      let currentIndex = -1;
-      function syncChapter() {
-        const index = Math.round(
-          (horizontal?.progress() || 0) * (panels.length - 1),
-        );
-        if (index === currentIndex) return;
-        currentIndex = index;
-        story.dataset.chapter = panels[index].dataset.current;
-        chapterPlayers.forEach((player, i) => {
-          player.enabled = i === index;
-          player.sync();
-        });
+      panels.forEach((panel) => { panel.tabIndex = 0; });
+
+      function playChapter(index) {
+        chapterPlayers.forEach((player, i) => player.setEnabled(i === index));
+      }
+      function syncPlayback(position) {
+        if (previousPosition === position) return;
+        const index = Math.round(position);
+        if (index !== currentIndex) {
+          currentIndex = index;
+          story.dataset.chapter = panels[index].dataset.current;
+        }
+        if (previousPosition === undefined) {
+          playChapter(index);
+        } else {
+          if (resumeTimer === undefined) playChapter(-1);
+          clearTimeout(resumeTimer);
+          resumeTimer = setTimeout(() => {
+            resumeTimer = undefined;
+            playChapter(currentIndex);
+          }, 140);
+        }
+        previousPosition = position;
       }
       horizontal = gsap.to(track, {
-        x: () => -(track.scrollWidth - viewport.clientWidth),
+        x: () => viewport.clientWidth - track.scrollWidth,
         ease: "none",
-        onUpdate: syncChapter,
+        onUpdate() { syncPlayback(this.progress() * lastChapter); },
         scrollTrigger: {
           id: "feature-story",
           trigger: story,
           start: "top 112px",
-          end: () =>
-            "+=" +
-            (panels.length - 1) *
-              Math.max(innerHeight, viewport.clientWidth + 24),
+          end: () => "+=" + (track.scrollWidth - viewport.clientWidth),
           pin: true,
           scrub: 0.55,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onRefresh: (trigger) => syncPlayback(trigger.animation.progress() * lastChapter),
         },
       });
-      syncChapter();
+      syncPlayback(horizontal.progress() * lastChapter);
       return () => {
+        clearTimeout(resumeTimer);
         horizontal = null;
         story.classList.remove("is-horizontal");
-        delete story.dataset.chapter;
-        viewport.scrollLeft = 0;
-        chapterPlayers.forEach((player) => {
-          player.enabled = true;
-          player.sync();
+        panels.forEach((panel) => {
+          panel.removeAttribute("tabindex");
         });
+        delete story.dataset.chapter;
+        chapterPlayers.forEach((player) => player.setEnabled(true));
       };
     },
   );
@@ -181,9 +237,7 @@
       clearProps: "transform,opacity",
     });
     document
-      .querySelectorAll(
-        ".intro-grid, .section-heading, .ai-copy, .practice-copy, .details-grid article",
-      )
+      .querySelectorAll(".section-heading, .practice-copy")
       .forEach((el) => {
         gsap.from(el, {
           y: 24,
@@ -194,35 +248,6 @@
           scrollTrigger: { trigger: el, start: "top 92%", once: true },
         });
       });
-    if (document.querySelector(".context-visual")) {
-      gsap.from(".context-orbit", {
-        scale: 0.9,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 0.8,
-        ease: "power2.out",
-        clearProps: "transform,opacity",
-        scrollTrigger: {
-          trigger: ".context-visual",
-          start: "top 85%",
-          once: true,
-        },
-      });
-      gsap.fromTo(
-        ".context-lines path",
-        { strokeDashoffset: 50 },
-        {
-          strokeDashoffset: 0,
-          duration: 2.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".context-visual",
-            start: "top 85%",
-            once: true,
-          },
-        },
-      );
-    }
     document.querySelectorAll(".gallery-card").forEach((el) => {
       const hover = gsap.to(el, {
         y: -6,

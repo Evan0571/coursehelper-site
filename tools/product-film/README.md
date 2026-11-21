@@ -16,3 +16,9 @@ The current export preserves the entire native screen at 1200 × 2608. The input
 Native question entry still takes about 3.2 seconds, with short pauses. The complete review flip retains native speed, with a brief hold before it so the camera can restore the full view. Each loop returns to 1x before the dissolve. These are edits to native operation footage, with no recreated app UI or floating screenshot cards. Run `npm run check` before rendering.
 
 The capture input uses a freshly recorded native simulator interface. Its live timer and meter are driven by a synthesized sample lecture's measured RMS trace in an isolated capture build. This is sample UI/audio, not physical-microphone, real-account, or cloud-service acceptance. See ../../assets/screens/v3/PROVENANCE.json and ../../assets/motion/v3/PROVENANCE.md.
+
+## November 21 bilingual walkthroughs
+
+The current homepage uses eight 1200 × 2608 films. Each localized take has its own tap timing and whole-device camera in `src/current-plan.ts`. The normalized footage and opening stills are in the workspace archive alongside the original simulator captures.
+
+From this tool directory, copy `../../../outputs/site-media-20261121/film-inputs/` to `public/current/`, then run `node render-current.mjs`. This renders both languages and writes the matching camera manifest to `assets/experiences/media-20261121/`. An optional first argument selects a different output directory.

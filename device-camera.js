@@ -3,7 +3,7 @@
   "use strict";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const manifest = fetch(
-    "assets/motion/v3/device-camera.json?v=20261101-device",
+    "assets/experiences/media-20261121/device-camera.json?v=focus-2",
   )
     .then((response) => {
       if (!response.ok) throw new Error("Camera unavailable");
@@ -18,7 +18,7 @@
       const phone = video.closest(".motion-film");
       const stage = video.closest(".motion-demo");
       const key = video.closest(".feature-panel").dataset.current;
-      let plan,
+      let plans,
         raf = 0,
         geometry;
       function updateGeometry() {
@@ -26,37 +26,33 @@
           width: phone.clientWidth,
           height: phone.clientHeight,
           stageWidth: stage.clientWidth,
+          stageHeight: stage.clientHeight,
         };
         render();
       }
       function render() {
-        if (!plan || !geometry || reduce.matches || video.error) {
+        const locale = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
+        const plan = plans?.[locale]?.[key];
+        if (!plan || !geometry || reduce.matches || navigator.connection?.saveData || video.error) {
           phone.style.removeProperty("transform");
           return;
         }
-        const frame = video.currentTime * plan.fps;
+        const progress = video.currentTime * plan.fps;
         const points = plan.points;
         let i = 0;
-        while (i < points.length - 2 && frame > points[i + 1][0]) i++;
+        while (i < points.length - 2 && progress > points[i + 1][0]) i++;
         const a = points[i],
           b = points[i + 1];
-        const t = ease(clamp((frame - a[0]) / (b[0] - a[0]), 0, 1));
-        const { width, height, stageWidth } = geometry;
-        // Keep the entire phone width visible, and avoid magnifying past source detail.
-        const widthLimit = (stageWidth - 32) / (width + 12);
-        const pixelLimit = video.videoWidth
-          ? video.videoWidth / (width * devicePixelRatio)
-          : Infinity;
-        function pose([, zoom, centerX, centerY]) {
-          const scale = Math.max(1, Math.min(zoom, widthLimit, pixelLimit));
-          const roomX = Math.max(
-            0,
-            (stageWidth - (width + 12) * scale) / 2 - 16,
-          );
+        const t = ease(clamp((progress - a[0]) / (b[0] - a[0]), 0, 1));
+        const { width, height, stageWidth, stageHeight } = geometry;
+        function pose([, scale, centerX, centerY]) {
+          // Cropping the outer bezel is intentional. Keep the control in the frame even on a narrow phone.
+          const roomX = Math.max(16, Math.abs(stageWidth - (width + 12) * scale) / 2 - 10);
+          const roomY = Math.max(0, (height * scale - height) / 2 + stageHeight * 0.16);
           return {
             scale,
             x: clamp((((300 - centerX) * width) / 600) * scale, -roomX, roomX),
-            y: (((652 - centerY) * height) / 1304) * scale,
+            y: clamp((((652 - centerY) * height) / 1304) * scale, -roomY, roomY),
           };
         }
         // Ease between safe poses, so width limits never introduce a sudden stop or sway.
@@ -92,8 +88,9 @@
         video.addEventListener(event, sync);
       reduce.addEventListener("change", sync);
       document.addEventListener("visibilitychange", sync);
-      manifest.then((plans) => {
-        plan = plans[key];
+      document.addEventListener("coursehelper:language", sync);
+      manifest.then((localizedPlans) => {
+        plans = localizedPlans;
         updateGeometry();
         sync();
       });

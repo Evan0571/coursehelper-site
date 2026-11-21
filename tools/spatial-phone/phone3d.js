@@ -19,6 +19,8 @@ import {
   SRGBColorSpace,
   Texture,
   TorusGeometry,
+  Vector3,
+  VideoTexture,
   WebGLRenderer,
 } from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -26,10 +28,12 @@ import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
 
 const W = 2.2;
 const H = 4.7;
+const BACK_Z = -0.197;
+const SCREEN_Z = 0.139;
 const DEG = Math.PI / 180;
-function roundedShape(w, h, r) {
-  const x = -w / 2,
-    y = -h / 2;
+function roundedShape(w, h, r, cx = 0, cy = 0) {
+  const x = cx - w / 2,
+    y = cy - h / 2;
   const s = new Shape();
   s.moveTo(x + r, y);
   s.lineTo(x + w - r, y);
@@ -71,7 +75,7 @@ function surface(w, h, r) {
 }
 
 /** Geometry, lights and media stay in WebGL; DOM transforms never rasterize the screen. */
-export function mountPhone({ host, stage, poster, pose, onFallback }) {
+export function mountPhone({ host, stage, poster, overlay, pose, onFallback }) {
   let renderer;
   try {
     renderer = new WebGLRenderer({
@@ -102,34 +106,28 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
   const key = new DirectionalLight(0xfffaf1, 3);
   key.position.set(-3, 5, 7);
   scene.add(key);
-  const rim = new DirectionalLight(0xdde6f0, 2);
+  const rim = new DirectionalLight(0xf5f5f5, 1.35);
   rim.position.set(5, 1, -3);
   scene.add(rim);
 
   const model = new Group();
   scene.add(model);
+  const chassis = new Group();
+  model.add(chassis);
   const metal = new MeshPhysicalMaterial({
-    color: 0x7e8386,
-    metalness: 0.96,
-    roughness: 0.26,
-    clearcoat: 0.35,
-    clearcoatRoughness: 0.2,
+    color: 0x323130, metalness: 0.91, roughness: 0.3,
+    clearcoat: 0.12, clearcoatRoughness: 0.25, envMapIntensity: 0.72,
   });
   const edge = new MeshStandardMaterial({
-    color: 0x343839,
-    metalness: 0.86,
-    roughness: 0.3,
+    color: 0x393939, metalness: 0.88, roughness: 0.27, envMapIntensity: 0.75,
   });
-  const black = new MeshStandardMaterial({
-    color: 0x080a0c,
-    metalness: 0.1,
-    roughness: 0.23,
+  const black = new MeshPhysicalMaterial({
+    color: 0x090909, metalness: 0.08, roughness: 0.16,
+    specularIntensity: 0.24, envMapIntensity: 0.48,
   });
   const back = new MeshPhysicalMaterial({
-    color: 0x9aa09e,
-    metalness: 0.32,
-    roughness: 0.48,
-    clearcoat: 0.25,
+    color: 0x373737, metalness: 0.18, roughness: 0.49,
+    clearcoat: 0.12, envMapIntensity: 0.65,
   });
   const glass = new MeshPhysicalMaterial({
     color: 0x101a25,
@@ -142,58 +140,93 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
     const mesh = new Mesh(geometry, material);
     mesh.name = name;
     mesh.position.set(x, y, z);
-    model.add(mesh);
+    chassis.add(mesh);
     return mesh;
   }
-  add("machined titanium sidewall", solid(W, H, 0.33, 0.18, 0.024), metal);
-  add(
-    "front glass bezel",
-    solid(W - 0.035, H - 0.035, 0.315, 0.014, 0.009),
-    black,
-    0,
-    0,
-    0.117,
-  );
-  add(
-    "matte rear glass",
-    solid(W - 0.045, H - 0.045, 0.31, 0.013, 0.008),
-    back,
-    0,
-    0,
-    -0.12,
-  );
+  // The glass meets the rounded shoulder of the integral metal frame.
+  add("graphite frame", solid(W, H, 0.33, 0.271, 0.027), metal, 0, 0, -0.035);
+  add("front glass bezel", solid(W - 0.031, H - 0.031, 0.31, 0.014, 0.009),
+    black, 0, 0, 0.121);
+  add("rear glass", solid(W - 0.065, H - 0.065, 0.299, 0.012, 0.007),
+    back, 0, 0, BACK_Z + 0.004);
+  for (const side of [-1, 1]) {
+    for (const y of [-1.72, 1.82]) {
+      add("antenna seam", new BoxGeometry(.002, .019, .267),
+        black, side * W / 2, y, -.035);
+    }
+  }
 
   const screenMaterial = new MeshBasicMaterial({
     color: 0xffffff,
     toneMapped: false,
   });
-  const screenWidth = W - 0.08;
+  const glassLight = { value: new Vector3() };
+  const overlayMap = { value: null };
+  const screenBlend = { value: 0 };
+  screenMaterial.onBeforeCompile = (shader) => {
+    shader.uniforms.glassLight = glassLight;
+    shader.uniforms.overlayMap = overlayMap;
+    shader.uniforms.screenBlend = screenBlend;
+    shader.fragmentShader = `uniform vec3 glassLight;
+      uniform sampler2D overlayMap;
+      uniform float screenBlend;\n` + shader.fragmentShader.replace(
+      '#include <map_fragment>',
+      `#include <map_fragment>
+       if (screenBlend > 0.0) {
+         diffuseColor = mix(diffuseColor, texture2D(overlayMap, vMapUv), screenBlend);
+       }`,
+    ).replace(
+      '#include <colorspace_fragment>',
+      `#include <colorspace_fragment>
+       // Match the two soft ellipses on .spatial-device-glint, in top-left display coordinates.
+       vec2 offset = vec2(vMapUv.x, 1.0 - vMapUv.y) - glassLight.xy;
+       float radius = length(offset / vec2(0.70, 0.34));
+       float fade = clamp((radius - 0.4) / 0.6, 0.0, 1.0);
+       float white = mix(30.0, 16.0, min(radius / 0.4, 1.0)) * (1.0 - fade) / 255.0;
+       float shade = max(0.0, 1.0 - length((offset - vec2(0.71, 0.24)) / vec2(0.92, 0.46)));
+       vec3 surface = mix(gl_FragColor.rgb, vec3(100.0, 113.0, 108.0) / 255.0, shade * 19.0 / 255.0);
+       surface = surface * (1.0 - white - fade * 16.0 / 255.0) + white;
+       gl_FragColor.rgb = mix(gl_FragColor.rgb, surface, glassLight.z);`,
+    );
+  };
+  const screenWidth = W - 0.101;
   const screen = add(
     "native operation display",
     surface(screenWidth, (screenWidth * 2608) / 1200, 0.265),
     screenMaterial,
     0,
     0,
-    0.139,
+    SCREEN_Z,
   );
-  const posterTexture = new Texture(poster);
-  posterTexture.colorSpace = SRGBColorSpace;
-  posterTexture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-  posterTexture.magFilter = LinearFilter;
+  function screenTexture(image) {
+    const texture = new Texture(image);
+    texture.colorSpace = SRGBColorSpace;
+    texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    texture.magFilter = LinearFilter;
+    return texture;
+  }
+  const posterTexture = screenTexture(poster);
+  const nextTexture = screenTexture(overlay);
+  let filmTexture = null;
+  function setFilm(video) {
+    if (disposed) return;
+    filmTexture?.dispose();
+    filmTexture = video ? new VideoTexture(video) : null;
+    if (filmTexture) filmTexture.colorSpace = SRGBColorSpace;
+    screenMaterial.map = filmTexture || posterTexture;
+    screenMaterial.needsUpdate = true;
+    requestDraw();
+  }
   screenMaterial.map = posterTexture;
+  overlayMap.value = posterTexture;
 
-  // Physical side controls and antenna breaks, visible when the phone is turned.
-  for (const [name, x, y, height] of [
-    ["action button", -W / 2 - 0.014, 1.5, 0.19],
-    ["volume up", -W / 2 - 0.014, 0.93, 0.35],
-    ["volume down", -W / 2 - 0.014, 0.42, 0.35],
-    ["power button", W / 2 + 0.014, 0.86, 0.62],
-  ])
-    add(name, solid(0.033, height, 0.013, 0.075, 0.006), metal, x, y);
-  const antenna = new MeshStandardMaterial({ color: 0x6e7474, roughness: 0.8 });
-  for (const x of [-W / 2 - 0.001, W / 2 + 0.001]) {
-    for (const y of [-1.7, 1.72])
-      add("antenna break", new BoxGeometry(0.012, 0.035, 0.165), antenna, x, y);
+  for (const [name, side, y, height] of [
+    ["action", -1, 1.5, .19], ["volume up", -1, .93, .35],
+    ["volume down", -1, .42, .35], ["power", 1, .86, .60],
+  ]) {
+    const keycap = add(name + " key", solid(.10, height, .04, .017, .007),
+      metal, side * (W / 2 + .010), y, -.035);
+    keycap.rotation.y = side * Math.PI / 2;
   }
   const port = add(
     "USB-C recess",
@@ -201,6 +234,7 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
     black,
     0,
     -H / 2 - 0.002,
+    -.025,
   );
   port.rotation.x = Math.PI / 2;
   for (const side of [-1, 1])
@@ -210,7 +244,8 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
         new CylinderGeometry(0.018, 0.018, 0.008, 12),
         black,
         side * (0.38 + i * 0.075),
-        -H / 2 - 0.011,
+        -H / 2 + 0.003,
+        -.025,
       );
     }
   // A complete rear surface and actual lens barrels, rather than a flat back image.
@@ -220,7 +255,7 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
     back,
     0.48,
     1.62,
-    -0.17,
+    BACK_Z - .031,
   );
   for (const [x, y] of [
     [0.25, 1.91],
@@ -233,7 +268,7 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
       edge,
       x,
       y,
-      -0.235,
+      BACK_Z - .096,
     );
     barrel.rotation.x = Math.PI / 2;
     add(
@@ -242,7 +277,7 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
       metal,
       x,
       y,
-      -0.266,
+      BACK_Z - .127,
     );
     const lens = add(
       "optical glass",
@@ -250,7 +285,7 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
       glass,
       x,
       y,
-      -0.269,
+      BACK_Z - .130,
     );
     lens.rotation.x = Math.PI / 2;
   }
@@ -263,12 +298,14 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
     frame = 0;
     if (disposed || !visible || document.hidden) return;
     model.rotation.set(
-      -pose.pitch * DEG,
-      (pose.yaw + pose.turn) * DEG,
+      -(pose.pitch + pose.hoverPitch) * DEG,
+      (pose.yaw + pose.turn + pose.hoverYaw) * DEG,
       -(pose.roll + pose.lean) * DEG,
       "YXZ",
     );
-    if (!poster.complete || !poster.naturalWidth) return;
+    if (!posterTexture.version) return;
+    screenBlend.value = filmTexture ? 0 : pose.screenBlend;
+    glassLight.value.set(pose.lightX, pose.lightY, pose.lightStrength);
     renderer.render(scene, camera);
     if (!host.classList.contains("has-webgl-phone"))
       host.classList.add("has-webgl-phone");
@@ -282,8 +319,12 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
     if (disposed) return;
     const width = host.clientWidth * 2,
       height = host.clientHeight * 1.3;
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 3));
-    renderer.setSize(width, height, false);
+    // Allocate for the final framing once, capped at the native screenshot resolution.
+    const density = Math.min(
+      Math.min(devicePixelRatio * 1.5, 3) * Math.max(1, pose.displayScale || 1),
+      (poster.naturalWidth || 1200) / Math.max(1, host.clientWidth),
+    );
+    renderer.setDrawingBufferSize(width, height, density);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     requestDraw();
@@ -291,6 +332,13 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
   function posterLoaded() {
     if (poster.complete && poster.naturalWidth) {
       posterTexture.needsUpdate = true;
+      requestDraw();
+    }
+  }
+  function overlayLoaded() {
+    if (overlay.complete && overlay.naturalWidth) {
+      nextTexture.needsUpdate = true;
+      overlayMap.value = nextTexture;
       requestDraw();
     }
   }
@@ -305,11 +353,13 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
   const sizeObserver = new ResizeObserver(resize);
   sizeObserver.observe(host);
   poster.addEventListener("load", posterLoaded);
+  overlay.addEventListener("load", overlayLoaded);
   document.addEventListener("visibilitychange", requestDraw);
   host.append(renderer.domElement);
   host.dataset.phoneRenderer = "webgl";
-  host.dataset.phoneMeshes = String(model.children.length);
+  host.dataset.phoneMeshes = String(chassis.children.length);
   posterLoaded();
+  overlayLoaded();
   resize();
   function dispose() {
     if (disposed) return;
@@ -318,14 +368,17 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
     observer.disconnect();
     sizeObserver.disconnect();
     poster.removeEventListener("load", posterLoaded);
+    overlay.removeEventListener("load", overlayLoaded);
     document.removeEventListener("visibilitychange", requestDraw);
     model.traverse((object) => {
       object.geometry?.dispose();
     });
-    new Set([metal, edge, black, back, glass, antenna, screenMaterial]).forEach(
+    new Set([metal, edge, black, back, glass, screenMaterial]).forEach(
       (material) => material.dispose(),
     );
     posterTexture.dispose();
+    nextTexture.dispose();
+    filmTexture?.dispose();
     environment.dispose();
     renderer.dispose();
     renderer.domElement.remove();
@@ -340,5 +393,5 @@ export function mountPhone({ host, stage, poster, pose, onFallback }) {
   window.addEventListener("pagehide", (event) => {
     if (!event.persisted) dispose();
   });
-  return { requestDraw, dispose, canvas: renderer.domElement, model, screen };
+  return { requestDraw, resize, dispose, setFilm, canvas: renderer.domElement, model, screen };
 }

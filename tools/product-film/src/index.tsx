@@ -11,6 +11,7 @@ import {
   useCurrentFrame,
   interpolate,
 } from "remotion";
+import { chapters, locales, currentFilm } from "./current-plan";
 import { TapHints } from "./focus";
 import {
   organize,
@@ -100,6 +101,12 @@ function ProductFilm({ clip, poster, frames, edits, taps, answerAt }: Film) {
 }
 const Root = () => (
   <>
+    {locales.flatMap(lang => chapters.map(chapter => {
+      const plan = currentFilm(lang, chapter);
+      const id = `Current-${lang}-${chapter}`;
+      return <Composition key={id} id={id} component={ProductFilm} width={1200} height={2608}
+        fps={30} durationInFrames={plan.frames} defaultProps={plan} />;
+    }))}
     <Composition
       id="Organize"
       component={ProductFilm}

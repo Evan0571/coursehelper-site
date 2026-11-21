@@ -99,12 +99,15 @@
     font-size: 7px;
   }
 }
-/* All four chapters remain in normal document flow until ScrollTrigger is ready. */
+/* Wide screens show one chapter at a time on a horizontal track. */
+.feature-story .feature-panel { background: #fff; }
+.feature-story .feature-panel .feature-visual { background: #f0f0f0; }
+.feature-story .film-note { color: #6b6b6b; }
 .feature-story.is-horizontal {
-  --story-height: min(700px, calc(100svh - 144px));
+  --card-height: min(700px, calc(100svh - 144px));
 }
 .is-horizontal .feature-viewport {
-  overflow: hidden;
+  overflow: clip;
   border-radius: 28px;
 }
 .is-horizontal .feature-track {
@@ -116,40 +119,50 @@
   flex: 0 0 100%;
   min-width: 0;
   min-height: 0;
-  height: var(--story-height);
+  height: var(--card-height);
 }
+.is-horizontal .feature-panel:focus-visible { outline: 2px solid #555; outline-offset: -3px; }
 .is-horizontal .feature-copy {
   min-width: 0;
   padding: clamp(28px, 3vw, 46px);
 }
-.is-horizontal .feature-chapter {
-  margin: 0 0 clamp(20px, 3vh, 32px);
-  color: var(--ink);
-  font-size: 12px;
-  line-height: 1.5;
-}
-.is-horizontal .feature-copy h3 {
-  font-size: clamp(30px, 3vw, 42px);
-}
-.is-horizontal .feature-description {
-  margin-top: 20px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.is-horizontal .feature-details {
-  margin: 24px 0 28px;
-  font-size: 12px;
-}
-.is-horizontal .feature-visual {
-  height: 100%;
-  min-height: 0;
-}
-.is-horizontal .motion-demo {
-  height: 100%;
-  padding: 22px 0 34px;
-}
+.is-horizontal .feature-panel .feature-visual { height: 100%; min-height: 0; }
+.is-horizontal .motion-demo { padding: 22px 0 36px; }
 .is-horizontal .motion-film {
-  width: min(280px, 82%, calc((var(--story-height) - 58px) * 600 / 1304));
+  width: min(280px, 79%, calc((var(--card-height) - 70px) * 600 / 1304));
+}
+.feature-story .feature-copy {
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  align-items: start;
+}
+.feature-story .feature-chapter { margin: 0; }
+.feature-story .feature-intro h3 {
+  max-width: none;
+  font-size: clamp(32px, 3.65vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+.feature-story .feature-intro:lang(zh-Hans) h3 { line-height: 1.18; }
+.feature-intro .feature-description {
+  max-width: 34ch;
+  margin: 20px 0 0;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.feature-intro:lang(zh-Hans) .feature-description {
+  max-width: none;
+  text-wrap: balance;
+}
+@media (max-width: 620px) {
+  .feature-story .feature-copy { display: block; min-height: 0; }
+  .feature-story .feature-chapter { margin-bottom: 22px; }
+  .feature-story .feature-intro h3 { font-size: clamp(28px, 8.2vw, 36px); }
+  .feature-intro .feature-description { margin-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-story .feature-movie { visibility: hidden; }
 }
 .flashcard,
 .flashcard:hover,
