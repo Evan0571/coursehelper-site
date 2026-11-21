@@ -779,28 +779,9 @@ html[lang="zh-Hans"] .spatial-opening h1 {
   position: absolute;
   inset: 0;
   display: block;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  background: var(--answer-image) center / 100% 100% no-repeat;
-  --sheet-progress: 0;
-}
-.source-motion::before, .source-motion > span, .source-motion::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-.source-motion::before { background: rgb(0 0 0 / calc(.2 * var(--sheet-progress))); }
-.source-motion > span, .source-motion::after {
-  background: var(--sources-image) center / 100% 100% no-repeat;
-}
-.source-motion > span {
-  /* The native sheet occupies the same bounds in both localized captures. */
-  clip-path: inset(47.48% 1.99% .99% round 11% 11% 14% 14% / 10% 10% 13% 13%);
-  transform: translateY(calc((1 - var(--sheet-progress)) * 53%));
-}
-.source-motion::after {
-  /* Settle onto the exact native shadow and rounded corners. */
-  opacity: clamp(0, calc((var(--sheet-progress) - .96) * 25), 1);
 }
 .is-in-detail :is(.spatial-card-motion, .spatial-unfolded > *, .spatial-opening > *) {
   opacity: var(--detail-ink, 1);
@@ -868,13 +849,15 @@ html[lang="zh-Hans"] .tour-title { line-height: 1.23; letter-spacing: -.025em; }
   background: #f2f2f2;
   box-shadow: 0 1px 3px #20202018, 0 8px 20px -13px #20202030;
 }
+.source-strip-answer { position: absolute; inset: 0; }
 .tour-screen-strip .source-motion {
+  height: auto;
   inset: var(--strip-position) 0 auto;
   aspect-ratio: 1206 / 2622;
   transform: translateY(calc(-1 * var(--strip-position)));
 }
 @media (prefers-reduced-motion: reduce) {
-  .tour-screen-strip .source-motion { display: none; }
+  .tour-screen-strip :is(.source-motion, .source-strip-answer) { display: none; }
 }
 .tour-screen-strip img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tour-step:has(.tour-action:not([hidden])) .tour-screen-strip { aspect-ratio: 2.6; }
@@ -955,7 +938,7 @@ html[lang="zh-Hans"] .tour-title { line-height: 1.23; letter-spacing: -.025em; }
   margin-left: var(--caption-gutter);
 }
 .has-side-notes .tour-screen-strip { display: none; margin-block: 0; }
-.has-side-notes .product-walkthrough:not([data-tour="ask"]) .tour-step:first-child .tour-screen-strip { display: block; }
+.has-side-notes .product-walkthrough:is([data-tour="capture"], [data-tour="review"]) .tour-step:first-child .tour-screen-strip { display: block; }
 .is-touring .spatial-phone-detail { transition: transform 380ms cubic-bezier(.2,.75,.3,1); }
 .has-reading-sequence.is-touring .spatial-phone-detail { transition: none; }
 .has-reading-sequence.is-in-detail .spatial-device::after {

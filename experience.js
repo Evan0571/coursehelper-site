@@ -337,35 +337,64 @@
     upperScreen.style.opacity = String(value);
     phone3d?.requestDraw();
   }
-  // Both endpoints are the simulator captures. The answer stays painted while its
-  // backdrop dims and the citation sheet slides into its captured position.
-  function makeSourceMotion(answer, sources) {
-    const layer = document.createElement("span");
+  // Paint each transition frame from the two decoded captures. Keeping the
+  // answer underneath the moving sheet also keeps its text visible on reversal.
+  async function moveSourceSheet(host, answer, sources, initiallyOpen, target) {
+    if (!window.Path2D?.prototype.roundRect) return;
+    const layer = document.createElement("canvas");
     layer.className = "source-motion";
     layer.setAttribute("aria-hidden", "true");
-    layer.style.setProperty("--answer-image", `url("${answer}")`);
-    layer.style.setProperty("--sources-image", `url("${sources}")`);
-    layer.append(document.createElement("span"));
-    return layer;
-  }
-  function moveSourceSheet(layer, initiallyOpen, target) {
-    let position = initiallyOpen ? 1 : 0;
-    let last = performance.now();
-    return new Promise(resolve => {
-      function frame(now) {
-        const open = target();
-        if (open == null || !layer.isConnected) return resolve();
-        const distance = (now - last) / 560;
-        last = now;
-        position = reduce.matches || document.hidden ? Number(open) :
-          Math.min(1, Math.max(0, position + (open ? distance : -distance)));
-        const progress = position * position * (3 - 2 * position);
-        layer.style.setProperty("--sheet-progress", progress);
-        if (position === Number(open)) resolve();
-        else requestAnimationFrame(frame);
+    const w = layer.width = answer.naturalWidth;
+    const h = layer.height = answer.naturalHeight;
+    const ctx = layer.getContext("2d");
+    if (!ctx) return;
+
+    // The native sheet has the same bounds in both localized captures.
+    const top = h * .4748;
+    const sheet = new Path2D();
+    sheet.roundRect(w * .0199, top, w * .9602, h * .5153,
+      [w * .107, w * .107, w * .134, w * .134]);
+
+    function paint(p) {
+      ctx.drawImage(p === 1 ? sources : answer, 0, 0, w, h);
+      if (p === 0 || p === 1) return;
+      ctx.fillStyle = `rgba(0,0,0,${.2 * p})`;
+      ctx.fillRect(0, 0, w, h);
+      ctx.save();
+      ctx.translate(0, (1 - p) * (h - top));
+      ctx.clip(sheet);
+      ctx.drawImage(sources, 0, 0, w, h);
+      ctx.restore();
+      // Blend in the native sheet shadow over the last few pixels of travel.
+      if (p > .96) {
+        ctx.globalAlpha = (p - .96) / .04;
+        ctx.drawImage(sources, 0, 0, w, h);
+        ctx.globalAlpha = 1;
       }
-      frame(last);
-    });
+    }
+
+    let position = Number(initiallyOpen);
+    paint(position);
+    host.insertBefore(layer, host.querySelector(".spatial-device-glint"));
+    try {
+      let last = performance.now();
+      await new Promise(resolve => {
+        function frame(now) {
+          const open = target();
+          if (open == null || !layer.isConnected) return resolve();
+          const distance = Math.max(0, now - last) / 560;
+          last = now;
+          position = reduce.matches || document.hidden ? Number(open) :
+            Math.min(1, Math.max(0, position + (open ? distance : -distance)));
+          paint(position * position * (3 - 2 * position));
+          if (position === Number(open)) resolve();
+          else requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      });
+    } finally {
+      layer.remove();
+    }
   }
   function blendScreens(next) {
     const to = next === upperScreen ? 1 : 0;
@@ -403,16 +432,11 @@
         const previous = poster.getAttribute("src");
         if (!stillDetail && !reduce.matches && ((previous === answer && src === sources) ||
             (previous === sources && src === answer))) {
-          const layer = makeSourceMotion(answer, sources);
-          upperScreen.after(layer);
-          try {
-            await moveSourceSheet(layer, previous === sources, () =>
-              wantedScreen === sources ? true : wantedScreen === answer ? false : null);
-            if (src !== wantedScreen) continue;
-            displayBlend(next === upperScreen ? 1 : 0);
-          } finally {
-            layer.remove();
-          }
+          const opening = src === sources;
+          await moveSourceSheet(poster.parentElement, opening ? poster : next, opening ? next : poster,
+            !opening, () => wantedScreen === sources ? true : wantedScreen === answer ? false : null);
+          if (src !== wantedScreen) continue;
+          displayBlend(next === upperScreen ? 1 : 0);
         } else {
           await blendScreens(next);
         }
@@ -439,20 +463,33 @@
     stage.classList.toggle("is-reading-ai", index >= 0 && hasReadingSequence() && currentScreen().radius !== undefined);
     updatePhoneScreen();
   }
+  async function revealSourceStrip(strip) {
+    const answer = strip.querySelector(".source-strip-answer");
+    if (!answer) return;
+    const sources = strip.querySelector("img");
+    try {
+      await Promise.all([answer.decode(), sources.decode()]);
+      if (answer.isConnected) {
+        await moveSourceSheet(strip, answer, sources, false, () => answer.isConnected ? true : null);
+      }
+    } catch {
+      // The regular strip image can still load and display on its own.
+    } finally {
+      answer.remove();
+    }
+  }
   const stripObserver = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      const layer = entry.target.querySelector(".source-motion");
-      if (!layer) continue;
-      if (entry.intersectionRatio >= 0.55) {
-        stripObserver.unobserve(entry.target);
-        moveSourceSheet(layer, false, () => true);
-      }
+      if (entry.intersectionRatio < 0.55) continue;
+      stripObserver.unobserve(entry.target);
+      revealSourceStrip(entry.target);
     }
   }, { threshold: 0.55 });
   function renderStep(step, index) {
     const path = activePath();
     const strip = step.querySelector(".tour-screen-strip");
     stripObserver.unobserve(strip);
+    strip.querySelector(".source-strip-answer")?.remove();
     strip.querySelector(".source-motion")?.remove();
     step.hidden = index >= path.length;
     if (step.hidden) return;
@@ -464,9 +501,13 @@
     if (img.getAttribute("src") !== src) img.src = src;
     img.style.objectPosition = "50% " + screen.strip + "%";
     if (id === "sources" && !reduce.matches && !navigator.connection?.saveData) {
-      const layer = makeSourceMotion(media(answerScreen), src);
-      layer.style.setProperty("--strip-position", screen.strip + "%");
-      strip.append(layer);
+      const answer = new Image();
+      answer.className = "source-strip-answer";
+      answer.alt = "";
+      answer.src = media(answerScreen);
+      answer.style.objectPosition = img.style.objectPosition;
+      strip.style.setProperty("--strip-position", screen.strip + "%");
+      strip.append(answer);
       stripObserver.observe(strip);
     }
     step.querySelector(".tour-demo-label").textContent = copy[language].demo;
